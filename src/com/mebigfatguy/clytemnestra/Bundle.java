@@ -22,7 +22,12 @@ import java.util.ResourceBundle;
 public class Bundle {
     public enum Key {
         Title("title"),
+        OK("ok"),
+        Cancel("cancel"),
         Servers("servers"),
+        ConnectToServer("connecttoserver"),
+        Server("server"),
+        Port("port"),
         Connect("connect"),
         Disconnect("disconnect"),
         KeySpace("keyspace"),
