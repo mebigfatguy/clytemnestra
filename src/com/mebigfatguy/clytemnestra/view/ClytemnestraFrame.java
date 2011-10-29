@@ -22,6 +22,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.Cassandra.Client;
+
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.actions.ConnectAction;
@@ -62,6 +65,16 @@ public class ClytemnestraFrame extends JFrame {
     }
     
     class Mediator implements Context {
+        private Cassandra.Client client;
         
+        @Override
+        public void setClient(Client cassandraClient) {
+            client = cassandraClient;     
+        }
+
+        @Override
+        public Client getClient() {
+            return client;
+        } 
     }
 }

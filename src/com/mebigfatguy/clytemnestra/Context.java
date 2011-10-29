@@ -17,6 +17,12 @@
  */
 package com.mebigfatguy.clytemnestra;
 
+import org.apache.cassandra.thrift.Cassandra;
+
+
 public interface Context {
 
+    void setClient(Cassandra.Client client);
+
+    Cassandra.Client getClient();
 }
