@@ -1,0 +1,9 @@
+<Project projectName="clytemnestra">
+  <Jar>./classes</Jar>
+  <AuxClasspathEntry>./lib/cassandra-thrift-1.0.0.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/libthrift-0.6.1.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/log4j-1.2.16.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/slf4j-api-1.6.1.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/slf4j-log4j12-1.6.1.jar</AuxClasspathEntry>
+  <SrcDir>./src</SrcDir>
+</Project>

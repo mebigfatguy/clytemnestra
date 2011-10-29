@@ -28,7 +28,9 @@ import com.mebigfatguy.clytemnestra.Bundle;
 
 public class KeySpacesTableModel extends AbstractTableModel {
 
-    enum Columns { Name, ReplicationFactor, StrategyClass};
+    private static final long serialVersionUID = -1250326173521242924L;
+
+    private enum Columns { Name, ReplicationFactor, StrategyClass};
 
     private final List<KsDef> keySpaces = new ArrayList<KsDef>();
 
@@ -60,7 +62,7 @@ public class KeySpacesTableModel extends AbstractTableModel {
 
             case StrategyClass:
                 String name = keySpace.getStrategy_class();
-                int dotPos = name.lastIndexOf(".");
+                int dotPos = name.lastIndexOf('.');
                 if (dotPos >= 0) {
                     name = name.substring(dotPos+1);
                 }
