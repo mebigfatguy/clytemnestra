@@ -17,6 +17,7 @@
  */
 package com.mebigfatguy.clytemnestra.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -42,7 +43,7 @@ public class KeySpacesController implements Controller {
     @Override
     public void refresh(Cassandra.Client client) {
         try {
-            final List<KsDef> keySpaces = client.describe_keyspaces();
+            final List<KsDef> keySpaces = (client == null) ? new ArrayList<KsDef>() : client.describe_keyspaces();
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
