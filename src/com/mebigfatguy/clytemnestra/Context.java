@@ -17,32 +17,6 @@
  */
 package com.mebigfatguy.clytemnestra;
 
-import java.util.ResourceBundle;
+public interface Context {
 
-public class Bundle {
-    public enum Key {
-        Title("title"),
-        Servers("servers"),
-        Connect("connect"),
-        Disconnect("disconnect");
-        
-        private String id;
-
-        Key(String id) {
-            this.id = id;
-        }
-
-        public String id() {
-            return id;
-        }
-    };
-    
-    private static ResourceBundle bundle = ResourceBundle.getBundle("com/mebigfatguy/clytemnestra/resources/resource");
-
-    private Bundle() {
-    }
-    
-    public static String getString(Key key) {
-        return bundle.getString(key.id());
-    }
 }

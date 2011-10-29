@@ -18,10 +18,20 @@
 package com.mebigfatguy.clytemnestra.view;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.actions.ConnectAction;
+import com.mebigfatguy.clytemnestra.actions.DisconnectAction;
 
 public class ClytemnestraFrame extends JFrame {
+
+    private JMenuItem connectItem;
+    private JMenuItem disconnectItem;
+    private Mediator mediator = new Mediator();
 
     public ClytemnestraFrame() {
         super(Bundle.getString(Bundle.Key.Title));
@@ -35,9 +45,23 @@ public class ClytemnestraFrame extends JFrame {
     }
     
     private void initMenus() {
+        JMenuBar mb = new JMenuBar();
+        JMenu databasesMenu = new JMenu(Bundle.getString(Bundle.Key.Servers));
+        connectItem = new JMenuItem(new ConnectAction(mediator));
+        databasesMenu.add(connectItem);
+        disconnectItem = new JMenuItem(new DisconnectAction(mediator));
+        disconnectItem.setEnabled(false);
+        mb.add(databasesMenu);
+        databasesMenu.add(disconnectItem);
+
+        setJMenuBar(mb);
     }
     
     private void initListeners() { 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    class Mediator implements Context {
+        
     }
 }

@@ -15,34 +15,26 @@
  * See the License for the specific language governing permissions and limitations 
  * under the License. 
  */
-package com.mebigfatguy.clytemnestra;
+package com.mebigfatguy.clytemnestra.actions;
 
-import java.util.ResourceBundle;
+import java.awt.event.ActionEvent;
 
-public class Bundle {
-    public enum Key {
-        Title("title"),
-        Servers("servers"),
-        Connect("connect"),
-        Disconnect("disconnect");
-        
-        private String id;
+import javax.swing.AbstractAction;
 
-        Key(String id) {
-            this.id = id;
-        }
+import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.Context;
 
-        public String id() {
-            return id;
-        }
-    };
+public class ConnectAction extends AbstractAction {
+
+    private Context context;
     
-    private static ResourceBundle bundle = ResourceBundle.getBundle("com/mebigfatguy/clytemnestra/resources/resource");
-
-    private Bundle() {
+    public ConnectAction(Context ctxt) {
+        super(Bundle.getString(Bundle.Key.Connect));
+        context = ctxt;
     }
     
-    public static String getString(Key key) {
-        return bundle.getString(key.id());
-    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    } 
 }
