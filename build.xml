@@ -29,17 +29,16 @@
     <property name="javac.target" value="1.6"/>
     <property name="javac.deprecation" value="on"/>
     <property name="javac.debug" value="on"/>
+ 
+	<property name="clytemnestra.version" value="0.0.1"/>
 
-    <property name="cassandra-all.version" value="1.0.0"/>    
     <property name="cassandra-thrift.version" value="1.0.0"/>
-		
-    <property name="mongo.version" value="2.6.5"/>
-    <property name="findbugs.version" value="2.0.0"/>
+	<property name="libthrift.version" value="0.6.1"/>
+	<property name="slf4j-api.version" value="1.6.1"/>
     
-    <property name="cassandra-all-url" value="http://repo1.maven.org/maven2/org/apache/cassandra/cassandra-all/${cassandra-all.version}/cassandra-all-${cassandra-all.version}.jar"/> 
     <property name="cassandra-thrift-url" value="http://repo1.maven.org/maven2/org/apache/cassandra/cassandra-thrift/${cassandra-thrift.version}/cassandra-thrift-${cassandra-thrift.version}.jar"/> 
-    
-    <property name="clytemnestra.version" value="0.0.1"/>
+    <property name="libthrift-url" value="http://repo1.maven.org/maven2/org/apache/thrift/libthrift/${libthrift.version}/libthrift-${libthrift.version}.jar"/> 
+    <property name="slf4j-api-url" value="http://repo1.maven.org/maven2/org/slf4j/slf4j-api/${slf4j-api.version}/slf4j-api-${slf4j-api.version}.jar"/>
 
     <target name="clean" description="removes all generated collateral">
         <delete dir="${classes.dir}"/>
@@ -50,6 +49,8 @@
 
     <path id="clytemnestra.classpath">
         <pathelement location="${lib.dir}/cassandra-thrift-${cassandra-thrift.version}.jar"/>
+        <pathelement location="${lib.dir}/libthrift-${libthrift.version}.jar"/>
+        <pathelement location="${lib.dir}/slf4j-api-${slf4j-api.version}.jar"/>
     </path>
     
     <target name="-init" description="prepares repository for a build">
@@ -58,24 +59,31 @@
         <mkdir dir="${lib.dir}"/>
     </target>
     
-    <target name="cassandra-all-check">
-        <available file="${basedir}/lib/cassandra-all-${cassandra.version}.jar" property="cassandra-all-exists"/>
-    </target>
-		
 	<target name="cassandra-thrift-check">
         <available file="${basedir}/lib/cassandra-thrift-${cassandra-thrift.version}.jar" property="cassandra-thrift-exists"/>
     </target>
+		
+    <target name="libthrift-check">
+        <available file="${basedir}/lib/libthrift-${libthrift.version}.jar" property="libthrift-exists"/>
+    </target>
 
-    <target name="install-cassandra-all" depends="cassandra-all-check" unless="cassandra-all-exists" description="installs cassandra-all.jar into lib">
-        <get src="${cassandra-all-url}" dest="${basedir}/lib/cassandra-all-${cassandra-all.version}.jar" verbose="true" ignoreerrors="true"/>
+    <target name="slf4j-api-check">
+        <available file="${basedir}/lib/slf4j-api-${slf4j-api.version}.jar" property="slf4j-api-exists"/>
     </target>
 		
     <target name="install-cassandra-thrift" depends="cassandra-thrift-check" unless="cassandra-thrift-exists" description="installs cassandra-thrift.jar into lib">
         <get src="${cassandra-thrift-url}" dest="${basedir}/lib/cassandra-thrift-${cassandra-thrift.version}.jar" verbose="true" ignoreerrors="true"/>
     </target>
-    
-    <target name="pull" depends="install-cassandra-all, install-cassandra-thrift" description="pull 3rdparty jars to the lib directory">
+
+    <target name="install-libthrift" depends="libthrift-check" unless="libthrift-exists" description="installs libthrift.jar into lib">
+        <get src="${libthrift-url}" dest="${basedir}/lib/libthrift-${libthrift.version}.jar" verbose="true" ignoreerrors="true"/>
     </target>
+
+    <target name="install-slf4j-api" depends="slf4j-api-check" unless="slf4j-api-exists" description="installs slf4j-api.jar into lib">
+        <get src="${slf4j-api-url}" dest="${basedir}/lib/slf4j-api-${slf4j-api.version}.jar" verbose="true" ignoreerrors="true"/>
+    </target>
+		
+    <target name="pull" depends="install-cassandra-thrift, install-libthrift, install-slf4j-api" description="pull 3rdparty jars to the lib directory"/>
     
     <target name="compile" depends="-init, pull" description="compiles java files">
         <javac  srcdir="${src.dir}"

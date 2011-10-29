@@ -20,9 +20,18 @@ package com.mebigfatguy.clytemnestra.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
+
+import org.apache.cassandra.thrift.Cassandra;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TFramedTransport;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.view.ConnectionDialog;
 
 public class ConnectAction extends AbstractAction {
 
@@ -35,6 +44,24 @@ public class ConnectAction extends AbstractAction {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        try {
+            ConnectionDialog cd = new ConnectionDialog();
+            cd.setLocationRelativeTo(null);
+            cd.setModal(true);
+            cd.setVisible(true);
+            if (cd.isOK()) {
+                String host = cd.getHost();
+                int port = cd.getPort();
+                String userName = cd.getUserName();
+                String passWord = cd.getPassword();
+                TTransport tr = new TFramedTransport(new TSocket(host, port));
+                TProtocol proto = new TBinaryProtocol(tr);
+                Cassandra.Client client = new Cassandra.Client(proto);
+                context.setClient(client);
+            }
+        } catch (Exception uhe) {
+            JOptionPane.showMessageDialog(null, uhe.getMessage());
+        }
 
     } 
 }

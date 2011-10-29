@@ -70,6 +70,8 @@ public class ClytemnestraFrame extends JFrame {
         @Override
         public void setClient(Client cassandraClient) {
             client = cassandraClient;     
+            connectItem.setEnabled(client == null);
+            disconnectItem.setEnabled(client != null);
         }
 
         @Override
