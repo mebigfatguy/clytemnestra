@@ -1,0 +1,108 @@
+<project name="clytemnestra" default="jar">
+
+    <property file="build.properties"/>
+
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="classes.dir" value="${basedir}/classes"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
+    <property name="javadoc.dir" value="${basedir}/javadoc"/>
+    <property name="javac.source" value="1.6"/>
+    <property name="javac.target" value="1.6"/>
+    <property name="javac.deprecation" value="on"/>
+    <property name="javac.debug" value="on"/>
+
+    <property name="cassandra-thrift.version" value="1.0.0"/>
+    <property name="mongo.version" value="2.6.5"/>
+    <property name="findbugs.version" value="2.0.0"/>
+    
+    <property name="cassandra-thrift-url" value="http://repo1.maven.org/maven2/org/apache/cassandra/cassandra-thrift/${cassandra-thrift.version}/cassandra-thrift-${cassandra-thrift.version}.jar"/> 
+    
+    <property name="clytemnestra.version" value="0.0.1"/>
+
+    <target name="clean" description="removes all generated collateral">
+        <delete dir="${classes.dir}"/>
+        <delete dir="${javadoc.dir}"/>
+        <delete file="${basedir}/clytemnestra-${clytemnestra.version}.jar"/>
+        <delete file="${basedir}/clytemnestra-src-${clytemnestra.version}.zip"/>
+    </target>
+
+    <path id="clytemnestra.classpath">
+        <pathelement location="${lib.dir}/cassandra-thrift-${cassandra-thrift.version}.jar"/>
+    </path>
+    
+    <target name="-init" description="prepares repository for a build">
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${javadoc.dir}"/>
+        <mkdir dir="${lib.dir}"/>
+    </target>
+    
+    <target name="cassandra-thrift-check">
+        <available file="${basedir}/lib/cassandra-thrift-${cassandra-thrift.version}.jar" property="cassandra-thrift-exists"/>
+    </target>
+
+    <target name="install-cassandra-thrift" depends="cassandra-thrift-check" unless="cassandra-thrift-exists" description="installs cassandra-thrift.jar into lib">
+        <get src="${cassandra-thrift-url}" dest="${basedir}/lib/cassandra-thrift-${cassandra-thrift.version}.jar" verbose="true" ignoreerrors="true"/>
+    </target>
+    
+    <target name="pull" depends="install-cassandra-thrift" description="pull 3rdparty jars to the lib directory">
+    </target>
+    
+    <target name="compile" depends="-init, pull" description="compiles java files">
+        <javac  srcdir="${src.dir}"
+                destdir="${classes.dir}"
+                source="${javac.source}"
+                target="${javac.target}"
+                deprecation="${javac.deprecation}"
+                debug="${javac.debug}"
+                includeantruntime="false">
+            <classpath refid="clytemnestra.classpath"/>
+        </javac>
+    </target>
+
+    <target name="srczip" description="builds the source distribution zip file">
+        <zip destfile="${basedir}/clytemnestra-src-${clytemnestra.version}.zip" basedir="${basedir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.java"/>
+                <include name="**/*.xml"/>
+                <include name="**/*.xsd"/>
+                <include name="**/*.license"/>
+                <include name="**/*.txt"/>
+                <include name="lib/*.jar"/>
+            </fileset>
+        </zip>
+    </target>
+
+    <target name="javadoc" depends="-init" description="build the javadoc for the project">
+        <javadoc packagenames="com.mebigfatguy.*"
+                 sourcepath="${src.dir}"
+                 classpathref="clytemnestra.classpath"
+                 destdir="${javadoc.dir}"
+                 windowtitle="clytemnestra api">
+            <doctitle><![CDATA[<h1>clytemnestra javadoc</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2011-2011 MeBigFatGuy.com. All Rights Reserved.</i>]]></bottom>
+        </javadoc>
+    </target>
+
+    <target name="build" depends="clean, -init, compile" description="compiles the code">
+    </target>
+	
+	<target name="jar" depends="build" description="produces the clytemnestra jar file">
+        <jar destfile="${basedir}/clytemnestra-${clytemnestra.version}.jar">
+            <fileset dir="${classes.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+            <manifest>
+                <attribute name="clytemnestra-version" value="${clytemnestra.version}"/>
+                <attribute name="Bundle-ManifestVersion" value="2"/>
+                <attribute name="Bundle-Name" value="Clytemnestra plugin"/>
+                <attribute name="Bundle-SymbolicName" value="clytemnestra; singleton:=true"/>
+                <attribute name="Bundle-Version" value="${clytemnestra.version}"/>                
+                <attribute name="Bundle-ClassPath" value="."/>
+                <attribute name="Bundle-Vendor" value="clytemnestra Project"/>
+                <attribute name="Bundle-ActivationPolicy" value="lazy"/>
+            </manifest>
+        </jar>
+	</target>
+
+    <target name="release" depends="build, srczip, javadoc" description="prepares everything for a release"/>
+</project>
