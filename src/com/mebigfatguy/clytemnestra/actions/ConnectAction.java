@@ -61,6 +61,8 @@ public class ConnectAction extends AbstractAction {
                 TProtocol proto = new TBinaryProtocol(tr);
                 Cassandra.Client client = new Cassandra.Client(proto);
 
+                tr.open();
+
                 Map<String, String> credentials = new HashMap<String, String>();
                 credentials.put("username", userName);
                 credentials.put("password", password);
