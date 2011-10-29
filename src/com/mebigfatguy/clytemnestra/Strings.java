@@ -17,34 +17,20 @@
  */
 package com.mebigfatguy.clytemnestra;
 
-import java.util.ResourceBundle;
+public class Strings {
 
-public class Bundle {
-    public enum Key {
-        Title("title"),
-        Servers("servers"),
-        Connect("connect"),
-        Disconnect("disconnect"),
-        KeySpaces("keyspaces"),
-        KeySpacesFor("keyspaces.for");
-
-        private String id;
-
-        Key(String id) {
-            this.id = id;
-        }
-
-        public String id() {
-            return id;
-        }
-    };
-
-    private static ResourceBundle bundle = ResourceBundle.getBundle("com/mebigfatguy/clytemnestra/resources/resource");
-
-    private Bundle() {
+    private Strings() {
     }
 
-    public static String getString(Key key) {
-        return bundle.getString(key.id());
+    public static boolean isEmpty(String s) {
+        return (s == null) || (s.isEmpty());
+    }
+
+    public static String trim(String s) {
+        if (s == null) {
+            return "";
+        }
+
+        return s.trim();
     }
 }

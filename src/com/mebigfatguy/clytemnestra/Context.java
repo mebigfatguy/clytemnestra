@@ -22,6 +22,10 @@ import org.apache.cassandra.thrift.Cassandra;
 
 public interface Context {
 
+    void setServerAddress(String serverAddress);
+    
+    String getServerAddress();
+    
     void setClient(Cassandra.Client client);
 
     Cassandra.Client getClient();
