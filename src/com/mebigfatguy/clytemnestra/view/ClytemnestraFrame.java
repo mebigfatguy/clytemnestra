@@ -92,6 +92,7 @@ public class ClytemnestraFrame extends JFrame {
             client = cassandraClient;
             connectItem.setEnabled(client == null);
             disconnectItem.setEnabled(client != null);
+            keySpacesPanel.getController().refresh(client);
         }
 
         @Override

@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.text.MessageFormat;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -29,17 +30,25 @@ import javax.swing.JScrollPane;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.Strings;
+import com.mebigfatguy.clytemnestra.controllers.Controller;
+import com.mebigfatguy.clytemnestra.controllers.KeySpacesController;
 
 public class KeySpacesPanel extends JPanel {
 
     private static final long serialVersionUID = 291151369935073424L;
 
     private final Context context;
+    private DefaultListModel model;
     private JList keySpaceList;
+    private KeySpacesController controller;
 
     public KeySpacesPanel(Context ctxt) {
         context = ctxt;
         initComponents();
+    }
+
+    public Controller getController() {
+        return controller;
     }
 
     private void initComponents() {
@@ -55,10 +64,13 @@ public class KeySpacesPanel extends JPanel {
             keySpacesLabel = new JLabel(MessageFormat.format(fmtString,  context.getServerAddress()));
         }
         add(keySpacesLabel, BorderLayout.NORTH);
-        keySpaceList = new JList();
+        DefaultListModel model = new DefaultListModel();
+        keySpaceList = new JList(model);
         add(new JScrollPane(keySpaceList), BorderLayout.CENTER);
         keySpacesLabel.setLabelFor(keySpaceList);
 
         setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+
+        controller = new KeySpacesController(keySpaceList, model);
     }
 }
