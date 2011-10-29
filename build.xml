@@ -37,12 +37,14 @@
     <property name="slf4j-api.version" value="1.6.1"/>
     <property name="slf4j-log4j12.version" value="1.6.1"/>
 	<property name="log4j.version" value="1.2.16"/>
+	<property name="jgoodies-forms.version" value="1.2.1"/>
 		
     <property name="cassandra-thrift-url" value="http://repo1.maven.org/maven2/org/apache/cassandra/cassandra-thrift/${cassandra-thrift.version}/cassandra-thrift-${cassandra-thrift.version}.jar"/> 
     <property name="libthrift-url" value="http://repo1.maven.org/maven2/org/apache/thrift/libthrift/${libthrift.version}/libthrift-${libthrift.version}.jar"/> 
     <property name="slf4j-api-url" value="http://repo1.maven.org/maven2/org/slf4j/slf4j-api/${slf4j-api.version}/slf4j-api-${slf4j-api.version}.jar"/>
     <property name="slf4j-log4j12-url" value="http://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/${slf4j-log4j12.version}/slf4j-log4j12-${slf4j-log4j12.version}.jar"/>
-	<property name="log4j-url" value="http://repo1.maven.org/maven2/log4j/log4j/${log4j.version}/log4j-${log4j.version}.jar"/>
+    <property name="log4j-url" value="http://repo1.maven.org/maven2/log4j/log4j/${log4j.version}/log4j-${log4j.version}.jar"/>
+    <property name="forms-url" value="http://repo1.maven.org/maven2/com/jgoodies/forms/${jgoodies-forms.version}/forms-${jgoodies-forms.version}.jar"/>
 
     <target name="clean" description="removes all generated collateral">
         <delete dir="${classes.dir}"/>
@@ -56,7 +58,8 @@
         <pathelement location="${lib.dir}/libthrift-${libthrift.version}.jar"/>
         <pathelement location="${lib.dir}/slf4j-api-${slf4j-api.version}.jar"/>
         <pathelement location="${lib.dir}/slf4j-log4j12-${slf4j-log4j12.version}.jar"/>
-        <pathelement location="${lib.dir}/log4j-${log4j.version}.jar"/>    	
+        <pathelement location="${lib.dir}/log4j-${log4j.version}.jar"/>     
+        <pathelement location="${lib.dir}/forms-${jgoodies-forms.version}.jar"/>     
     </path>
     
     <target name="-init" description="prepares repository for a build">
@@ -85,6 +88,10 @@
         <available file="${basedir}/lib/log4j-${log4j.version}.jar" property="log4j-exists"/>
     </target>
 		
+    <target name="forms-check">
+        <available file="${basedir}/lib/forms-${jgoodies-forms.version}.jar" property="forms-exists"/>
+    </target>
+		
     <target name="install-cassandra-thrift" depends="cassandra-thrift-check" unless="cassandra-thrift-exists" description="installs cassandra-thrift.jar into lib">
         <get src="${cassandra-thrift-url}" dest="${basedir}/lib/cassandra-thrift-${cassandra-thrift.version}.jar" verbose="true" ignoreerrors="true"/>
     </target>
@@ -105,7 +112,11 @@
         <get src="${log4j-url}" dest="${basedir}/lib/log4j-${log4j.version}.jar" verbose="true" ignoreerrors="true"/>
     </target>
 		
-    <target name="pull" depends="install-cassandra-thrift, install-libthrift, install-slf4j-api, install-slf4j-log4j12, install-log4j" description="pull 3rdparty jars to the lib directory"/>
+    <target name="install-forms" depends="forms-check" unless="forms-exists" description="installs forms.jar into lib">
+        <get src="${forms-url}" dest="${basedir}/lib/forms-${jgoodies-forms.version}.jar" verbose="true" ignoreerrors="true"/>
+    </target>
+		
+    <target name="pull" depends="install-cassandra-thrift, install-libthrift, install-slf4j-api, install-slf4j-log4j12, install-log4j, install-forms" description="pull 3rdparty jars to the lib directory"/>
     
     <target name="compile" depends="-init, pull" description="compiles java files">
         <javac  srcdir="${src.dir}"
