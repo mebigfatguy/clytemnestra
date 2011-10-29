@@ -59,7 +59,12 @@ public class KeySpacesTableModel extends AbstractTableModel {
                 return Integer.valueOf(keySpace.getReplication_factor());
 
             case StrategyClass:
-                return keySpace.getStrategy_class();
+                String name = keySpace.getStrategy_class();
+                int dotPos = name.lastIndexOf(".");
+                if (dotPos >= 0) {
+                    name = name.substring(dotPos+1);
+                }
+                return name;
 
             default:
                 return "";
