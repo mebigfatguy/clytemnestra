@@ -35,9 +35,6 @@ public class DisconnectAction extends AbstractAction {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        
+        context.setClient(null);      
     }
-    
-    
 }
