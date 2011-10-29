@@ -18,28 +18,23 @@
 package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
-import java.text.MessageFormat;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
-import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
-import com.mebigfatguy.clytemnestra.Strings;
 import com.mebigfatguy.clytemnestra.controllers.Controller;
 import com.mebigfatguy.clytemnestra.controllers.KeySpacesController;
+import com.mebigfatguy.clytemnestra.model.KeySpacesTableModel;
 
 public class KeySpacesPanel extends JPanel {
 
     private static final long serialVersionUID = 291151369935073424L;
 
     private final Context context;
-    private DefaultListModel model;
-    private JList keySpaceList;
+    private JTable keySpacesTable;
     private KeySpacesController controller;
 
     public KeySpacesPanel(Context ctxt) {
@@ -54,23 +49,12 @@ public class KeySpacesPanel extends JPanel {
     private void initComponents() {
         setLayout(new BorderLayout(4, 4));
 
-        JLabel keySpacesLabel;
-
-        String addr = context.getServerAddress();
-        if (Strings.isEmpty(addr)) {
-            keySpacesLabel = new JLabel(Bundle.getString(Bundle.Key.KeySpaces));
-        } else {
-            String fmtString = Bundle.getString(Bundle.Key.KeySpaces);
-            keySpacesLabel = new JLabel(MessageFormat.format(fmtString,  context.getServerAddress()));
-        }
-        add(keySpacesLabel, BorderLayout.NORTH);
-        DefaultListModel model = new DefaultListModel();
-        keySpaceList = new JList(model);
-        add(new JScrollPane(keySpaceList), BorderLayout.CENTER);
-        keySpacesLabel.setLabelFor(keySpaceList);
+        KeySpacesTableModel model = new KeySpacesTableModel();
+        keySpacesTable = new JTable(model);
+        add(new JScrollPane(keySpacesTable), BorderLayout.CENTER);
 
         setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
-        controller = new KeySpacesController(keySpaceList, model);
+        controller = new KeySpacesController(keySpacesTable, model);
     }
 }

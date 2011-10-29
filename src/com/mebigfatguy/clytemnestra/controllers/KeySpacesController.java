@@ -19,21 +19,23 @@ package com.mebigfatguy.clytemnestra.controllers;
 
 import java.util.List;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.KsDef;
 
+import com.mebigfatguy.clytemnestra.model.KeySpacesTableModel;
+
+
 public class KeySpacesController implements Controller {
 
-    private final JList list;
-    private final DefaultListModel model;
+    private final JTable table;
+    private final KeySpacesTableModel model;
 
-    public KeySpacesController(JList ksList, DefaultListModel ksModel) {
-        list = ksList;
+    public KeySpacesController(JTable ksTable, KeySpacesTableModel ksModel) {
+        table = ksTable;
         model = ksModel;
     }
 
@@ -44,14 +46,11 @@ public class KeySpacesController implements Controller {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    model.removeAllElements();
-                    for (KsDef keySpace : keySpaces) {
-                        model.addElement(keySpace.getName());
-                    }
+                    model.replaceContents(keySpaces);
                 }
             });
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(list, e.getMessage());
+            JOptionPane.showMessageDialog(table, e.getMessage());
         }
 
     }

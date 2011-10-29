@@ -25,8 +25,9 @@ public class Bundle {
         Servers("servers"),
         Connect("connect"),
         Disconnect("disconnect"),
-        KeySpaces("keyspaces"),
-        KeySpacesFor("keyspaces.for");
+        KeySpace("keyspace"),
+        ReplicationFactor("replicationfactor"),
+        StrategyClass("strategyclass");
 
         private String id;
 
