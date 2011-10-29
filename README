@@ -1,2 +1,4 @@
-Clytemnestra is a gui based explorer for cassandra.
+Clytemnestra is a gui based explorer and stresstest tool for cassandra
    -- just started
+   
+   Apache 2 Licensed
