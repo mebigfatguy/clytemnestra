@@ -167,10 +167,10 @@ public class ConnectionDialog extends JDialog {
     }
 
     public String getUserName() {
-        return "dave";
+        return userNameField.getText();
     }
 
     public String getPassword() {
-        return "dave";
+        return new String(passwordField.getPassword());
     }
 }
