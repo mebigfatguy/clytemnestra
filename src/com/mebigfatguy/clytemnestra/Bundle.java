@@ -28,6 +28,8 @@ public class Bundle {
         ConnectToServer("connecttoserver"),
         Server("server"),
         Port("port"),
+        UserName("username"),
+        Password("password"),
         Connect("connect"),
         Disconnect("disconnect"),
         KeySpace("keyspace"),

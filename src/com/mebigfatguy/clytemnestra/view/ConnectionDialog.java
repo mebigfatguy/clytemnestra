@@ -29,6 +29,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -41,6 +42,8 @@ public class ConnectionDialog extends JDialog {
 
     private JTextField serverField;
     private JTextField portField;
+    private JTextField userNameField;
+    private JPasswordField passwordField;
     private JButton okButton;
     private JButton cancelButton;
     private boolean isOK;
@@ -67,7 +70,7 @@ public class ConnectionDialog extends JDialog {
         JPanel p = new JPanel();
         p.setLayout(new BorderLayout(4, 4));
 
-        p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 6dlu"));
+        p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 20dlu, pref, 4dlu, pref, 6dlu"));
         CellConstraints cc = new CellConstraints();
 
         JLabel serverLabel = new JLabel(Bundle.getString(Bundle.Key.Server));
@@ -88,6 +91,24 @@ public class ConnectionDialog extends JDialog {
         p.add(portField, cc.xy(4, 4));
 
         portLabel.setLabelFor(portField);
+
+        JLabel userNameLabel = new JLabel(Bundle.getString(Bundle.Key.UserName));
+        p.add(userNameLabel, cc.xy(2, 6));
+
+        userNameField = new JTextField(20);
+        p.add(userNameField, cc.xy(4, 6));
+
+        userNameLabel.setLabelFor(userNameField);
+
+        JLabel passwordLabel = new JLabel(Bundle.getString(Bundle.Key.Password));
+        p.add(passwordLabel, cc.xy(2, 8));
+
+        passwordField = new JPasswordField(20);
+        p.add(passwordField, cc.xy(4, 8));
+
+        passwordLabel.setLabelFor(passwordField);
+
+        p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
         return p;
     }
