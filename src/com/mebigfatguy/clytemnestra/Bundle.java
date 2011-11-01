@@ -25,6 +25,7 @@ public class Bundle {
         OK("ok"),
         Cancel("cancel"),
         Servers("servers"),
+        KeySpaces("keyspaces"),
         ConnectToServer("connecttoserver"),
         Server("server"),
         Port("port"),
@@ -32,6 +33,9 @@ public class Bundle {
         Password("password"),
         Connect("connect"),
         Disconnect("disconnect"),
+        CreateKeySpace("createkeyspace"),
+        OpenKeySpace("openkeyspace"),
+        DeleteKeySpace("deletekeyspace"),
         KeySpace("keyspace"),
         ReplicationFactor("replicationfactor"),
         StrategyClass("strategyclass");

@@ -31,12 +31,22 @@ import org.apache.cassandra.thrift.Cassandra.Client;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.actions.ConnectAction;
+import com.mebigfatguy.clytemnestra.actions.CreateKeySpaceAction;
+import com.mebigfatguy.clytemnestra.actions.DeleteKeySpaceAction;
 import com.mebigfatguy.clytemnestra.actions.DisconnectAction;
+import com.mebigfatguy.clytemnestra.actions.OpenKeySpaceAction;
 
 public class ClytemnestraFrame extends JFrame {
 
+    private static final long serialVersionUID = -4484710448523666662L;
+
+    private JMenu databasesMenu;
     private JMenuItem connectItem;
     private JMenuItem disconnectItem;
+    private JMenu keySpacesMenu;
+    private JMenuItem openKeySpaceItem;
+    private JMenuItem createKeySpaceItem;
+    private JMenuItem deleteKeySpaceItem;
     private final Mediator mediator = new Mediator();
     private KeySpacesPanel keySpacesPanel;
 
@@ -58,13 +68,24 @@ public class ClytemnestraFrame extends JFrame {
 
     private void initMenus() {
         JMenuBar mb = new JMenuBar();
-        JMenu databasesMenu = new JMenu(Bundle.getString(Bundle.Key.Servers));
+        databasesMenu = new JMenu(Bundle.getString(Bundle.Key.Servers));
         connectItem = new JMenuItem(new ConnectAction(mediator));
         databasesMenu.add(connectItem);
         disconnectItem = new JMenuItem(new DisconnectAction(mediator));
         disconnectItem.setEnabled(false);
-        mb.add(databasesMenu);
         databasesMenu.add(disconnectItem);
+        mb.add(databasesMenu);
+
+        keySpacesMenu = new JMenu(Bundle.getString(Bundle.Key.KeySpaces));
+        createKeySpaceItem = new JMenuItem(new CreateKeySpaceAction(mediator));
+        keySpacesMenu.add(createKeySpaceItem);
+        openKeySpaceItem = new JMenuItem(new OpenKeySpaceAction(mediator));
+        keySpacesMenu.add(openKeySpaceItem);
+        keySpacesMenu.addSeparator();
+        deleteKeySpaceItem = new JMenuItem(new DeleteKeySpaceAction(mediator));
+        keySpacesMenu.add(deleteKeySpaceItem);
+        keySpacesMenu.setEnabled(false);
+        mb.add(keySpacesMenu);
 
         setJMenuBar(mb);
     }
@@ -93,6 +114,7 @@ public class ClytemnestraFrame extends JFrame {
             connectItem.setEnabled(client == null);
             disconnectItem.setEnabled(client != null);
             keySpacesPanel.getController().refresh(client);
+            keySpacesMenu.setEnabled(client!=null);
         }
 
         @Override
