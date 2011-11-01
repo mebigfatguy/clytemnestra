@@ -23,21 +23,28 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.KsDef;
 
+import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.model.KeySpacesTableModel;
 
 
-public class KeySpacesController implements Controller {
+public class KeySpacesController implements Controller, ListSelectionListener {
 
+    private final Context context;
     private final JTable table;
     private final KeySpacesTableModel model;
 
-    public KeySpacesController(JTable ksTable, KeySpacesTableModel ksModel) {
+    public KeySpacesController(Context ctxt, JTable ksTable, KeySpacesTableModel ksModel) {
+        context = ctxt;
         table = ksTable;
         model = ksModel;
+
+        table.getSelectionModel().addListSelectionListener(this);
     }
 
     @Override
@@ -53,7 +60,30 @@ public class KeySpacesController implements Controller {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(table, e.getMessage());
         }
-
     }
+
+    @Override
+    public void clear() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                model.replaceContents(new ArrayList<KsDef>());
+            }
+        });
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent lse) {
+        if (!lse.getValueIsAdjusting()) {
+            int[] rowIds = table.getSelectedRows();
+            List<KsDef> selectedKeySpaces = new ArrayList<KsDef>();
+            for (int i = 0; i < rowIds.length; i++) {
+                selectedKeySpaces.add(model.getKeySpaceAt(rowIds[i]));
+            }
+            context.setSelectedKeySpaces(selectedKeySpaces);
+        }
+    }
+
+
 }
 

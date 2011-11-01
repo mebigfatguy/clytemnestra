@@ -55,6 +55,6 @@ public class KeySpacesPanel extends JPanel {
 
         setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
-        controller = new KeySpacesController(keySpacesTable, model);
+        controller = new KeySpacesController(context, keySpacesTable, model);
     }
 }

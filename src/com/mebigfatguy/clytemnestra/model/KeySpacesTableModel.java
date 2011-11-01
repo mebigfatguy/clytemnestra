@@ -40,6 +40,10 @@ public class KeySpacesTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    public KsDef getKeySpaceAt(int i) {
+        return keySpaces.get(i);
+    }
+
     @Override
     public int getRowCount() {
         return keySpaces.size();

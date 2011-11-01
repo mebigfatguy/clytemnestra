@@ -19,6 +19,8 @@ package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -27,6 +29,7 @@ import javax.swing.JMenuItem;
 
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.Cassandra.Client;
+import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
@@ -35,6 +38,7 @@ import com.mebigfatguy.clytemnestra.actions.CreateKeySpaceAction;
 import com.mebigfatguy.clytemnestra.actions.DeleteKeySpaceAction;
 import com.mebigfatguy.clytemnestra.actions.DisconnectAction;
 import com.mebigfatguy.clytemnestra.actions.OpenKeySpaceAction;
+import com.mebigfatguy.clytemnestra.controllers.Controller;
 
 public class ClytemnestraFrame extends JFrame {
 
@@ -97,6 +101,7 @@ public class ClytemnestraFrame extends JFrame {
     class Mediator implements Context {
         private Cassandra.Client client;
         private String address;
+        private List<KsDef> selectedKeySpaces;
 
         @Override
         public void setServerAddress(String serverAddress) {
@@ -113,13 +118,22 @@ public class ClytemnestraFrame extends JFrame {
             client = cassandraClient;
             connectItem.setEnabled(client == null);
             disconnectItem.setEnabled(client != null);
-            keySpacesPanel.getController().refresh(client);
+            Controller ksController = keySpacesPanel.getController();
+            ksController.refresh(client);
             keySpacesMenu.setEnabled(client!=null);
         }
 
         @Override
         public Client getClient() {
             return client;
+        }
+
+        @Override
+        public void setSelectedKeySpaces(List<KsDef> keySpaces) {
+            selectedKeySpaces = new ArrayList<KsDef>(keySpaces);
+            boolean hasSelection = selectedKeySpaces.size() > 0;
+            openKeySpaceItem.setEnabled(hasSelection);
+            deleteKeySpaceItem.setEnabled(hasSelection);
         }
     }
 }

@@ -21,4 +21,6 @@ import org.apache.cassandra.thrift.Cassandra;
 
 public interface Controller {
     void refresh(Cassandra.Client client);
+
+    void clear();
 }
