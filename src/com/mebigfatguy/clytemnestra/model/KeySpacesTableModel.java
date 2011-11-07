@@ -32,7 +32,7 @@ public class KeySpacesTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = -1250326173521242924L;
 
-    private enum Columns { Name, StrategyClass, StrategyOptions};
+    private enum Columns { Name, DurableWrites, StrategyClass, StrategyOptions};
 
     private final List<KsDef> keySpaces = new ArrayList<KsDef>();
 
@@ -63,6 +63,9 @@ public class KeySpacesTableModel extends AbstractTableModel {
             case Name:
                 return keySpace.getName();
 
+            case DurableWrites:
+            	return Boolean.valueOf(keySpace.durable_writes);
+            	
             case StrategyClass:
                 String name = keySpace.getStrategy_class();
                 int dotPos = name.lastIndexOf('.');
@@ -86,6 +89,9 @@ public class KeySpacesTableModel extends AbstractTableModel {
             case Name:
                 return Bundle.getString(Bundle.Key.KeySpace);
 
+            case DurableWrites:
+            	return Bundle.getString(Bundle.Key.DurableWrites);
+            	
             case StrategyClass:
                 return Bundle.getString(Bundle.Key.StrategyClass);
 
@@ -103,9 +109,11 @@ public class KeySpacesTableModel extends AbstractTableModel {
             case Name:
                 return String.class;
 
+            case DurableWrites:
+            	return Boolean.class;
+            	
             case StrategyClass:
                 return String.class;
-
 
             case StrategyOptions:
                 return String.class;

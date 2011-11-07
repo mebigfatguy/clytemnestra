@@ -37,6 +37,7 @@ public class Bundle {
         OpenKeySpace("openkeyspace"),
         DeleteKeySpace("deletekeyspace"),
         KeySpace("keyspace"),
+        DurableWrites("durablewrites"),
         StrategyClass("strategyclass"),
         StrategicOptions("strategicoptions");
 
