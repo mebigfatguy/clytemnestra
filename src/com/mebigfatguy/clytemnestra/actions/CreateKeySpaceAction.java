@@ -45,6 +45,7 @@ public class CreateKeySpaceAction extends AbstractAction {
     	try {
 	        CreateKeySpaceDialog ksDialog = new CreateKeySpaceDialog();
 	        ksDialog.setLocationRelativeTo(null);
+	        ksDialog.setModal(true);
 	        ksDialog.setVisible(true);
 	        
 	        if (ksDialog.isOK()) {
