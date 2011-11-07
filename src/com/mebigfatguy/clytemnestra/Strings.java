@@ -17,6 +17,8 @@
  */
 package com.mebigfatguy.clytemnestra;
 
+import java.util.Map;
+
 public class Strings {
 
     private Strings() {
@@ -32,5 +34,17 @@ public class Strings {
         }
 
         return s.trim();
+    }
+    
+    public static String mapToCSV(Map<?, ?> m) {
+    	StringBuilder sb = new StringBuilder();
+    	String sep = "";
+    	for (Map.Entry<?, ?> entry : m.entrySet()) {
+    		sb.append(sep);
+    		sep = ",";
+    		sb.append(entry.getKey()).append("=").append(entry.getValue());
+    	}
+    	
+    	return sb.toString();
     }
 }

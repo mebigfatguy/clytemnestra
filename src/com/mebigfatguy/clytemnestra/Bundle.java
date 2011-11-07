@@ -37,8 +37,8 @@ public class Bundle {
         OpenKeySpace("openkeyspace"),
         DeleteKeySpace("deletekeyspace"),
         KeySpace("keyspace"),
-        ReplicationFactor("replicationfactor"),
-        StrategyClass("strategyclass");
+        StrategyClass("strategyclass"),
+        StrategicOptions("strategicoptions");
 
         private String id;
 

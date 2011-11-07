@@ -18,11 +18,18 @@
 package com.mebigfatguy.clytemnestra.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
+
+import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.view.CreateKeySpaceDialog;
 
 public class CreateKeySpaceAction extends AbstractAction {
 
@@ -35,8 +42,25 @@ public class CreateKeySpaceAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-
+    	try {
+	        CreateKeySpaceDialog ksDialog = new CreateKeySpaceDialog();
+	        ksDialog.setLocationRelativeTo(null);
+	        ksDialog.setVisible(true);
+	        
+	        if (ksDialog.isOK()) {
+	        	Cassandra.Client client = context.getClient();
+	        	KsDef ksDef = new KsDef();
+	        	ksDef.setName(ksDialog.getKeySpaceName());
+	        	ksDef.setDurable_writes(ksDialog.getDurableWrites());
+	        	ksDef.setStrategy_class(ksDialog.getStrategyClass());
+	        	Map<String, String> strategyOptions = new HashMap<String, String>();
+	        	strategyOptions.put("replication_factor", ksDialog.getReplicationFactor());
+	        	ksDef.setStrategy_options(strategyOptions);
+	        	client.system_add_keyspace(ksDef);
+	        }
+    	} catch (Exception te) {
+    		JOptionPane.showMessageDialog(null, te.getMessage());
+    	}
     }
 
 }

@@ -19,18 +19,20 @@ package com.mebigfatguy.clytemnestra.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.Strings;
 
 public class KeySpacesTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = -1250326173521242924L;
 
-    private enum Columns { Name, ReplicationFactor, StrategyClass};
+    private enum Columns { Name, StrategyClass, StrategyOptions};
 
     private final List<KsDef> keySpaces = new ArrayList<KsDef>();
 
@@ -61,9 +63,6 @@ public class KeySpacesTableModel extends AbstractTableModel {
             case Name:
                 return keySpace.getName();
 
-            case ReplicationFactor:
-                return Integer.valueOf(keySpace.getReplication_factor());
-
             case StrategyClass:
                 String name = keySpace.getStrategy_class();
                 int dotPos = name.lastIndexOf('.');
@@ -71,6 +70,10 @@ public class KeySpacesTableModel extends AbstractTableModel {
                     name = name.substring(dotPos+1);
                 }
                 return name;
+                
+            case StrategyOptions:
+            	Map<String, String> options = keySpace.getStrategy_options();
+            	return Strings.mapToCSV(options);
 
             default:
                 return "";
@@ -83,12 +86,12 @@ public class KeySpacesTableModel extends AbstractTableModel {
             case Name:
                 return Bundle.getString(Bundle.Key.KeySpace);
 
-            case ReplicationFactor:
-                return Bundle.getString(Bundle.Key.ReplicationFactor);
-
             case StrategyClass:
                 return Bundle.getString(Bundle.Key.StrategyClass);
 
+            case StrategyOptions:
+            	return Bundle.getString(Bundle.Key.StrategicOptions);
+            	
             default:
                 return "";
         }
@@ -100,12 +103,13 @@ public class KeySpacesTableModel extends AbstractTableModel {
             case Name:
                 return String.class;
 
-            case ReplicationFactor:
-                return Integer.class;
-
             case StrategyClass:
                 return String.class;
 
+
+            case StrategyOptions:
+                return String.class;
+                
             default:
                 return String.class;
         }
