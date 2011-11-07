@@ -39,7 +39,8 @@ public class Bundle {
         KeySpace("keyspace"),
         DurableWrites("durablewrites"),
         StrategyClass("strategyclass"),
-        StrategicOptions("strategicoptions");
+        StrategicOptions("strategicoptions"),
+        KeySpaceName("keyspacename");
 
         private String id;
 
