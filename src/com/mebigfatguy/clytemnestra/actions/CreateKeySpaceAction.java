@@ -18,13 +18,14 @@
 package com.mebigfatguy.clytemnestra.actions;
 
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
@@ -56,7 +57,9 @@ public class CreateKeySpaceAction extends AbstractAction {
 	        	ksDef.setStrategy_class(ksDialog.getStrategyClass());
 	        	Map<String, String> strategyOptions = ksDialog.getStrategyOptions();
 	        	ksDef.setStrategy_options(strategyOptions);
+	        	ksDef.setCf_defs(new ArrayList<CfDef>());
 	        	client.system_add_keyspace(ksDef);
+	        	context.refreshKeySpaces();
 	        }
     	} catch (Exception te) {
     		JOptionPane.showMessageDialog(null, te.getMessage());

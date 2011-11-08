@@ -45,6 +45,10 @@ public class KeySpacesPanel extends JPanel {
     public Controller getController() {
         return controller;
     }
+    
+    public void refresh() {
+    	controller.refresh(context.getClient());
+    }
 
     private void initComponents() {
         setLayout(new BorderLayout(4, 4));

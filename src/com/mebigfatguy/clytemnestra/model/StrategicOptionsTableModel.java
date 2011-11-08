@@ -30,6 +30,8 @@ import com.mebigfatguy.clytemnestra.cassandra.ReplicationStrategy;
 
 public class StrategicOptionsTableModel extends AbstractTableModel {
 
+	private static final long serialVersionUID = 5169032436825165909L;
+
 	private enum Columns {
 		Key, Value
 	};
@@ -39,9 +41,9 @@ public class StrategicOptionsTableModel extends AbstractTableModel {
 	public StrategicOptionsTableModel(String selectedStrategy) {
 		ReplicationStrategy strategy = ReplicationStrategy.valueOf(ReplicationStrategy.class, selectedStrategy);
 		if (strategy != null) {
-			String[] strategyOptions = strategy.getRequiredOptions();
-			for (String option : strategyOptions) {
-				options.add(new Pair<String, String>(option, ""));
+			Pair<String, String>[] strategyOptions = strategy.getRequiredOptions();
+			for (Pair<String, String> option : strategyOptions) {
+				options.add(option);
 			}
 		}
 	}

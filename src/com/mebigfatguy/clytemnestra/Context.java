@@ -34,4 +34,6 @@ public interface Context {
     Cassandra.Client getClient();
 
     void setSelectedKeySpaces(List<KsDef> keySpaces);
+    
+    void refreshKeySpaces();
 }

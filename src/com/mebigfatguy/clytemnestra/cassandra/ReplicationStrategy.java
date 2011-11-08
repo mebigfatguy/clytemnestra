@@ -17,18 +17,20 @@
  */
 package com.mebigfatguy.clytemnestra.cassandra;
 
+import com.mebigfatguy.clytemnestra.Pair;
+
 public enum ReplicationStrategy {
-	SimpleStrategy(new String[] { "replication_factor" }),
-	LocalStrategy(new String[] {}),
-	NetworkTopologyStrategy(new String[] { "replication_factor" });
+	SimpleStrategy(new Pair[] { new Pair<String, String>("replication_factor", "1") }),
+	LocalStrategy(new Pair[] {}),
+	NetworkTopologyStrategy(new Pair[] { new Pair<String, String>("replication_factor", "1") });
 	
-	private String[] requiredOptions;
+	private Pair<String, String>[] requiredOptions;
 	
-	private ReplicationStrategy(String[] requiredStrategyOptions) {
+	private ReplicationStrategy(Pair<String, String>[] requiredStrategyOptions) {
 		requiredOptions = requiredStrategyOptions.clone();
 	}
 	
-	public String[] getRequiredOptions() {
+	public Pair<String, String>[] getRequiredOptions() {
 		return requiredOptions;
 	}
 }
