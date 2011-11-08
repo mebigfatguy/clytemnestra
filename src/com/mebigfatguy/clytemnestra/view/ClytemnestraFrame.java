@@ -136,6 +136,10 @@ public class ClytemnestraFrame extends JFrame {
             deleteKeySpaceItem.setEnabled(hasSelection);
         }
         
+        public List<KsDef> getSelectedKeySpaces() {
+        	return keySpacesPanel.getSelectedKeySpaces();
+        }
+        
         public void refreshKeySpaces() {
         	keySpacesPanel.refresh();
         }

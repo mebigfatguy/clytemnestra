@@ -18,11 +18,15 @@
 package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.controllers.Controller;
@@ -48,6 +52,17 @@ public class KeySpacesPanel extends JPanel {
     
     public void refresh() {
     	controller.refresh(context.getClient());
+    }
+    
+    public List<KsDef> getSelectedKeySpaces() {
+    	int[] selRows = keySpacesTable.getSelectedRows();
+    	KeySpacesTableModel model = (KeySpacesTableModel) keySpacesTable.getModel();
+    	List<KsDef> selectedKeySpaces = new ArrayList<KsDef>();
+    	for (int i = 0; i < selRows.length; i++) {
+    		selectedKeySpaces.add(model.getKeySpaceAt(selRows[i]));
+    	}
+    	
+    	return selectedKeySpaces;
     }
 
     private void initComponents() {

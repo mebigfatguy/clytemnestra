@@ -15,27 +15,21 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.mebigfatguy.clytemnestra;
+package com.mebigfatguy.clytemnestra.view;
 
-import java.util.List;
+import java.text.MessageFormat;
 
-import org.apache.cassandra.thrift.Cassandra;
+import javax.swing.JFrame;
+
 import org.apache.cassandra.thrift.KsDef;
 
+import com.mebigfatguy.clytemnestra.Bundle;
 
-public interface Context {
+public class KeySpaceFrame extends JFrame {
 
-    void setServerAddress(String serverAddress);
-
-    String getServerAddress();
-
-    void setClient(Cassandra.Client client);
-
-    Cassandra.Client getClient();
-
-    void setSelectedKeySpaces(List<KsDef> keySpaces);
-    
-    List<KsDef> getSelectedKeySpaces();
-    
-    void refreshKeySpaces();
+	public KeySpaceFrame(KsDef keySpace) {
+		String title = Bundle.getString(Bundle.Key.KeySpaceTitle);
+		setTitle(MessageFormat.format(title,  keySpace.getName()));
+		setSize(200, 200);
+	}
 }

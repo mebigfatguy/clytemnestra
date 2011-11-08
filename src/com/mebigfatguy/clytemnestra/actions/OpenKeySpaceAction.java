@@ -17,16 +17,22 @@
  */
 package com.mebigfatguy.clytemnestra.actions;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 
+import org.apache.cassandra.thrift.KsDef;
+
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.view.KeySpaceFrame;
 
 public class OpenKeySpaceAction extends AbstractAction {
 
-    private final Context context;
+	private static final long serialVersionUID = 7220688796775067879L;
+	private final Context context;
 
     public OpenKeySpaceAction(Context ctxt) {
         super(Bundle.getString(Bundle.Key.OpenKeySpace));
@@ -35,7 +41,14 @@ public class OpenKeySpaceAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+    	Container root = null;
+        List<KsDef> keySpaces = context.getSelectedKeySpaces();
+        for (KsDef keySpace : keySpaces) {
+        	KeySpaceFrame f = new KeySpaceFrame(keySpace);
+        	f.setLocationRelativeTo(root);
+        	f.setVisible(true);
+        	root = f;
+        }
 
     }
 

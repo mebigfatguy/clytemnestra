@@ -42,7 +42,8 @@ public class Bundle {
         StrategicOptions("strategicoptions"),
         Option("option"),
         Value("value"),
-        KeySpaceName("keyspacename");
+        KeySpaceName("keyspacename"),
+        KeySpaceTitle("keyspacetitle");
 
         private String id;
 
