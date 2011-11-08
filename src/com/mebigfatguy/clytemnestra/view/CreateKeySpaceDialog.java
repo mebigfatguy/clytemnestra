@@ -1,3 +1,20 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
@@ -9,22 +26,25 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.SwingUtils;
-import com.mebigfatguy.clytemnestra.model.IntegerDocument;
+import com.mebigfatguy.clytemnestra.cassandra.ReplicationStrategy;
 
 public class CreateKeySpaceDialog extends JDialog {
 
 	private boolean isOK = false;
 	private JTextField keySpaceName;
+	private JRadioButton durableWritesRadio;
+	private JComboBox strategyClassCombo;
 	private JButton okButton;
 	private JButton cancelButton;
 
@@ -43,11 +63,11 @@ public class CreateKeySpaceDialog extends JDialog {
 	}
 
 	public boolean getDurableWrites() {
-		return false;
+		return durableWritesRadio.isSelected();
 	}
 
 	public String getStrategyClass() {
-		return "";
+		return (String)strategyClassCombo.getSelectedItem();
 	}
 
 	public String getReplicationFactor() {
@@ -78,6 +98,21 @@ public class CreateKeySpaceDialog extends JDialog {
         p.add(keySpaceName, cc.xy(4, 2));
 
         keyspaceLabel.setLabelFor(keySpaceName);
+        
+        durableWritesRadio = new JRadioButton(Bundle.getString(Bundle.Key.DurableWrites));
+        p.add(durableWritesRadio, cc.xyw(2, 4, 4));
+        
+        JLabel strategyClassLabel = new JLabel(Bundle.getString(Bundle.Key.StrategyClass));
+        p.add(strategyClassLabel, cc.xy(2, 6));
+        
+        strategyClassCombo = new JComboBox();
+        for (ReplicationStrategy strategy : ReplicationStrategy.values()) {
+            strategyClassCombo.addItem(strategy.name());        	
+        }
+        strategyClassCombo.setEditable(true);
+        p.add(strategyClassCombo, cc.xy(4, 6));
+        
+        strategyClassLabel.setLabelFor(strategyClassCombo);
 
         p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
