@@ -122,7 +122,7 @@ public class CreateKeySpaceDialog extends JDialog {
         JLabel optionsLabel = new JLabel(Bundle.getString(Bundle.Key.StrategicOptions));
         p.add(optionsLabel, cc.xy(2, 8));
         
-        optionsTable = new JTable(new StrategicOptionsTableModel());
+        optionsTable = new JTable(new StrategicOptionsTableModel((String) strategyClassCombo.getSelectedItem()));
         p.add(new JScrollPane(optionsTable), cc.xyw(2, 10, 4));
         Dimension dim = optionsTable.getPreferredSize();
         dim.height = 100;

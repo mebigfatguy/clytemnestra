@@ -24,10 +24,9 @@ import javax.swing.table.AbstractTableModel;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Pair;
+import com.mebigfatguy.clytemnestra.cassandra.ReplicationStrategy;
 
 public class StrategicOptionsTableModel extends AbstractTableModel {
-
-	private static final long serialVersionUID = 1890727196791942730L;
 
 	private enum Columns {
 		Key, Value
@@ -35,6 +34,16 @@ public class StrategicOptionsTableModel extends AbstractTableModel {
 
 	private List<Pair<String, String>> options = new ArrayList<Pair<String, String>>();
 
+	public StrategicOptionsTableModel(String selectedStrategy) {
+		ReplicationStrategy strategy = ReplicationStrategy.valueOf(ReplicationStrategy.class, selectedStrategy);
+		if (strategy != null) {
+			String[] strategyOptions = strategy.getRequiredOptions();
+			for (String option : strategyOptions) {
+				options.add(new Pair<String, String>(option, ""));
+			}
+		}
+	}
+	
 	@Override
 	public int getRowCount() {
 		return options.size();
@@ -43,6 +52,12 @@ public class StrategicOptionsTableModel extends AbstractTableModel {
 	@Override
 	public int getColumnCount() {
 		return Columns.values().length;
+	}
+
+	
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		return Columns.values()[columnIndex] == Columns.Value;
 	}
 
 	@Override
