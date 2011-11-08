@@ -18,7 +18,17 @@
 package com.mebigfatguy.clytemnestra.cassandra;
 
 public enum ReplicationStrategy {
-	SimpleStrategy,
-	LocalStrategy,
-	NetworkTopologyStrategy;
+	SimpleStrategy(new String[] { "replication_factor" }),
+	LocalStrategy(new String[] {}),
+	NetworkTopologyStrategy(new String[] { "replication_factor" });
+	
+	private String[] requiredOptions;
+	
+	private ReplicationStrategy(String[] requiredStrategyOptions) {
+		requiredOptions = requiredStrategyOptions.clone();
+	}
+	
+	public String[] getRequiredOptions() {
+		return requiredOptions;
+	}
 }

@@ -19,6 +19,7 @@ package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,6 +32,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -38,6 +41,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.SwingUtils;
 import com.mebigfatguy.clytemnestra.cassandra.ReplicationStrategy;
+import com.mebigfatguy.clytemnestra.model.StrategicOptionsTableModel;
 
 public class CreateKeySpaceDialog extends JDialog {
 
@@ -45,6 +49,7 @@ public class CreateKeySpaceDialog extends JDialog {
 	private JTextField keySpaceName;
 	private JRadioButton durableWritesRadio;
 	private JComboBox strategyClassCombo;
+	private JTable optionsTable;
 	private JButton okButton;
 	private JButton cancelButton;
 
@@ -88,7 +93,7 @@ public class CreateKeySpaceDialog extends JDialog {
         JPanel p = new JPanel();
         p.setLayout(new BorderLayout(4, 4));
 
-        p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 20dlu, pref, 4dlu, pref, 6dlu"));
+        p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 8dlu, pref, 4dlu, pref, 4dlu, pref, 6dlu"));
         CellConstraints cc = new CellConstraints();
 
         JLabel keyspaceLabel = new JLabel(Bundle.getString(Bundle.Key.KeySpaceName));
@@ -113,6 +118,17 @@ public class CreateKeySpaceDialog extends JDialog {
         p.add(strategyClassCombo, cc.xy(4, 6));
         
         strategyClassLabel.setLabelFor(strategyClassCombo);
+        
+        JLabel optionsLabel = new JLabel(Bundle.getString(Bundle.Key.StrategicOptions));
+        p.add(optionsLabel, cc.xy(2, 8));
+        
+        optionsTable = new JTable(new StrategicOptionsTableModel());
+        p.add(new JScrollPane(optionsTable), cc.xyw(2, 10, 4));
+        Dimension dim = optionsTable.getPreferredSize();
+        dim.height = 100;
+        optionsTable.setPreferredScrollableViewportSize(dim);
+        
+        optionsLabel.setLabelFor(optionsTable);
 
         p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
