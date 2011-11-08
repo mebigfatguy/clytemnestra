@@ -39,6 +39,10 @@ public class Pair<K extends Comparable<K>, V extends Comparable<V>> implements S
 		return value;
 	}
 	
+	public void setValue(V v) {
+		value = v;
+	}
+	
 	public int hashCode() {
 		return key.hashCode() ^ value.hashCode();
 	}

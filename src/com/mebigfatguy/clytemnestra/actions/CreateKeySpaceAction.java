@@ -54,8 +54,7 @@ public class CreateKeySpaceAction extends AbstractAction {
 	        	ksDef.setName(ksDialog.getKeySpaceName());
 	        	ksDef.setDurable_writes(ksDialog.getDurableWrites());
 	        	ksDef.setStrategy_class(ksDialog.getStrategyClass());
-	        	Map<String, String> strategyOptions = new HashMap<String, String>();
-	        	strategyOptions.put("replication_factor", ksDialog.getReplicationFactor());
+	        	Map<String, String> strategyOptions = ksDialog.getStrategyOptions();
 	        	ksDef.setStrategy_options(strategyOptions);
 	        	client.system_add_keyspace(ksDef);
 	        }

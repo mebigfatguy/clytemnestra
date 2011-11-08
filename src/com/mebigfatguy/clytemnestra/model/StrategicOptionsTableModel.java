@@ -18,7 +18,9 @@
 package com.mebigfatguy.clytemnestra.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -44,6 +46,14 @@ public class StrategicOptionsTableModel extends AbstractTableModel {
 		}
 	}
 	
+	public Map<String, String> getStrategicOptions() {
+		Map<String, String> stratOptions = new HashMap<String, String>();
+		for (Pair<String, String> pair : options) {
+			stratOptions.put(pair.getKey(), pair.getValue());
+		}
+		return stratOptions;
+	}
+	
 	@Override
 	public int getRowCount() {
 		return options.size();
@@ -55,6 +65,12 @@ public class StrategicOptionsTableModel extends AbstractTableModel {
 	}
 
 	
+	@Override
+	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		Pair<String, String> option = options.get(rowIndex);
+		option.setValue((String) value);
+	}
+
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return Columns.values()[columnIndex] == Columns.Value;

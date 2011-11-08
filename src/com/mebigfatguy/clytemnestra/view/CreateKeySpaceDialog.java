@@ -22,6 +22,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -74,9 +76,9 @@ public class CreateKeySpaceDialog extends JDialog {
 	public String getStrategyClass() {
 		return (String)strategyClassCombo.getSelectedItem();
 	}
-
-	public String getReplicationFactor() {
-		return "1";
+	
+	public Map<String, String> getStrategyOptions() {
+		return ((StrategicOptionsTableModel) optionsTable.getModel()).getStrategicOptions();
 	}
 
 	private void initComponents() {
