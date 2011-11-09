@@ -44,7 +44,12 @@ public class Bundle {
         Value("value"),
         KeySpaceName("keyspacename"),
         KeySpaceTitle("keyspacetitle"),
-        ColumnFamily("columnfamily");
+        ColumnFamily("columnfamily"),
+        ColumnType("columntype"),
+        CompactionStrategy("compactionstrategy"),   
+        ComparatorType("comparatortype"),
+        Comment("comment");
+
 
         private String id;
 

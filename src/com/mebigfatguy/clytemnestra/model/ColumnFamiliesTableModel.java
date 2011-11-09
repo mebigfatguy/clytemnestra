@@ -31,7 +31,7 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 7363520423000602880L;
 
-	private enum Columns { Name };
+	private enum Columns { Name, Type, CompactionStrategy, ComparatorType, Comment };
     
 	private final List<CfDef> columnFamilies = new ArrayList<CfDef>();
     
@@ -58,6 +58,18 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
             case Name:
                 return columnFamily.getName();
 
+            case Type:
+            	return columnFamily.getColumn_type();
+                
+            case CompactionStrategy:
+            	return getSimpleName(columnFamily.getCompaction_strategy());
+            	
+            case ComparatorType:
+            	return getSimpleName(columnFamily.getComparator_type());
+            	
+            case Comment:
+            	return columnFamily.getComment();
+            	
             default:
                 return "";
         }
@@ -68,6 +80,18 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
         switch (Columns.values()[column]) {
             case Name:
                 return Bundle.getString(Bundle.Key.ColumnFamily);
+            	
+            case Type:
+            	return Bundle.getString(Bundle.Key.ColumnType);
+            	
+            case CompactionStrategy:
+            	return Bundle.getString(Bundle.Key.CompactionStrategy);
+            	
+            case ComparatorType:
+            	return Bundle.getString(Bundle.Key.ComparatorType);
+            	
+            case Comment:
+            	return Bundle.getString(Bundle.Key.Comment);
             	
             default:
                 return "";
@@ -80,8 +104,27 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
             case Name:
                 return String.class;
                 
+            case Type:
+            	return String.class;
+            	
+            case CompactionStrategy:
+            	return String.class;
+            
+            case ComparatorType:
+            	return String.class;
+            	
+            case Comment:
+            	return String.class;
+            	
             default:
                 return String.class;
         }
+    }
+    
+    private String getSimpleName(String qualifiedName) {
+    	int lastDotPos = qualifiedName.lastIndexOf('.');
+    	if (lastDotPos >= 0)
+    		qualifiedName = qualifiedName.substring(lastDotPos+1);
+    	return qualifiedName;
     }
 }
