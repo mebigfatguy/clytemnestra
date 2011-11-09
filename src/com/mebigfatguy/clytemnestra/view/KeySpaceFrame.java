@@ -75,7 +75,7 @@ public class KeySpaceFrame extends JFrame {
         JMenuBar mb = new JMenuBar();
 
         columnFamiliesMenu = new JMenu(Bundle.getString(Bundle.Key.ColumnFamily));
-        createColumnFamilyItem = new JMenuItem(new CreateColumnFamilyAction(context));
+        createColumnFamilyItem = new JMenuItem(new CreateColumnFamilyAction(context, keySpace));
         columnFamiliesMenu.add(createColumnFamilyItem);
         openColumnFamilyItem = new JMenuItem(new OpenColumnFamilyAction(context));
         columnFamiliesMenu.add(openColumnFamilyItem);

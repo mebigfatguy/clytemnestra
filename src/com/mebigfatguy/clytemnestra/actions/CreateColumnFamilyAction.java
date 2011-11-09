@@ -20,21 +20,47 @@ package com.mebigfatguy.clytemnestra.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
+
+import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.view.CreateColumnFamilyDialog;
 
 public class CreateColumnFamilyAction extends AbstractAction {
 
-    private final Context context;
+	private static final long serialVersionUID = 6055469380789382015L;
+	
+	private final Context context;
+    private final KsDef keySpace;
 
-    public CreateColumnFamilyAction(Context ctxt) {
+    public CreateColumnFamilyAction(Context ctxt, KsDef ks) {
         super(Bundle.getString(Bundle.Key.CreateColumnFamily));
         context = ctxt;
+        keySpace = ks;
     }
     
     @Override
 	public void actionPerformed(ActionEvent e) {
-	}
-
+    	try {
+	        CreateColumnFamilyDialog cfDialog = new CreateColumnFamilyDialog();
+	        cfDialog.setLocationRelativeTo(null);
+	        cfDialog.setModal(true);
+	        cfDialog.setVisible(true);
+	        
+	        if (cfDialog.isOK()) {
+	        	Cassandra.Client client = context.getClient();
+	        	CfDef cfDef = new CfDef();
+	        	cfDef.setKeyspace(keySpace.getName());
+	        	cfDef.setName(cfDialog.getColumnFamilyName());
+	        	client.system_add_column_family(cfDef);
+	        	//context.refreshColumnFamilies();
+	        }
+    	} catch (Exception te) {
+    		JOptionPane.showMessageDialog(null, te.getMessage());
+    	}	
+    }
 }
