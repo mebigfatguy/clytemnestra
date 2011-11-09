@@ -25,7 +25,6 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.cassandra.thrift.CfDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
-import com.mebigfatguy.clytemnestra.controllers.Controller;
 
 public class ColumnFamiliesTableModel extends AbstractTableModel {
 

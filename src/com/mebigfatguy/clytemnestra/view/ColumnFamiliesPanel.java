@@ -32,6 +32,8 @@ import com.mebigfatguy.clytemnestra.controllers.Controller;
 import com.mebigfatguy.clytemnestra.model.ColumnFamiliesTableModel;
 
 public class ColumnFamiliesPanel extends JPanel {
+
+	private static final long serialVersionUID = 8755403933881853128L;
 	
 	private KsDef ksDef;
 	private Context context;

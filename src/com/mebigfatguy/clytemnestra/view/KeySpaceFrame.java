@@ -30,6 +30,8 @@ import com.mebigfatguy.clytemnestra.Context;
 
 public class KeySpaceFrame extends JFrame {
 
+	private static final long serialVersionUID = 2235197069258018271L;
+	
 	private Context context;
 	private KsDef keySpace;
 	private ColumnFamiliesPanel columnFamiliesPanel;
