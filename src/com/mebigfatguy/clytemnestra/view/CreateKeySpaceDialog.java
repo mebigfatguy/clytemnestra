@@ -47,6 +47,8 @@ import com.mebigfatguy.clytemnestra.model.StrategicOptionsTableModel;
 
 public class CreateKeySpaceDialog extends JDialog {
 
+	private static final long serialVersionUID = 1695811618255955496L;
+	
 	private boolean isOK = false;
 	private JTextField keySpaceName;
 	private JRadioButton durableWritesRadio;
@@ -56,6 +58,7 @@ public class CreateKeySpaceDialog extends JDialog {
 	private JButton cancelButton;
 
 	public CreateKeySpaceDialog() {
+		setTitle(Bundle.getString(Bundle.Key.CreateKeySpace));
 		initComponents();
 		initListeners();
 		pack();

@@ -46,6 +46,7 @@ public class CreateColumnFamilyDialog extends JDialog {
 	private JButton cancelButton;
 
 	public CreateColumnFamilyDialog() {
+		setTitle(Bundle.getString(Bundle.Key.CreateColumnFamily));
 		initComponents();
 		initListeners();
 		pack();
