@@ -59,6 +59,7 @@ public class CreateColumnFamilyAction extends AbstractAction {
 	        	CfDef cfDef = new CfDef();
 	        	cfDef.setKeyspace(keySpace.getName());
 	        	cfDef.setName(cfDialog.getColumnFamilyName());
+	        	client.set_keyspace(keySpace.getName());
 	        	client.system_add_column_family(cfDef);
 	        	KeySpaceFrame ksFrame = (KeySpaceFrame) FrameManager.getKeySpaceFrame(keySpace);
 	        	ksFrame.refreshColumnFamilies();
