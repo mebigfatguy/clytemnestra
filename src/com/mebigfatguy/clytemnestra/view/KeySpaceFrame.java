@@ -64,7 +64,10 @@ public class KeySpaceFrame extends JFrame {
 		pack();
 	}
 
-
+	public void refreshColumnFamilies() {
+		columnFamiliesPanel.getController().refresh(context.getClient());
+	}
+	
 	private void initComponents() {
 		Container cp = getContentPane();
         cp.setLayout(new BorderLayout(4, 4));

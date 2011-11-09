@@ -28,7 +28,9 @@ import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FrameManager;
 import com.mebigfatguy.clytemnestra.view.CreateColumnFamilyDialog;
+import com.mebigfatguy.clytemnestra.view.KeySpaceFrame;
 
 public class CreateColumnFamilyAction extends AbstractAction {
 
@@ -57,7 +59,8 @@ public class CreateColumnFamilyAction extends AbstractAction {
 	        	cfDef.setKeyspace(keySpace.getName());
 	        	cfDef.setName(cfDialog.getColumnFamilyName());
 	        	client.system_add_column_family(cfDef);
-	        	//context.refreshColumnFamilies();
+	        	KeySpaceFrame ksFrame = (KeySpaceFrame) FrameManager.getKeySpaceFrame(keySpace);
+	        	ksFrame.refreshColumnFamilies();
 	        }
     	} catch (Exception te) {
     		JOptionPane.showMessageDialog(null, te.getMessage());
