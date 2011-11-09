@@ -26,6 +26,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,6 +36,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.SwingUtils;
+import com.mebigfatguy.clytemnestra.cassandra.ColumnFamilyType;
 
 public class CreateColumnFamilyDialog extends JDialog {
 
@@ -42,6 +44,7 @@ public class CreateColumnFamilyDialog extends JDialog {
 	
 	private boolean isOK = false;
 	private JTextField columnFamilyName;
+	private JComboBox columnFamilyTypeCombo;
 	private JButton okButton;
 	private JButton cancelButton;
 
@@ -58,6 +61,10 @@ public class CreateColumnFamilyDialog extends JDialog {
 
 	public String getColumnFamilyName() {
 		return columnFamilyName.getText();
+	}
+	
+	public ColumnFamilyType getColumnFamilyType() {
+		return (ColumnFamilyType) ColumnFamilyType.valueOf(ColumnFamilyType.class, (String) columnFamilyTypeCombo.getSelectedItem());
 	}
 
 	private void initComponents() {
@@ -84,6 +91,18 @@ public class CreateColumnFamilyDialog extends JDialog {
         p.add(columnFamilyName, cc.xy(4, 2));
 
         columnFamilyLabel.setLabelFor(columnFamilyName);
+        
+        JLabel columnFamilyTypeLabel = new JLabel(Bundle.getString(Bundle.Key.ColumnFamilyType));
+        p.add(columnFamilyTypeLabel, cc.xy(2, 4));
+        
+        columnFamilyTypeCombo = new JComboBox();
+        for (ColumnFamilyType type : ColumnFamilyType.values()) {
+        	columnFamilyTypeCombo.addItem(type.name());        	
+        }
+        
+        p.add(columnFamilyTypeCombo, cc.xy(4, 4));
+        
+        columnFamilyLabel.setLabelFor(columnFamilyTypeCombo);
 
         p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 

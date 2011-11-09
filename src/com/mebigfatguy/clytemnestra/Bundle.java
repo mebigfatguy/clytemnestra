@@ -51,7 +51,8 @@ public class Bundle {
         Comment("comment"),
         CreateColumnFamily("createcolumnfamily"),
         OpenColumnFamily("opencolumnfamily"),
-        DeleteColumnFamily("deletecolumnfamily");
+        DeleteColumnFamily("deletecolumnfamily"),
+        ColumnFamilyType("columnfamilytype");
 
 
         private String id;
