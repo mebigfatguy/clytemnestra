@@ -43,7 +43,8 @@ public class Bundle {
         Option("option"),
         Value("value"),
         KeySpaceName("keyspacename"),
-        KeySpaceTitle("keyspacetitle");
+        KeySpaceTitle("keyspacetitle"),
+        ColumnFamily("columnfamily");
 
         private String id;
 

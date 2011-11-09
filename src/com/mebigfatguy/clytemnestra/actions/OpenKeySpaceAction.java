@@ -44,7 +44,7 @@ public class OpenKeySpaceAction extends AbstractAction {
     	Container root = null;
         List<KsDef> keySpaces = context.getSelectedKeySpaces();
         for (KsDef keySpace : keySpaces) {
-        	KeySpaceFrame f = new KeySpaceFrame(keySpace);
+        	KeySpaceFrame f = new KeySpaceFrame(context, keySpace);
         	f.setLocationRelativeTo(root);
         	f.setVisible(true);
         	root = f;

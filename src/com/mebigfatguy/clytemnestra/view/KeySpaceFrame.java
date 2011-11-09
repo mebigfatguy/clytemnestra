@@ -17,6 +17,8 @@
  */
 package com.mebigfatguy.clytemnestra.view;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.text.MessageFormat;
 
 import javax.swing.JFrame;
@@ -24,12 +26,42 @@ import javax.swing.JFrame;
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.Context;
 
 public class KeySpaceFrame extends JFrame {
 
-	public KeySpaceFrame(KsDef keySpace) {
+	private Context context;
+	private KsDef keySpace;
+	private ColumnFamiliesPanel columnFamiliesPanel;
+	
+	public KeySpaceFrame(Context ctxt, KsDef ks) {
+		context = ctxt;
+		keySpace = ks;
 		String title = Bundle.getString(Bundle.Key.KeySpaceTitle);
 		setTitle(MessageFormat.format(title,  keySpace.getName()));
-		setSize(200, 200);
+		
+        initComponents();
+        initMenus();
+        initListeners();
+        
+        columnFamiliesPanel.getController().refresh(ctxt.getClient());
+        
+		pack();
+	}
+
+
+	private void initComponents() {
+		Container cp = getContentPane();
+        cp.setLayout(new BorderLayout(4, 4));
+
+        columnFamiliesPanel = new ColumnFamiliesPanel(keySpace, context);
+        cp.add(columnFamiliesPanel, BorderLayout.CENTER);
+	}
+	
+
+	private void initMenus() {
+	}
+	
+	private void initListeners() {
 	}
 }
