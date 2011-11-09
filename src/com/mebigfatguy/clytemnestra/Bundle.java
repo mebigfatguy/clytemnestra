@@ -48,7 +48,10 @@ public class Bundle {
         ColumnType("columntype"),
         CompactionStrategy("compactionstrategy"),   
         ComparatorType("comparatortype"),
-        Comment("comment");
+        Comment("comment"),
+        CreateColumnFamily("createcolumnfamily"),
+        OpenColumnFamily("opencolumnfamily"),
+        DeleteColumnFamily("deletecolumnfamily");
 
 
         private String id;

@@ -22,11 +22,17 @@ import java.awt.Container;
 import java.text.MessageFormat;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.actions.CreateColumnFamilyAction;
+import com.mebigfatguy.clytemnestra.actions.DeleteColumnFamilyAction;
+import com.mebigfatguy.clytemnestra.actions.OpenColumnFamilyAction;
 
 public class KeySpaceFrame extends JFrame {
 
@@ -35,6 +41,10 @@ public class KeySpaceFrame extends JFrame {
 	private Context context;
 	private KsDef keySpace;
 	private ColumnFamiliesPanel columnFamiliesPanel;
+	private JMenu columnFamiliesMenu;
+    private JMenuItem createColumnFamilyItem;
+    private JMenuItem openColumnFamilyItem;
+    private JMenuItem deleteColumnFamilyItem;
 	
 	public KeySpaceFrame(Context ctxt, KsDef ks) {
 		context = ctxt;
@@ -61,8 +71,21 @@ public class KeySpaceFrame extends JFrame {
 	}
 	
 
-	private void initMenus() {
-	}
+    private void initMenus() {
+        JMenuBar mb = new JMenuBar();
+
+        columnFamiliesMenu = new JMenu(Bundle.getString(Bundle.Key.ColumnFamily));
+        createColumnFamilyItem = new JMenuItem(new CreateColumnFamilyAction(context));
+        columnFamiliesMenu.add(createColumnFamilyItem);
+        openColumnFamilyItem = new JMenuItem(new OpenColumnFamilyAction(context));
+        columnFamiliesMenu.add(openColumnFamilyItem);
+        columnFamiliesMenu.addSeparator();
+        deleteColumnFamilyItem = new JMenuItem(new DeleteColumnFamilyAction(context));
+        columnFamiliesMenu.add(deleteColumnFamilyItem);
+        mb.add(columnFamiliesMenu);
+
+        setJMenuBar(mb);
+    }
 	
 	private void initListeners() {
 	}
