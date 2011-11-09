@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
@@ -62,6 +63,8 @@ public class CreateColumnFamilyAction extends AbstractAction {
 	        	KeySpaceFrame ksFrame = (KeySpaceFrame) FrameManager.getKeySpaceFrame(keySpace);
 	        	ksFrame.refreshColumnFamilies();
 	        }
+    	} catch (InvalidRequestException ire) {
+    		JOptionPane.showMessageDialog(null, ire.getWhy());
     	} catch (Exception te) {
     		JOptionPane.showMessageDialog(null, te.getMessage());
     	}	
