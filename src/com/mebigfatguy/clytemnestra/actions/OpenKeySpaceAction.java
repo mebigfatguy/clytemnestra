@@ -27,6 +27,7 @@ import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FrameManager;
 import com.mebigfatguy.clytemnestra.view.KeySpaceFrame;
 
 public class OpenKeySpaceAction extends AbstractAction {
@@ -48,6 +49,7 @@ public class OpenKeySpaceAction extends AbstractAction {
         	f.setLocationRelativeTo(root);
         	f.setVisible(true);
         	root = f;
+        	FrameManager.setKeySpaceFrame(keySpace, f);
         }
 
     }

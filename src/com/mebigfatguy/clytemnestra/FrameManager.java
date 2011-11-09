@@ -42,12 +42,20 @@ public class FrameManager {
 		return frames.get(buildKey(keySpace));
 	}
 	
+	public static void removeKeySpaceFrame(KsDef keySpace) {
+		frames.remove(buildKey(keySpace));
+	}
+	
 	public static void setColumnFamilyFrame(CfDef columnFamily, JFrame frame) {
 		frames.put(buildKey(columnFamily), frame);
 	}
 	
 	public static JFrame getColumnFamilyFrame(CfDef columnFamily) {
 		return frames.get(buildKey(columnFamily));
+	}
+	
+	public static void removeColumnFamilyFrame(CfDef columnFamily) {
+		frames.remove(buildKey(columnFamily));
 	}
 	
 	private static String buildKey(KsDef keySpace) {

@@ -19,6 +19,8 @@ package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.MessageFormat;
 
 import javax.swing.JFrame;
@@ -30,6 +32,7 @@ import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FrameManager;
 import com.mebigfatguy.clytemnestra.actions.CreateColumnFamilyAction;
 import com.mebigfatguy.clytemnestra.actions.DeleteColumnFamilyAction;
 import com.mebigfatguy.clytemnestra.actions.OpenColumnFamilyAction;
@@ -88,5 +91,12 @@ public class KeySpaceFrame extends JFrame {
     }
 	
 	private void initListeners() {
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				KeySpaceFrame frame = (KeySpaceFrame) we.getSource();
+				FrameManager.removeKeySpaceFrame(frame.keySpace);
+				dispose();
+			}
+		});
 	}
 }
