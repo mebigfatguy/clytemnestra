@@ -18,11 +18,18 @@
 package com.mebigfatguy.clytemnestra.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FrameManager;
 
 public class DeleteKeySpaceAction extends AbstractAction {
 
@@ -34,8 +41,19 @@ public class DeleteKeySpaceAction extends AbstractAction {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+    public void actionPerformed(ActionEvent ae) {
+    	Cassandra.Client client = context.getClient();
+        List<KsDef> keySpaces = context.getSelectedKeySpaces();
+        for (KsDef keySpace : keySpaces) {
+        	try {
+        		client.system_drop_keyspace(keySpace.getName());
+        		JFrame f = FrameManager.getKeySpaceFrame(keySpace);
+        		f.dispose();
+        	} catch (Exception e) {
+        		JOptionPane.showMessageDialog(null, "Failed deleting keyspace: " + keySpace.getName() + "\n" + e.getMessage());
+        	}
+        }
+        context.refreshKeySpaces();
 
     }
 
