@@ -33,7 +33,8 @@ import com.mebigfatguy.clytemnestra.FrameManager;
 
 public class DeleteKeySpaceAction extends AbstractAction {
 
-    private final Context context;
+	private static final long serialVersionUID = -3411413857331465619L;
+	private final Context context;
 
     public DeleteKeySpaceAction(Context ctxt) {
         super(Bundle.getString(Bundle.Key.DeleteKeySpace));

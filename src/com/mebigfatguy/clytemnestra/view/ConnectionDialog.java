@@ -40,7 +40,8 @@ import com.mebigfatguy.clytemnestra.model.IntegerDocument;
 
 public class ConnectionDialog extends JDialog {
 
-    private JTextField serverField;
+    private static final long serialVersionUID = -4577114903079737910L;
+	private JTextField serverField;
     private JTextField portField;
     private JTextField userNameField;
     private JPasswordField passwordField;

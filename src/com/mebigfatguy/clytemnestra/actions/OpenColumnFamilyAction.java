@@ -26,7 +26,8 @@ import com.mebigfatguy.clytemnestra.Context;
 
 public class OpenColumnFamilyAction extends AbstractAction {
 
-    private final Context context;
+    private static final long serialVersionUID = -2451127999419582272L;
+	private final Context context;
 
     public OpenColumnFamilyAction(Context ctxt) {
         super(Bundle.getString(Bundle.Key.OpenColumnFamily));

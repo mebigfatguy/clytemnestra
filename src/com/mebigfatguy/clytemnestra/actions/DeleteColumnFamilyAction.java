@@ -26,7 +26,8 @@ import com.mebigfatguy.clytemnestra.Context;
 
 public class DeleteColumnFamilyAction extends AbstractAction {
 
-    private final Context context;
+    private static final long serialVersionUID = -7330872430191016007L;
+	private final Context context;
 
     public DeleteColumnFamilyAction(Context ctxt) {
         super(Bundle.getString(Bundle.Key.DeleteColumnFamily));

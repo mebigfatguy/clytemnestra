@@ -34,7 +34,8 @@ import com.mebigfatguy.clytemnestra.view.CreateKeySpaceDialog;
 
 public class CreateKeySpaceAction extends AbstractAction {
 
-    private final Context context;
+    private static final long serialVersionUID = 3476466658031209888L;
+	private final Context context;
 
     public CreateKeySpaceAction(Context ctxt) {
         super(Bundle.getString(Bundle.Key.CreateKeySpace));

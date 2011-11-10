@@ -38,7 +38,8 @@ import com.mebigfatguy.clytemnestra.view.ConnectionDialog;
 
 public class ConnectAction extends AbstractAction {
 
-    private final Context context;
+    private static final long serialVersionUID = 3867581530691421270L;
+	private final Context context;
 
     public ConnectAction(Context ctxt) {
         super(Bundle.getString(Bundle.Key.Connect));
