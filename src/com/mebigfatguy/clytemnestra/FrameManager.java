@@ -17,7 +17,9 @@
  */
 package com.mebigfatguy.clytemnestra;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -56,6 +58,19 @@ public class FrameManager {
 	
 	public static void removeColumnFamilyFrame(CfDef columnFamily) {
 		frames.remove(buildKey(columnFamily));
+	}
+	
+	public static List<JFrame> findKeySpaceDependentFrames(KsDef keySpace) {
+		List<JFrame> keySpaceFrames = new ArrayList<JFrame>();
+		
+		String ksPrefix = buildKey(keySpace);
+		for (Map.Entry<String, JFrame> entry : frames.entrySet()) {
+			if (entry.getKey().startsWith(ksPrefix)) {
+				keySpaceFrames.add(entry.getValue());
+			}
+		}
+		
+		return keySpaceFrames;
 	}
 	
 	private static String buildKey(KsDef keySpace) {

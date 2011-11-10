@@ -47,8 +47,10 @@ public class DeleteKeySpaceAction extends AbstractAction {
         for (KsDef keySpace : keySpaces) {
         	try {
         		client.system_drop_keyspace(keySpace.getName());
-        		JFrame f = FrameManager.getKeySpaceFrame(keySpace);
-        		f.dispose();
+        		List<JFrame> frames = FrameManager.findKeySpaceDependentFrames(keySpace);
+        		for (JFrame f : frames) {
+        			f.dispose();
+        		}
         	} catch (Exception e) {
         		JOptionPane.showMessageDialog(null, "Failed deleting keyspace: " + keySpace.getName() + "\n" + e.getMessage());
         	}
