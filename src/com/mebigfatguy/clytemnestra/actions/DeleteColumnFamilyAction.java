@@ -18,24 +18,56 @@
 package com.mebigfatguy.clytemnestra.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.InvalidRequestException;
+import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FrameManager;
+import com.mebigfatguy.clytemnestra.controllers.Controller;
 
 public class DeleteColumnFamilyAction extends AbstractAction {
 
     private static final long serialVersionUID = -7330872430191016007L;
 	private final Context context;
+	private KsDef keySpace;
+	private Controller<CfDef> controller;
 
-    public DeleteColumnFamilyAction(Context ctxt) {
+    public DeleteColumnFamilyAction(Context ctxt, Controller<CfDef> ctrlr) {
         super(Bundle.getString(Bundle.Key.DeleteColumnFamily));
         context = ctxt;
+        controller = ctrlr;
     }
     
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent ae) {
+    	Cassandra.Client client = context.getClient();
+        List<CfDef> columnFamilies = controller.getSelectedItems();
+        for (CfDef columnFamily : columnFamilies) {
+        	try {
+        		client.set_keyspace(columnFamily.getKeyspace());
+        		client.system_drop_column_family(columnFamily.getName());
+        		List<JFrame> frames = FrameManager.findColumnFamilyDependentFrames(columnFamily);
+        		for (JFrame f : frames) {
+        			f.dispose();
+        		}
+        	} catch (InvalidRequestException ire) {
+        		JOptionPane.showMessageDialog(null, "Failed deleting column family: " + columnFamily.getName() + "\n" + ire.getWhy());
+        		
+        	} catch (Exception e) {
+        		JOptionPane.showMessageDialog(null, "Failed deleting column family: " + columnFamily.getName() + "\n" + e.getMessage());
+        	}
+        }
+        
+        controller.refresh(client);
 	}
 
 }

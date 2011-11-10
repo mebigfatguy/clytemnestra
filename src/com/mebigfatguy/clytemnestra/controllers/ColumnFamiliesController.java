@@ -33,7 +33,7 @@ import org.apache.cassandra.thrift.KsDef;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.model.ColumnFamiliesTableModel;
 
-public class ColumnFamiliesController implements Controller, ListSelectionListener {
+public class ColumnFamiliesController implements Controller<CfDef>, ListSelectionListener {
 
 	private KsDef keySpace;
     private final Context context;
@@ -63,6 +63,17 @@ public class ColumnFamiliesController implements Controller, ListSelectionListen
         } catch (Exception e) {
             JOptionPane.showMessageDialog(table, e.getMessage());
         }
+	}
+	
+    @Override
+	public List<CfDef> getSelectedItems() {
+		int[] selRows = table.getSelectedRows();
+		List<CfDef> selectedColumnFamilies = new ArrayList<CfDef>();
+		for (int i = 0; i < selRows.length; i++) {
+			selectedColumnFamilies.add(model.getColumnFamilyAt(selRows[i]));
+		}
+		
+		return selectedColumnFamilies;
 	}
 
 	@Override

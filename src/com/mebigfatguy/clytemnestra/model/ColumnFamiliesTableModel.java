@@ -23,6 +23,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 
@@ -38,6 +39,10 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
     	columnFamilies.clear();
     	columnFamilies.addAll(newColumnFamilies);
         fireTableDataChanged();
+    }
+    
+    public CfDef getColumnFamilyAt(int i) {
+        return columnFamilies.get(i);
     }
     
 	@Override

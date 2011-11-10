@@ -17,10 +17,14 @@
  */
 package com.mebigfatguy.clytemnestra.controllers;
 
+import java.util.List;
+
 import org.apache.cassandra.thrift.Cassandra;
 
-public interface Controller {
+public interface Controller<T> {
     void refresh(Cassandra.Client client);
+    
+    List<T> getSelectedItems();
 
     void clear();
 }

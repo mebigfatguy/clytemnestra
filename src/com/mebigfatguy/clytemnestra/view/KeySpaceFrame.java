@@ -86,7 +86,7 @@ public class KeySpaceFrame extends JFrame {
         openColumnFamilyItem = new JMenuItem(new OpenColumnFamilyAction(context));
         columnFamiliesMenu.add(openColumnFamilyItem);
         columnFamiliesMenu.addSeparator();
-        deleteColumnFamilyItem = new JMenuItem(new DeleteColumnFamilyAction(context));
+        deleteColumnFamilyItem = new JMenuItem(new DeleteColumnFamilyAction(context, columnFamiliesPanel.getController()));
         columnFamiliesMenu.add(deleteColumnFamilyItem);
         mb.add(columnFamiliesMenu);
 

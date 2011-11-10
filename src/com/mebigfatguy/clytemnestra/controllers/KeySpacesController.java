@@ -27,13 +27,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.model.KeySpacesTableModel;
 
 
-public class KeySpacesController implements Controller, ListSelectionListener {
+public class KeySpacesController implements Controller<KsDef>, ListSelectionListener {
 
     private final Context context;
     private final JTable table;
@@ -60,6 +61,17 @@ public class KeySpacesController implements Controller, ListSelectionListener {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(table, e.getMessage());
         }
+    }
+    
+    @Override
+    public List<KsDef> getSelectedItems() {
+		int[] selRows = table.getSelectedRows();
+		List<KsDef> selectedKeySpaces = new ArrayList<KsDef>();
+		for (int i = 0; i < selRows.length; i++) {
+			selectedKeySpaces.add(model.getKeySpaceAt(selRows[i]));
+		}
+		
+		return selectedKeySpaces;
     }
 
     @Override

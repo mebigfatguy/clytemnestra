@@ -73,6 +73,19 @@ public class FrameManager {
 		return keySpaceFrames;
 	}
 	
+	public static List<JFrame> findColumnFamilyDependentFrames(CfDef cfDef) {
+		List<JFrame> columnFamilyFrames = new ArrayList<JFrame>();
+		
+		String cfPrefix = buildKey(cfDef);
+		for (Map.Entry<String, JFrame> entry : frames.entrySet()) {
+			if (entry.getKey().startsWith(cfPrefix)) {
+				columnFamilyFrames.add(entry.getValue());
+			}
+		}
+		
+		return columnFamilyFrames;
+	}
+	
 	private static String buildKey(KsDef keySpace) {
 		return Key.KS.name() + ":" + keySpace.getName();
 	}
