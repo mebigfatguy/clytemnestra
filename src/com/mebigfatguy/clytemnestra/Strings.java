@@ -47,4 +47,12 @@ public class Strings {
     	
     	return sb.toString();
     }
+    
+    
+    public static String getSimpleName(String qualifiedName) {
+    	int lastDotPos = qualifiedName.lastIndexOf('.');
+    	if (lastDotPos >= 0)
+    		qualifiedName = qualifiedName.substring(lastDotPos+1);
+    	return qualifiedName;
+    }
 }

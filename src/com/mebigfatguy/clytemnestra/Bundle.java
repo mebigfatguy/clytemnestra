@@ -55,6 +55,9 @@ public class Bundle {
         ColumnFamilyType("columnfamilytype"),
         ColumnFamilyTitle("columnfamilytitle"),
         ColumnName("columnname"),
+        ValidationClass("validationclass"),
+        IndexName("indexname"),
+        IndexType("indextype"),
         ColumnDefinition("columndefinition"),
         CreateColumnDefinition("createcolumndefinition"),
         DeleteColumnDefinition("deletecolumndefinition");

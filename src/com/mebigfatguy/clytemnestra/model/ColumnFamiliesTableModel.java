@@ -23,9 +23,9 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.cassandra.thrift.CfDef;
-import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.Strings;
 
 public class ColumnFamiliesTableModel extends AbstractTableModel {
 
@@ -66,10 +66,10 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
             	return columnFamily.getColumn_type();
                 
             case CompactionStrategy:
-            	return getSimpleName(columnFamily.getCompaction_strategy());
+            	return Strings.getSimpleName(columnFamily.getCompaction_strategy());
             	
             case ComparatorType:
-            	return getSimpleName(columnFamily.getComparator_type());
+            	return Strings.getSimpleName(columnFamily.getComparator_type());
             	
             case Comment:
             	return columnFamily.getComment();
@@ -123,12 +123,5 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
             default:
                 return String.class;
         }
-    }
-    
-    private String getSimpleName(String qualifiedName) {
-    	int lastDotPos = qualifiedName.lastIndexOf('.');
-    	if (lastDotPos >= 0)
-    		qualifiedName = qualifiedName.substring(lastDotPos+1);
-    	return qualifiedName;
     }
 }

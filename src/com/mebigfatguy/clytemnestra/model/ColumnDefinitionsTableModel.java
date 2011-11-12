@@ -23,15 +23,17 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.cassandra.thrift.ColumnDef;
+import org.apache.cassandra.thrift.IndexType;
 
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.Strings;
 
 
 public class ColumnDefinitionsTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = -7958071543733609681L;
 
-	private enum Columns { Name };
+	private enum Columns { Name, Validation, IndexName, IndexType };
     
 	private final List<ColumnDef> columnDefinitions = new ArrayList<ColumnDef>();
 	
@@ -58,6 +60,18 @@ public class ColumnDefinitionsTableModel extends AbstractTableModel {
             case Name:
                 return new String(columnDefinition.getName());
             	
+            case Validation:
+            	return Strings.getSimpleName(columnDefinition.getValidation_class());
+            	
+            case IndexName:
+            	return columnDefinition.getIndex_name();
+            	
+            case IndexType:
+            	IndexType type = columnDefinition.getIndex_type();
+            	if (type == null)
+            		return "";
+            	return type.name();
+            	
             default:
                 return "";
         }
@@ -69,6 +83,15 @@ public class ColumnDefinitionsTableModel extends AbstractTableModel {
             case Name:
                 return Bundle.getString(Bundle.Key.ColumnName);
             	
+            case Validation:
+            	return Bundle.getString(Bundle.Key.ValidationClass);
+            	
+            case IndexName:
+            	return Bundle.getString(Bundle.Key.IndexName);
+            	
+            case IndexType:
+            	return Bundle.getString(Bundle.Key.IndexType);
+            	
             default:
                 return "";
         }
@@ -79,6 +102,15 @@ public class ColumnDefinitionsTableModel extends AbstractTableModel {
         switch (Columns.values()[columnIndex]) {
             case Name:
                 return String.class;
+            	
+            case Validation:
+            	return String.class;
+            	
+            case IndexName:
+            	return String.class;
+            	
+            case IndexType:
+            	return String.class;
             	
             default:
                 return String.class;
