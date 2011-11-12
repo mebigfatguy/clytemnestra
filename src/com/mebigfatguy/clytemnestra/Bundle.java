@@ -52,7 +52,12 @@ public class Bundle {
         CreateColumnFamily("createcolumnfamily"),
         OpenColumnFamily("opencolumnfamily"),
         DeleteColumnFamily("deletecolumnfamily"),
-        ColumnFamilyType("columnfamilytype");
+        ColumnFamilyType("columnfamilytype"),
+        ColumnFamilyTitle("columnfamilytitle"),
+        ColumnName("columnname"),
+        ColumnDefinition("columndefinition"),
+        CreateColumnDefinition("createcolumndefinition"),
+        DeleteColumnDefinition("deletecolumndefinition");
 
 
         private String id;

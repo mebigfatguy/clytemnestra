@@ -17,43 +17,29 @@
  */
 package com.mebigfatguy.clytemnestra.actions;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 
 import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
-import com.mebigfatguy.clytemnestra.FrameManager;
-import com.mebigfatguy.clytemnestra.controllers.Controller;
-import com.mebigfatguy.clytemnestra.view.ColumnFamilyFrame;
 
-public class OpenColumnFamilyAction extends AbstractAction {
+public class CreateColumnDefinitionAction extends AbstractAction {
 
-    private static final long serialVersionUID = -2451127999419582272L;
 	private final Context context;
-	private Controller<CfDef> controller;
-
-    public OpenColumnFamilyAction(Context ctxt, Controller<CfDef> ctrlr) {
-        super(Bundle.getString(Bundle.Key.OpenColumnFamily));
-        context = ctxt;
-        controller = ctrlr;
-    }
+    private final CfDef columnFamily;
     
-    @Override
+	public CreateColumnDefinitionAction(Context ctxt, CfDef cfDef) {
+        super(Bundle.getString(Bundle.Key.CreateColumnDefinition));
+        context = ctxt;
+        columnFamily = cfDef;
+	}
+	
+	@Override
 	public void actionPerformed(ActionEvent e) {
-    	Container root = null;
-        List<CfDef> columnFamilies = controller.getSelectedItems();
-        for (CfDef columnFamily : columnFamilies) {
-        	ColumnFamilyFrame f = new ColumnFamilyFrame(context, columnFamily);
-        	f.setLocationRelativeTo(root);
-        	f.setVisible(true);
-        	root = f;
-        	FrameManager.setColumnFamilyFrame(columnFamily, f);
-        }
 	}
 
 }
