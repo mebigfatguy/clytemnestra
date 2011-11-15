@@ -17,6 +17,7 @@
  */
 package com.mebigfatguy.clytemnestra.controllers;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -26,6 +27,12 @@ import javax.swing.event.ListSelectionListener;
 
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.ColumnOrSuperColumn;
+import org.apache.cassandra.thrift.ColumnParent;
+import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.InvalidRequestException;
+import org.apache.cassandra.thrift.SlicePredicate;
+import org.apache.cassandra.thrift.SliceRange;
 
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.model.ColumnFamilyDataTableModel;
@@ -49,7 +56,20 @@ public class ColumnFamilyDataController implements Controller<CfDef>, ListSelect
 	@Override
 	public void refresh(Client client) {
         try {
-
+        	client.set_keyspace(columnFamily.getKeyspace());
+        	ByteBuffer key = ByteBuffer.wrap(columnFamily.getKeyspace().getBytes("UTF-8"));
+        	ColumnParent parent = new ColumnParent(columnFamily.getName());
+        	SlicePredicate predicate = new SlicePredicate();
+        	SliceRange sliceRange = new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 10);
+        	predicate.setSlice_range(sliceRange);
+        	
+        	List<ColumnOrSuperColumn> data = client.get_slice(key, parent, predicate, ConsistencyLevel.ONE);
+        	
+        	for (ColumnOrSuperColumn d : data) {
+        		System.out.println(d);
+        	}
+        } catch (InvalidRequestException ire) {
+        	JOptionPane.showMessageDialog(table, ire.getWhy());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(table, e.getMessage());
         }
