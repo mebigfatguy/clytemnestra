@@ -32,15 +32,18 @@ import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.actions.CreateColumnDefinitionAction;
 import com.mebigfatguy.clytemnestra.actions.DeleteColumnDefinitionAction;
+import com.mebigfatguy.clytemnestra.actions.ViewDataAction;
 
 public class ColumnFamilyFrame extends JFrame {
 	
-	private Context context;
-	private CfDef columnFamily;
+	private final Context context;
+	private final CfDef columnFamily;
 	private ColumnDefinitionsPanel columnDefinitionsPanel;
 	private JMenu columnDefinitionsMenu;
     private JMenuItem createColumnDefinitionItem;
     private JMenuItem deleteColumnDefinitionItem;
+    private JMenu dataMenu;
+    private JMenuItem viewDataItem;
 	
 	public ColumnFamilyFrame(Context ctxt, CfDef cf) {
 		context = ctxt;
@@ -75,7 +78,12 @@ public class ColumnFamilyFrame extends JFrame {
         deleteColumnDefinitionItem = new JMenuItem(new DeleteColumnDefinitionAction(context, columnDefinitionsPanel.getController()));
         columnDefinitionsMenu.add(deleteColumnDefinitionItem);
         mb.add(columnDefinitionsMenu);
-
+        
+        dataMenu = new JMenu(Bundle.getString(Bundle.Key.Data));
+        viewDataItem = new JMenuItem(new ViewDataAction(context, columnFamily));
+        dataMenu.add(viewDataItem);
+        mb.add(dataMenu);
+        
         setJMenuBar(mb);
 	}
 

@@ -60,7 +60,9 @@ public class Bundle {
         IndexType("indextype"),
         ColumnDefinition("columndefinition"),
         CreateColumnDefinition("createcolumndefinition"),
-        DeleteColumnDefinition("deletecolumndefinition");
+        DeleteColumnDefinition("deletecolumndefinition"),
+        Data("data"),
+        ViewData("viewdata");
 
 
         private String id;
