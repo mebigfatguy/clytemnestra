@@ -60,6 +60,7 @@ public class CreateColumnFamilyAction extends AbstractAction {
 	        	cfDef.setKeyspace(keySpace.getName());
 	        	cfDef.setName(cfDialog.getColumnFamilyName());
 	        	cfDef.setColumn_type(cfDialog.getColumnFamilyType().name());
+	        	cfDef.setComparator_type(cfDialog.getComparatorType());
 	        	client.set_keyspace(keySpace.getName());
 	        	client.system_add_column_family(cfDef);
 	        	KeySpaceFrame ksFrame = (KeySpaceFrame) FrameManager.getKeySpaceFrame(keySpace);
