@@ -33,6 +33,8 @@ import com.mebigfatguy.clytemnestra.model.ColumnFamilyDataTableModel;
 
 public class ColumnFamilyDataPanel extends JPanel {
 
+	private static final long serialVersionUID = -5103655242558804181L;
+	
 	private final CfDef columnFamily;
 	private final Context context;
 	private JTable columnFamilyDataTable;
@@ -44,7 +46,7 @@ public class ColumnFamilyDataPanel extends JPanel {
 		initComponents();
 	}
 	
-    public Controller getController() {
+    public Controller<CfDef> getController() {
         return controller;
     }
     
