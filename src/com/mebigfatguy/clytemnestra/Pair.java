@@ -19,11 +19,11 @@ package com.mebigfatguy.clytemnestra;
 
 import java.io.Serializable;
 
-public class Pair<K extends Comparable<K>, V extends Comparable<V>> implements Serializable, Comparable<Pair<K, V>>, Cloneable {
+public class Pair<K extends Comparable<K>, V> implements Serializable, Comparable<Pair<K, V>>, Cloneable {
 
 	private static final long serialVersionUID = 2916944903550233455L;
 	
-	private K key;
+	private final K key;
 	private V value;
 	
 	public Pair(K k, V v) {
@@ -43,10 +43,12 @@ public class Pair<K extends Comparable<K>, V extends Comparable<V>> implements S
 		value = v;
 	}
 	
+	@Override
 	public int hashCode() {
 		return key.hashCode() ^ value.hashCode();
 	}
 	
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Pair) {
 			Pair<K, V> that = (Pair<K, V>) o;
@@ -61,15 +63,12 @@ public class Pair<K extends Comparable<K>, V extends Comparable<V>> implements S
 		return false;
 	}
 	
+	@Override
 	public int compareTo(Pair<K, V> that) {
-		int cmp = getKey().compareTo(that.getKey());
-		if (cmp != 0) {
-			return cmp;
-		}
-		
-		return getValue().compareTo(that.getValue());
+		return getKey().compareTo(that.getKey());
 	}
 	
+	@Override
 	public Object clone() {
 		try {
 			return super.clone();

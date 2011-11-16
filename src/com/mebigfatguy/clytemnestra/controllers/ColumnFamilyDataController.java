@@ -18,6 +18,7 @@
 package com.mebigfatguy.clytemnestra.controllers;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -37,6 +38,7 @@ import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.Pair;
 import com.mebigfatguy.clytemnestra.model.ColumnFamilyDataTableModel;
 
 public class ColumnFamilyDataController implements Controller<CfDef>, ListSelectionListener {
@@ -71,13 +73,15 @@ public class ColumnFamilyDataController implements Controller<CfDef>, ListSelect
 
         	List<KeySlice> keySlices = client.get_range_slices(parent, predicate, keyRange, ConsistencyLevel.ONE);
         	
+        	List<Pair<String, List<ColumnOrSuperColumn>>> data = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
+        	
         	for (KeySlice slice : keySlices) {
-        		List<ColumnOrSuperColumn> results = client.get_slice(ByteBuffer.wrap(slice.getKey()), parent, predicate, ConsistencyLevel.ONE);
-            	for (ColumnOrSuperColumn d : results) {
-            		System.out.print(d.column.getName() + " -- > " + d.column.getValue());
-            	}
-            	System.out.println();
+        		List<ColumnOrSuperColumn> columns = client.get_slice(ByteBuffer.wrap(slice.getKey()), parent, predicate, ConsistencyLevel.ONE);
+        		String key = new String(slice.getKey(), "UTF-8");
+        		data.add(new Pair<String, List<ColumnOrSuperColumn>>(key, columns));
         	}
+        	
+        	model.replaceContents(data);
         } catch (InvalidRequestException ire) {
         	JOptionPane.showMessageDialog(table, ire.getWhy());
         } catch (Exception e) {
