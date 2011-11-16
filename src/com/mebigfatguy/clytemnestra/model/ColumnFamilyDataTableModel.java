@@ -21,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.cassandra.thrift.ColumnOrSuperColumn;
@@ -34,7 +35,8 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
     public void replaceContents(List<Pair<String, List<ColumnOrSuperColumn>>> newColumnData) {
     	columnData.clear();
     	columnData.addAll(newColumnData);
-        fireTableDataChanged();
+        TableModelEvent tme = new TableModelEvent(this);
+        fireTableStructureChanged();
     }
 	@Override
 	public int getRowCount() {
