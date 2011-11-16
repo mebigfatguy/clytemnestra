@@ -34,10 +34,10 @@ import com.mebigfatguy.clytemnestra.model.ColumnDefinitionsTableModel;
 
 public class ColumnDefinitionsController implements Controller<ColumnDef>, ListSelectionListener {
 
-	private CfDef columnFamily;
-	private Context context;
-	private JTable table;
-	private ColumnDefinitionsTableModel model;
+	private final CfDef columnFamily;
+	private final Context context;
+	private final JTable table;
+	private final ColumnDefinitionsTableModel model;
 	
 	public ColumnDefinitionsController(CfDef cf, Context ctxt, JTable cdTable, ColumnDefinitionsTableModel cdModel) {
 		columnFamily = cf;
@@ -63,10 +63,12 @@ public class ColumnDefinitionsController implements Controller<ColumnDef>, ListS
         }
 	}
 	
+	@Override
 	public List<ColumnDef> getSelectedItems() {
 		return null;
 	}
 	
+	@Override
 	public void clear() {
 		
 	}

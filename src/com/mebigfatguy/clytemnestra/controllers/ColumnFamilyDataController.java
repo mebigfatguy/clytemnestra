@@ -31,6 +31,8 @@ import org.apache.cassandra.thrift.ColumnOrSuperColumn;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
+import org.apache.cassandra.thrift.KeyRange;
+import org.apache.cassandra.thrift.KeySlice;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 
@@ -39,6 +41,8 @@ import com.mebigfatguy.clytemnestra.model.ColumnFamilyDataTableModel;
 
 public class ColumnFamilyDataController implements Controller<CfDef>, ListSelectionListener {
 
+	private static final int FETCH_SIZE = 100;
+	
 	private final CfDef columnFamily;
     private final Context context;
     private final JTable table;
@@ -57,16 +61,22 @@ public class ColumnFamilyDataController implements Controller<CfDef>, ListSelect
 	public void refresh(Client client) {
         try {
         	client.set_keyspace(columnFamily.getKeyspace());
-        	ByteBuffer key = ByteBuffer.wrap(columnFamily.getKeyspace().getBytes("UTF-8"));
+        	KeyRange keyRange = new KeyRange(FETCH_SIZE);
+        	keyRange.setStart_key(new byte[0]);
+        	keyRange.setEnd_key(new byte[0]);
         	ColumnParent parent = new ColumnParent(columnFamily.getName());
-        	SlicePredicate predicate = new SlicePredicate();
-        	SliceRange sliceRange = new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 10);
-        	predicate.setSlice_range(sliceRange);
         	
-        	List<ColumnOrSuperColumn> data = client.get_slice(key, parent, predicate, ConsistencyLevel.ONE);
+            SlicePredicate predicate = new SlicePredicate();
+            predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 100));
+
+        	List<KeySlice> keySlices = client.get_range_slices(parent, predicate, keyRange, ConsistencyLevel.ONE);
         	
-        	for (ColumnOrSuperColumn d : data) {
-        		System.out.println(d);
+        	for (KeySlice slice : keySlices) {
+        		List<ColumnOrSuperColumn> results = client.get_slice(ByteBuffer.wrap(slice.getKey()), parent, predicate, ConsistencyLevel.ONE);
+            	for (ColumnOrSuperColumn d : results) {
+            		System.out.print(d.column.getName() + " -- > " + d.column.getValue());
+            	}
+            	System.out.println();
         	}
         } catch (InvalidRequestException ire) {
         	JOptionPane.showMessageDialog(table, ire.getWhy());
