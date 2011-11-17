@@ -73,7 +73,7 @@ public class Pair<K extends Comparable<K>, V> implements Serializable, Comparabl
 		try {
 			return super.clone();
 		} catch (CloneNotSupportedException cnse) {
-			throw new Error("Clone not implemented for Pair");
+			throw new Error("Clone not implemented for Pair", cnse);
 		}
 	}
 	
