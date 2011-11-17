@@ -45,7 +45,7 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		if (columnData.size() == 0) {
+		if (columnData.isEmpty()) {
 			return 0;
 		}
 		
@@ -62,7 +62,7 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
     	try {
-			if (columnData.size() == 0) {
+			if (columnData.isEmpty()) {
 				return "";
 			}
 			
