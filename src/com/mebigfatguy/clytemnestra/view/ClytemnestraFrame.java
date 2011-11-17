@@ -26,13 +26,20 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.KsDef;
+import org.apache.thrift.TException;
 
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FormHelper;
 import com.mebigfatguy.clytemnestra.actions.ConnectAction;
 import com.mebigfatguy.clytemnestra.actions.CreateKeySpaceAction;
 import com.mebigfatguy.clytemnestra.actions.DeleteKeySpaceAction;
@@ -52,6 +59,10 @@ public class ClytemnestraFrame extends JFrame {
     private JMenuItem createKeySpaceItem;
     private JMenuItem deleteKeySpaceItem;
     private final Mediator mediator = new Mediator();
+    private JTextField clusterNameField;
+    private JTextField partitionerField;
+    private JTextField snitchField;
+    private JPanel descriptionPanel;
     private KeySpacesPanel keySpacesPanel;
 
     public ClytemnestraFrame() {
@@ -66,6 +77,9 @@ public class ClytemnestraFrame extends JFrame {
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout(4, 4));
 
+        descriptionPanel = createDescriptionPanel();
+        cp.add(descriptionPanel, BorderLayout.NORTH);
+        
         keySpacesPanel = new KeySpacesPanel(mediator);
         cp.add(keySpacesPanel, BorderLayout.CENTER);
     }
@@ -97,6 +111,37 @@ public class ClytemnestraFrame extends JFrame {
     private void initListeners() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+    
+    private JPanel createDescriptionPanel() {
+    	JPanel p = new JPanel();
+    	
+        p.setLayout(new FormLayout("6dlu, pref, 5dlu, pref:grow, 6dlu", "8dlu, pref, 6dlu, pref, 6dlu, pref, 8dlu"));
+        CellConstraints cc = new CellConstraints();
+        
+        clusterNameField = new JTextField(30);
+        clusterNameField.setEditable(false);
+        FormHelper.addFormRow(p, Bundle.Key.ClusterName, clusterNameField, 2);
+        
+        partitionerField = new JTextField(30);
+        partitionerField.setEditable(false);
+        FormHelper.addFormRow(p, Bundle.Key.Partitioner, partitionerField, 4);
+        
+        snitchField = new JTextField(30);
+        snitchField.setEditable(false);
+        FormHelper.addFormRow(p, Bundle.Key.Snitch, snitchField, 6);        
+
+        return p;
+    }
+    
+    private void populateDetails(Cassandra.Client client) {
+    	try {
+    		clusterNameField.setText(client.describe_cluster_name());
+    		partitionerField.setText(client.describe_partitioner());
+    		snitchField.setText(client.describe_snitch());
+    	} catch (TException te) {
+    		JOptionPane.showMessageDialog(this, te.getMessage());
+    	}
+    }
 
     class Mediator implements Context {
         private Cassandra.Client client;
@@ -118,9 +163,11 @@ public class ClytemnestraFrame extends JFrame {
             client = cassandraClient;
             connectItem.setEnabled(client == null);
             disconnectItem.setEnabled(client != null);
-            Controller ksController = keySpacesPanel.getController();
+            Controller<KsDef> ksController = keySpacesPanel.getController();
             ksController.refresh(client);
             keySpacesMenu.setEnabled(client!=null);
+            
+            populateDetails(client);
         }
 
         @Override
@@ -136,11 +183,13 @@ public class ClytemnestraFrame extends JFrame {
             deleteKeySpaceItem.setEnabled(hasSelection);
         }
         
-        public List<KsDef> getSelectedKeySpaces() {
+        @Override
+		public List<KsDef> getSelectedKeySpaces() {
         	return keySpacesPanel.getSelectedKeySpaces();
         }
         
-        public void refreshKeySpaces() {
+        @Override
+		public void refreshKeySpaces() {
         	keySpacesPanel.refresh();
         }
     }

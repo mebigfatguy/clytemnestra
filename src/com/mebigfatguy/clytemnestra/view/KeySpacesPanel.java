@@ -46,7 +46,7 @@ public class KeySpacesPanel extends JPanel {
         initComponents();
     }
 
-    public Controller getController() {
+    public Controller<KsDef> getController() {
         return controller;
     }
     

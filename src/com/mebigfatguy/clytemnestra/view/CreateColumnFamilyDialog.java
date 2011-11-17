@@ -85,7 +85,6 @@ public class CreateColumnFamilyDialog extends JDialog {
 
 	private JPanel createFormPanel() {
         JPanel p = new JPanel();
-        p.setLayout(new BorderLayout(4, 4));
 
         p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 6dlu"));
         CellConstraints cc = new CellConstraints();
