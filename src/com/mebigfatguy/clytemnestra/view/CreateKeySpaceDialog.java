@@ -40,6 +40,7 @@ import javax.swing.JTextField;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.FormHelper;
 import com.mebigfatguy.clytemnestra.SwingUtils;
 import com.mebigfatguy.clytemnestra.cassandra.ReplicationStrategy;
 import com.mebigfatguy.clytemnestra.model.StrategicOptionsTableModel;
@@ -95,33 +96,22 @@ public class CreateKeySpaceDialog extends JDialog {
 
 	private JPanel createFormPanel() {
         JPanel p = new JPanel();
-        p.setLayout(new BorderLayout(4, 4));
 
         p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 8dlu, pref, 4dlu, pref, 4dlu, pref, 6dlu"));
         CellConstraints cc = new CellConstraints();
-
-        JLabel keyspaceLabel = new JLabel(Bundle.getString(Bundle.Key.KeySpaceName));
-        p.add(keyspaceLabel, cc.xy(2, 2));
-
-        keySpaceName = new JTextField(20);
-        p.add(keySpaceName, cc.xy(4, 2));
-
-        keyspaceLabel.setLabelFor(keySpaceName);
         
+        keySpaceName = new JTextField(20);
+        FormHelper.addFormRow(p, Bundle.Key.KeySpaceName, keySpaceName, 2);
+
         durableWritesRadio = new JRadioButton(Bundle.getString(Bundle.Key.DurableWrites));
         p.add(durableWritesRadio, cc.xyw(2, 4, 4));
-        
-        JLabel strategyClassLabel = new JLabel(Bundle.getString(Bundle.Key.StrategyClass));
-        p.add(strategyClassLabel, cc.xy(2, 6));
         
         strategyClassCombo = new JComboBox();
         for (ReplicationStrategy strategy : ReplicationStrategy.values()) {
             strategyClassCombo.addItem(strategy.name());        	
         }
         strategyClassCombo.setEditable(true);
-        p.add(strategyClassCombo, cc.xy(4, 6));
-        
-        strategyClassLabel.setLabelFor(strategyClassCombo);
+        FormHelper.addFormRow(p, Bundle.Key.StrategyClass, strategyClassCombo, 6);
         
         JLabel optionsLabel = new JLabel(Bundle.getString(Bundle.Key.StrategicOptions));
         p.add(optionsLabel, cc.xy(2, 8));

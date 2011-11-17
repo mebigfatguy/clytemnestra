@@ -35,7 +35,6 @@ import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.KsDef;
 import org.apache.thrift.TException;
 
-import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
@@ -116,7 +115,6 @@ public class ClytemnestraFrame extends JFrame {
     	JPanel p = new JPanel();
     	
         p.setLayout(new FormLayout("6dlu, pref, 5dlu, pref:grow, 6dlu", "8dlu, pref, 6dlu, pref, 6dlu, pref, 8dlu"));
-        CellConstraints cc = new CellConstraints();
         
         clusterNameField = new JTextField(30);
         clusterNameField.setEditable(false);

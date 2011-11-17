@@ -27,14 +27,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.FormHelper;
 import com.mebigfatguy.clytemnestra.SwingUtils;
 import com.mebigfatguy.clytemnestra.model.IntegerDocument;
 
@@ -69,45 +68,23 @@ public class ConnectionDialog extends JDialog {
 
     private JPanel createFormPanel() {
         JPanel p = new JPanel();
-        p.setLayout(new BorderLayout(4, 4));
 
         p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 20dlu, pref, 4dlu, pref, 6dlu"));
-        CellConstraints cc = new CellConstraints();
-
-        JLabel serverLabel = new JLabel(Bundle.getString(Bundle.Key.Server));
-        p.add(serverLabel, cc.xy(2, 2));
 
         serverField = new JTextField(20);
         serverField.setText("localhost");
-        p.add(serverField, cc.xy(4, 2));
-
-        serverLabel.setLabelFor(serverField);
-
-        JLabel portLabel = new JLabel(Bundle.getString(Bundle.Key.Port));
-        p.add(portLabel, cc.xy(2, 4));
+        FormHelper.addFormRow(p, Bundle.Key.Server, serverField, 2);        
 
         portField = new JTextField(20);
         portField.setDocument(new IntegerDocument());
         portField.setText("9160");
-        p.add(portField, cc.xy(4, 4));
-
-        portLabel.setLabelFor(portField);
-
-        JLabel userNameLabel = new JLabel(Bundle.getString(Bundle.Key.UserName));
-        p.add(userNameLabel, cc.xy(2, 6));
+        FormHelper.addFormRow(p, Bundle.Key.Port, portField, 4);        
 
         userNameField = new JTextField(20);
-        p.add(userNameField, cc.xy(4, 6));
-
-        userNameLabel.setLabelFor(userNameField);
-
-        JLabel passwordLabel = new JLabel(Bundle.getString(Bundle.Key.Password));
-        p.add(passwordLabel, cc.xy(2, 8));
-
+        FormHelper.addFormRow(p, Bundle.Key.UserName, userNameField, 6);  
+        
         passwordField = new JPasswordField(20);
-        p.add(passwordField, cc.xy(4, 8));
-
-        passwordLabel.setLabelFor(passwordField);
+        FormHelper.addFormRow(p, Bundle.Key.Password, passwordField, 8);  
 
         p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 

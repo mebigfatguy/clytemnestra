@@ -28,13 +28,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.FormHelper;
 import com.mebigfatguy.clytemnestra.SwingUtils;
 import com.mebigfatguy.clytemnestra.cassandra.ColumnFamilyType;
 import com.mebigfatguy.clytemnestra.cassandra.ComparatorType;
@@ -87,40 +86,22 @@ public class CreateColumnFamilyDialog extends JDialog {
         JPanel p = new JPanel();
 
         p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 4dlu, pref, 6dlu"));
-        CellConstraints cc = new CellConstraints();
-
-        JLabel columnFamilyLabel = new JLabel(Bundle.getString(Bundle.Key.ColumnFamily));
-        p.add(columnFamilyLabel, cc.xy(2, 2));
 
         columnFamilyName = new JTextField(20);
-        p.add(columnFamilyName, cc.xy(4, 2));
-
-        columnFamilyLabel.setLabelFor(columnFamilyName);
-        
-        JLabel columnFamilyTypeLabel = new JLabel(Bundle.getString(Bundle.Key.ColumnFamilyType));
-        p.add(columnFamilyTypeLabel, cc.xy(2, 4));
+        FormHelper.addFormRow(p, Bundle.Key.ColumnFamily, columnFamilyName, 2);
         
         columnFamilyTypeCombo = new JComboBox();
         for (ColumnFamilyType type : ColumnFamilyType.values()) {
         	columnFamilyTypeCombo.addItem(type.name());        	
         }
-        
-        p.add(columnFamilyTypeCombo, cc.xy(4, 4));
-        
-        columnFamilyLabel.setLabelFor(columnFamilyTypeCombo);
-        
-        JLabel comparatorTypeLabel = new JLabel(Bundle.getString(Bundle.Key.ComparatorType));
-        p.add(comparatorTypeLabel, cc.xy(2, 6));
+        FormHelper.addFormRow(p, Bundle.Key.ColumnFamilyType, columnFamilyTypeCombo, 4);
         
         comparatorTypeCombo = new JComboBox();
         for (ComparatorType type : ComparatorType.values()) {
         	comparatorTypeCombo.addItem(type.name());        	
         }
         comparatorTypeCombo.setEditable(true);
-        
-        p.add(comparatorTypeCombo, cc.xy(4, 6));
-        
-        comparatorTypeLabel.setLabelFor(comparatorTypeCombo);
+        FormHelper.addFormRow(p, Bundle.Key.ComparatorType, comparatorTypeCombo, 6);
 
         p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
