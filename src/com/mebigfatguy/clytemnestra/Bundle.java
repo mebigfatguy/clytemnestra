@@ -39,6 +39,7 @@ public class Bundle {
         ClusterName("clustername"),
         Partitioner("partitioner"),
         Snitch("snitch"),
+        Version("version"),
         KeySpace("keyspace"),
         DurableWrites("durablewrites"),
         StrategyClass("strategyclass"),

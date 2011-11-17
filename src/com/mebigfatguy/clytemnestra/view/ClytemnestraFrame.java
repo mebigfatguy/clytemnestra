@@ -61,6 +61,7 @@ public class ClytemnestraFrame extends JFrame {
     private JTextField clusterNameField;
     private JTextField partitionerField;
     private JTextField snitchField;
+    private JTextField versionField;
     private JPanel descriptionPanel;
     private KeySpacesPanel keySpacesPanel;
 
@@ -114,28 +115,40 @@ public class ClytemnestraFrame extends JFrame {
     private JPanel createDescriptionPanel() {
     	JPanel p = new JPanel();
     	
-        p.setLayout(new FormLayout("6dlu, pref, 5dlu, pref:grow, 6dlu", "8dlu, pref, 6dlu, pref, 6dlu, pref, 8dlu"));
+        p.setLayout(new FormLayout("6dlu, pref, 5dlu, pref:grow, 6dlu", "8dlu, pref, 6dlu, pref, 6dlu, pref, 6dlu, pref, 8dlu"));
         
-        clusterNameField = new JTextField(30);
+        clusterNameField = new JTextField();
         clusterNameField.setEditable(false);
         FormHelper.addFormRow(p, Bundle.Key.ClusterName, clusterNameField, 2);
         
-        partitionerField = new JTextField(30);
+        partitionerField = new JTextField();
         partitionerField.setEditable(false);
         FormHelper.addFormRow(p, Bundle.Key.Partitioner, partitionerField, 4);
         
-        snitchField = new JTextField(30);
+        snitchField = new JTextField();
         snitchField.setEditable(false);
-        FormHelper.addFormRow(p, Bundle.Key.Snitch, snitchField, 6);        
+        FormHelper.addFormRow(p, Bundle.Key.Snitch, snitchField, 6); 
 
+        versionField = new JTextField();
+        versionField.setEditable(false);
+        FormHelper.addFormRow(p, Bundle.Key.Version, versionField, 8); 
+        
         return p;
     }
     
     private void populateDetails(Cassandra.Client client) {
     	try {
-    		clusterNameField.setText(client.describe_cluster_name());
-    		partitionerField.setText(client.describe_partitioner());
-    		snitchField.setText(client.describe_snitch());
+    		if (client == null) {
+    			clusterNameField.setText("");
+    			partitionerField.setText("");
+    			snitchField.setText("");
+    			versionField.setText("");
+    		} else {
+	    		clusterNameField.setText(client.describe_cluster_name());
+	    		partitionerField.setText(client.describe_partitioner());
+	    		snitchField.setText(client.describe_snitch());
+	    		versionField.setText(client.describe_version());
+    		}
     	} catch (TException te) {
     		JOptionPane.showMessageDialog(this, te.getMessage());
     	}
