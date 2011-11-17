@@ -36,6 +36,8 @@ import com.mebigfatguy.clytemnestra.actions.ViewDataAction;
 
 public class ColumnFamilyFrame extends JFrame {
 	
+	private static final long serialVersionUID = 323420044098761465L;
+	
 	private final Context context;
 	private final CfDef columnFamily;
 	private ColumnDefinitionsPanel columnDefinitionsPanel;

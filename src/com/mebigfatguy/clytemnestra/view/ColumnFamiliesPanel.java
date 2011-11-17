@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Context;
@@ -35,8 +36,8 @@ public class ColumnFamiliesPanel extends JPanel {
 
 	private static final long serialVersionUID = 8755403933881853128L;
 	
-	private KsDef ksDef;
-	private Context context;
+	private final KsDef ksDef;
+	private final Context context;
 	private JTable columnFamiliesTable;
     private ColumnFamiliesController controller;
 	
@@ -46,7 +47,7 @@ public class ColumnFamiliesPanel extends JPanel {
         initComponents();
 	}
 	
-    public Controller getController() {
+    public Controller<CfDef> getController() {
         return controller;
     }
     

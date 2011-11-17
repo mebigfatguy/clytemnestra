@@ -25,17 +25,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.ColumnDef;
 
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.controllers.ColumnDefinitionsController;
-import com.mebigfatguy.clytemnestra.controllers.ColumnFamiliesController;
 import com.mebigfatguy.clytemnestra.controllers.Controller;
 import com.mebigfatguy.clytemnestra.model.ColumnDefinitionsTableModel;
 
 public class ColumnDefinitionsPanel extends JPanel {
 
-	private CfDef cfDef;
-	private Context context;
+	private static final long serialVersionUID = -1746511016214826850L;
+	
+	private final CfDef cfDef;
+	private final Context context;
 	private JTable columnDefinitionsTable;
     private ColumnDefinitionsController controller;
 	
@@ -45,7 +47,7 @@ public class ColumnDefinitionsPanel extends JPanel {
         initComponents();
 	}
 		
-    public Controller getController() {
+    public Controller<ColumnDef> getController() {
         return controller;
     }
 	

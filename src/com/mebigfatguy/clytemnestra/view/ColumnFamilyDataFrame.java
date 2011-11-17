@@ -30,6 +30,8 @@ import com.mebigfatguy.clytemnestra.Context;
 
 public class ColumnFamilyDataFrame extends JFrame {
 	
+	private static final long serialVersionUID = -1720146614981516975L;
+	
 	private final Context context;
 	private final CfDef columnFamily;
 	private ColumnFamilyDataPanel columnFamilyDataPanel;

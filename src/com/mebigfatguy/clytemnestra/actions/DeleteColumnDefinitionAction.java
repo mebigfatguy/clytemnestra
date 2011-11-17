@@ -30,9 +30,11 @@ import com.mebigfatguy.clytemnestra.controllers.Controller;
 
 public class DeleteColumnDefinitionAction extends AbstractAction {
 
+	private static final long serialVersionUID = 7209127082345517999L;
+	
 	private final Context context;
 	private KsDef keySpace;
-	private Controller<ColumnDef> controller;
+	private final Controller<ColumnDef> controller;
 
     public DeleteColumnDefinitionAction(Context ctxt, Controller<ColumnDef> ctrlr) {
         super(Bundle.getString(Bundle.Key.DeleteColumnDefinition));

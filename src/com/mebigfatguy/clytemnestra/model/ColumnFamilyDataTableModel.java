@@ -21,7 +21,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.cassandra.thrift.ColumnOrSuperColumn;
@@ -30,12 +29,13 @@ import com.mebigfatguy.clytemnestra.Pair;
 
 public class ColumnFamilyDataTableModel extends AbstractTableModel {
 
+	private static final long serialVersionUID = -1540764453055275897L;
+	
 	List<Pair<String, List<ColumnOrSuperColumn>>> columnData = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
 	
     public void replaceContents(List<Pair<String, List<ColumnOrSuperColumn>>> newColumnData) {
     	columnData.clear();
     	columnData.addAll(newColumnData);
-        TableModelEvent tme = new TableModelEvent(this);
         fireTableStructureChanged();
     }
 	@Override

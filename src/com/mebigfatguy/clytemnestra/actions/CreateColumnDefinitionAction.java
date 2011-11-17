@@ -22,13 +22,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.apache.cassandra.thrift.CfDef;
-import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 
 public class CreateColumnDefinitionAction extends AbstractAction {
 
+	private static final long serialVersionUID = 8487638363434196047L;
+	
 	private final Context context;
     private final CfDef columnFamily;
     
