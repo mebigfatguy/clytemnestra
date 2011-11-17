@@ -52,7 +52,7 @@ public class ColumnFamiliesController implements Controller<CfDef>, ListSelectio
 	@Override
 	public void refresh(Cassandra.Client client) {
         try {
-        	keySpace = client.describe_keyspace(keySpace.getName());
+        	keySpace = (client == null) ? null : client.describe_keyspace(keySpace.getName());
             final List<CfDef> columnFamilies = (client == null) ? new ArrayList<CfDef>() : keySpace.getCf_defs();
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
