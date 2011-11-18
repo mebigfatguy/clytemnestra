@@ -73,8 +73,19 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 		} else {
 			List<ColumnOrSuperColumn> row = columnData.get(rowIndex).getValue();
 			ColumnOrSuperColumn column = row.get(columnIndex - 1);
-			return new String(column.column.getValue());
+			String name = new String(column.column.getName());
+			if (name.equals(columnNames.get(columnIndex))) {
+				return new String(column.column.getValue());	
+			}
+			
+			for (ColumnOrSuperColumn col : row) {
+				if (name.equals(col.column.getName())) {
+					return new String(col.column.getValue());
+				}
+			}
 		}
+		
+		return "";
 	}
 	
     @Override
