@@ -17,7 +17,6 @@
  */
 package com.mebigfatguy.clytemnestra.model;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +31,25 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = -1540764453055275897L;
 	
-	List<Pair<String, List<ColumnOrSuperColumn>>> columnData = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
+	private final List<Pair<String, List<ColumnOrSuperColumn>>> columnData = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
+	private final List<String> columnNames = new ArrayList<String>();
 	
     public void replaceContents(List<Pair<String, List<ColumnOrSuperColumn>>> newColumnData) {
     	columnData.clear();
+    	columnNames.clear();
     	columnData.addAll(newColumnData);
+    	columnNames.add(Bundle.getString(Bundle.Key.Key));
+    	
+    	for (Pair<String, List<ColumnOrSuperColumn>> pair : columnData) {
+    		for (ColumnOrSuperColumn column : pair.getValue()) {
+    			
+    			String name = new String(column.column.getName());
+    			if (!columnNames.contains(name)) {
+    				columnNames.add(name);
+    			}
+    		}
+    	}
+    	
         fireTableStructureChanged();
     }
 	@Override
@@ -66,19 +79,10 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 	
     @Override
     public String getColumnName(int column) {
-    	try {
-			if (columnData.isEmpty()) {
-				return "";
-			}
-			
-			if (column == 0) {
-				return Bundle.getString(Bundle.Key.Key);
-			}
-			
-			return new String(columnData.get(0).getValue().get(column - 1).column.getName(), "UTF-8");
-    	} catch (UnsupportedEncodingException uee) {
-    		return "";
-    	}
+		if (columnData.isEmpty()) {
+			return "";
+		}
+		return columnNames.get(column);
     }
     
     @Override
