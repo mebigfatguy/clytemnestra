@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFrame;
 
 import org.apache.cassandra.thrift.CfDef;
 
@@ -45,14 +46,17 @@ public class OpenColumnFamilyAction extends AbstractAction {
     
     @Override
 	public void actionPerformed(ActionEvent e) {
-    	Container root = null;
         List<CfDef> columnFamilies = controller.getSelectedItems();
         for (CfDef columnFamily : columnFamilies) {
-        	ColumnFamilyFrame f = new ColumnFamilyFrame(context, columnFamily);
-        	f.setLocationRelativeTo(root);
-        	f.setVisible(true);
-        	root = f;
-        	FrameManager.setColumnFamilyFrame(columnFamily, f);
+        	JFrame f = FrameManager.getColumnFamilyFrame(columnFamily);
+        	if (f != null) {
+        		f.toFront();
+        	} else {
+	        	f = new ColumnFamilyFrame(context, columnFamily);
+	        	f.setLocationRelativeTo(null);
+	        	f.setVisible(true);
+	        	FrameManager.setColumnFamilyFrame(columnFamily, f);
+        	}
         }
 	}
 

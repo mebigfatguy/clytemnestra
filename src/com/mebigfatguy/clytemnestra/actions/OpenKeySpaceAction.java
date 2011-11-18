@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFrame;
 
 import org.apache.cassandra.thrift.KsDef;
 
@@ -42,16 +43,17 @@ public class OpenKeySpaceAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-    	Container root = null;
         List<KsDef> keySpaces = context.getSelectedKeySpaces();
         for (KsDef keySpace : keySpaces) {
-        	KeySpaceFrame f = new KeySpaceFrame(context, keySpace);
-        	f.setLocationRelativeTo(root);
-        	f.setVisible(true);
-        	root = f;
-        	FrameManager.setKeySpaceFrame(keySpace, f);
+        	JFrame f = FrameManager.getKeySpaceFrame(keySpace);
+        	if (f != null) {
+        		f.toFront();
+        	} else {
+	        	f = new KeySpaceFrame(context, keySpace);
+	        	f.setLocationRelativeTo(null);
+	        	f.setVisible(true);
+	        	FrameManager.setKeySpaceFrame(keySpace, f);
+        	}
         }
-
     }
-
 }
