@@ -28,20 +28,20 @@ import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.ColumnDef;
 
 import com.mebigfatguy.clytemnestra.Context;
-import com.mebigfatguy.clytemnestra.controllers.ColumnDefinitionsController;
+import com.mebigfatguy.clytemnestra.controllers.ColumnIndexController;
 import com.mebigfatguy.clytemnestra.controllers.Controller;
-import com.mebigfatguy.clytemnestra.model.ColumnDefinitionsTableModel;
+import com.mebigfatguy.clytemnestra.model.ColumnIndexTableModel;
 
-public class ColumnDefinitionsPanel extends JPanel {
+public class ColumnIndexPanel extends JPanel {
 
 	private static final long serialVersionUID = -1746511016214826850L;
 	
 	private final CfDef cfDef;
 	private final Context context;
-	private JTable columnDefinitionsTable;
-    private ColumnDefinitionsController controller;
+	private JTable columnIndexTable;
+    private ColumnIndexController controller;
 	
-	public ColumnDefinitionsPanel(CfDef cf, Context ctxt) {
+	public ColumnIndexPanel(CfDef cf, Context ctxt) {
 		cfDef = cf;
 		context = ctxt;
         initComponents();
@@ -54,12 +54,12 @@ public class ColumnDefinitionsPanel extends JPanel {
 	private void initComponents() {
         setLayout(new BorderLayout(4, 4));
 
-        ColumnDefinitionsTableModel model = new ColumnDefinitionsTableModel();
-        columnDefinitionsTable = new JTable(model);
-        add(new JScrollPane(columnDefinitionsTable), BorderLayout.CENTER);
+        ColumnIndexTableModel model = new ColumnIndexTableModel();
+        columnIndexTable = new JTable(model);
+        add(new JScrollPane(columnIndexTable), BorderLayout.CENTER);
 
         setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
         
-        controller = new ColumnDefinitionsController(cfDef, context, columnDefinitionsTable, model);
+        controller = new ColumnIndexController(cfDef, context, columnIndexTable, model);
 	}
 }

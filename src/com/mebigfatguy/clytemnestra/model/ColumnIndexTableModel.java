@@ -29,23 +29,23 @@ import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Strings;
 
 
-public class ColumnDefinitionsTableModel extends AbstractTableModel {
+public class ColumnIndexTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = -7958071543733609681L;
 
 	private enum Columns { Name, Validation, IndexName, IndexType };
     
-	private final List<ColumnDef> columnDefinitions = new ArrayList<ColumnDef>();
+	private final List<ColumnDef> columnIndexes = new ArrayList<ColumnDef>();
 	
     public void replaceContents(List<ColumnDef> newColumnDefinitions) {
-    	columnDefinitions.clear();
-    	columnDefinitions.addAll(newColumnDefinitions);
+    	columnIndexes.clear();
+    	columnIndexes.addAll(newColumnDefinitions);
         fireTableDataChanged();
     }
     
 	@Override
 	public int getRowCount() {
-		return columnDefinitions.size();
+		return columnIndexes.size();
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class ColumnDefinitionsTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-    	ColumnDef columnDefinition = columnDefinitions.get(rowIndex);
+    	ColumnDef columnDefinition = columnIndexes.get(rowIndex);
         switch (Columns.values()[columnIndex]) {
             case Name:
                 return new String(columnDefinition.getName());

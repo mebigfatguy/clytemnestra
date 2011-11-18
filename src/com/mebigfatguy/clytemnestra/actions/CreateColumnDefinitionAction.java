@@ -34,7 +34,7 @@ public class CreateColumnDefinitionAction extends AbstractAction {
     private final CfDef columnFamily;
     
 	public CreateColumnDefinitionAction(Context ctxt, CfDef cfDef) {
-        super(Bundle.getString(Bundle.Key.CreateColumnDefinition));
+        super(Bundle.getString(Bundle.Key.CreateIndex));
         context = ctxt;
         columnFamily = cfDef;
 	}

@@ -17,7 +17,6 @@
  */
 package com.mebigfatguy.clytemnestra.actions;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.util.List;
 

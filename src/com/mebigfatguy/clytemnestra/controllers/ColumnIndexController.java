@@ -30,16 +30,16 @@ import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.ColumnDef;
 
 import com.mebigfatguy.clytemnestra.Context;
-import com.mebigfatguy.clytemnestra.model.ColumnDefinitionsTableModel;
+import com.mebigfatguy.clytemnestra.model.ColumnIndexTableModel;
 
-public class ColumnDefinitionsController implements Controller<ColumnDef>, ListSelectionListener {
+public class ColumnIndexController implements Controller<ColumnDef>, ListSelectionListener {
 
 	private final CfDef columnFamily;
 	private final Context context;
 	private final JTable table;
-	private final ColumnDefinitionsTableModel model;
+	private final ColumnIndexTableModel model;
 	
-	public ColumnDefinitionsController(CfDef cf, Context ctxt, JTable cdTable, ColumnDefinitionsTableModel cdModel) {
+	public ColumnIndexController(CfDef cf, Context ctxt, JTable cdTable, ColumnIndexTableModel cdModel) {
 		columnFamily = cf;
     	context = ctxt;
         table = cdTable;

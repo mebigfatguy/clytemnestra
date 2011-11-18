@@ -37,7 +37,7 @@ public class DeleteColumnDefinitionAction extends AbstractAction {
 	private final Controller<ColumnDef> controller;
 
     public DeleteColumnDefinitionAction(Context ctxt, Controller<ColumnDef> ctrlr) {
-        super(Bundle.getString(Bundle.Key.DeleteColumnDefinition));
+        super(Bundle.getString(Bundle.Key.DeleteIndex));
         context = ctxt;
         controller = ctrlr;
     }

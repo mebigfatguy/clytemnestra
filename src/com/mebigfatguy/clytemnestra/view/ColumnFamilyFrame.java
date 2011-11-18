@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.text.MessageFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -40,10 +41,10 @@ public class ColumnFamilyFrame extends JFrame {
 	
 	private final Context context;
 	private final CfDef columnFamily;
-	private ColumnDefinitionsPanel columnDefinitionsPanel;
-	private JMenu columnDefinitionsMenu;
-    private JMenuItem createColumnDefinitionItem;
-    private JMenuItem deleteColumnDefinitionItem;
+	private ColumnIndexPanel columnIndexPanel;
+	private JMenu columnIndexMenu;
+    private JMenuItem createIndexItem;
+    private JMenuItem deleteIndexItem;
     private JMenu dataMenu;
     private JMenuItem viewDataItem;
 	
@@ -57,7 +58,7 @@ public class ColumnFamilyFrame extends JFrame {
         initMenus();
         initListeners();
         
-        columnDefinitionsPanel.getController().refresh(ctxt.getClient());
+        columnIndexPanel.getController().refresh(ctxt.getClient());
         
 		pack();
 	}
@@ -66,20 +67,21 @@ public class ColumnFamilyFrame extends JFrame {
 		Container cp = getContentPane();
         cp.setLayout(new BorderLayout(4, 4));
 
-        columnDefinitionsPanel = new ColumnDefinitionsPanel(columnFamily, context);
-        cp.add(columnDefinitionsPanel, BorderLayout.CENTER);
+        columnIndexPanel = new ColumnIndexPanel(columnFamily, context);
+        columnIndexPanel.setBorder(BorderFactory.createTitledBorder(Bundle.getString(Bundle.Key.Indexes)));
+        cp.add(columnIndexPanel, BorderLayout.CENTER);
 	}
 
 	private void initMenus() {
         JMenuBar mb = new JMenuBar();
 
-        columnDefinitionsMenu = new JMenu(Bundle.getString(Bundle.Key.ColumnDefinition));
-        createColumnDefinitionItem = new JMenuItem(new CreateColumnDefinitionAction(context, columnFamily));
-        columnDefinitionsMenu.add(createColumnDefinitionItem);
-        columnDefinitionsMenu.addSeparator();
-        deleteColumnDefinitionItem = new JMenuItem(new DeleteColumnDefinitionAction(context, columnDefinitionsPanel.getController()));
-        columnDefinitionsMenu.add(deleteColumnDefinitionItem);
-        mb.add(columnDefinitionsMenu);
+        columnIndexMenu = new JMenu(Bundle.getString(Bundle.Key.Indexes));
+        createIndexItem = new JMenuItem(new CreateColumnDefinitionAction(context, columnFamily));
+        columnIndexMenu.add(createIndexItem);
+        columnIndexMenu.addSeparator();
+        deleteIndexItem = new JMenuItem(new DeleteColumnDefinitionAction(context, columnIndexPanel.getController()));
+        columnIndexMenu.add(deleteIndexItem);
+        mb.add(columnIndexMenu);
         
         dataMenu = new JMenu(Bundle.getString(Bundle.Key.Data));
         viewDataItem = new JMenuItem(new ViewDataAction(context, columnFamily));

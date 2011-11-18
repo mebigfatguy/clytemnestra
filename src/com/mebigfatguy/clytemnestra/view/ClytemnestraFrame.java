@@ -98,9 +98,11 @@ public class ClytemnestraFrame extends JFrame {
         createKeySpaceItem = new JMenuItem(new CreateKeySpaceAction(mediator));
         keySpacesMenu.add(createKeySpaceItem);
         openKeySpaceItem = new JMenuItem(new OpenKeySpaceAction(mediator));
+        openKeySpaceItem.setEnabled(false);
         keySpacesMenu.add(openKeySpaceItem);
         keySpacesMenu.addSeparator();
         deleteKeySpaceItem = new JMenuItem(new DeleteKeySpaceAction(mediator));
+        deleteKeySpaceItem.setEnabled(false);
         keySpacesMenu.add(deleteKeySpaceItem);
         keySpacesMenu.setEnabled(false);
         mb.add(keySpacesMenu);

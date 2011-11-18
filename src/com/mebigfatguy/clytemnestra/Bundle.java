@@ -62,9 +62,9 @@ public class Bundle {
         ValidationClass("validationclass"),
         IndexName("indexname"),
         IndexType("indextype"),
-        ColumnDefinition("columndefinition"),
-        CreateColumnDefinition("createcolumndefinition"),
-        DeleteColumnDefinition("deletecolumndefinition"),
+        Indexes("indexes"),
+        CreateIndex("createindex"),
+        DeleteIndex("deleteindex"),
         Data("data"),
         ViewData("viewdata");
 
