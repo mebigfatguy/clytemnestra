@@ -17,6 +17,10 @@
  */
 package com.mebigfatguy.clytemnestra.controllers;
 
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,7 @@ import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.actions.OpenKeySpaceAction;
 import com.mebigfatguy.clytemnestra.model.KeySpacesTableModel;
 
 
@@ -45,6 +50,7 @@ public class KeySpacesController implements Controller<KsDef>, ListSelectionList
         model = ksModel;
 
         table.getSelectionModel().addListSelectionListener(this);
+        table.addMouseListener(new OpenKeySpaceMouseListener());
     }
 
     @Override
@@ -94,7 +100,24 @@ public class KeySpacesController implements Controller<KsDef>, ListSelectionList
             context.setSelectedKeySpaces(selectedKeySpaces);
         }
     }
-
-
+    
+    public class OpenKeySpaceMouseListener extends MouseAdapter {
+    	
+    	@Override
+		public void mouseClicked(MouseEvent me) {
+            if (me.getComponent().isEnabled() && me.getButton() == MouseEvent.BUTTON1 && me.getClickCount() == 2)
+            {
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p); 
+                
+                KsDef keySpace = model.getKeySpaceAt(row);
+                if (keySpace != null) {
+                	OpenKeySpaceAction action = new OpenKeySpaceAction(context);
+                	ActionEvent ae = new ActionEvent(table, 0, "");
+                	action.actionPerformed(ae);
+                }
+            }
+    	}
+    }
 }
 

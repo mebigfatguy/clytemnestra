@@ -17,7 +17,6 @@
  */
 package com.mebigfatguy.clytemnestra.actions;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class OpenColumnFamilyAction extends AbstractAction {
 
     private static final long serialVersionUID = -2451127999419582272L;
 	private final Context context;
-	private Controller<CfDef> controller;
+	private final Controller<CfDef> controller;
 
     public OpenColumnFamilyAction(Context ctxt, Controller<CfDef> ctrlr) {
         super(Bundle.getString(Bundle.Key.OpenColumnFamily));

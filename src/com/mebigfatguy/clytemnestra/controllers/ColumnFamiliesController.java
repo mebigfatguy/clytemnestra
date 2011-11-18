@@ -17,6 +17,10 @@
  */
 package com.mebigfatguy.clytemnestra.controllers;
 
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +35,7 @@ import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.actions.OpenColumnFamilyAction;
 import com.mebigfatguy.clytemnestra.model.ColumnFamiliesTableModel;
 
 public class ColumnFamiliesController implements Controller<CfDef>, ListSelectionListener {
@@ -47,6 +52,7 @@ public class ColumnFamiliesController implements Controller<CfDef>, ListSelectio
         model = cfModel;
 
         table.getSelectionModel().addListSelectionListener(this);
+        table.addMouseListener(new OpenColumnFamilyMouseListener());
     }
     
 	@Override
@@ -89,5 +95,23 @@ public class ColumnFamiliesController implements Controller<CfDef>, ListSelectio
     @Override
     public void valueChanged(ListSelectionEvent lse) {
     }
-
+    
+    public class OpenColumnFamilyMouseListener extends MouseAdapter {
+    	
+    	@Override
+		public void mouseClicked(MouseEvent me) {
+            if (me.getComponent().isEnabled() && me.getButton() == MouseEvent.BUTTON1 && me.getClickCount() == 2)
+            {
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p); 
+                
+                CfDef columnFamily = model.getColumnFamilyAt(row);
+                if (columnFamily != null) {
+                	OpenColumnFamilyAction action = new OpenColumnFamilyAction(context, ColumnFamiliesController.this);
+                	ActionEvent ae = new ActionEvent(table, 0, "");
+                	action.actionPerformed(ae);
+                }
+            }
+    	}
+    }
 }
