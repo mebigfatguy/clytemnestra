@@ -25,6 +25,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.apache.cassandra.thrift.ColumnOrSuperColumn;
 
+import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Pair;
 
 public class ColumnFamilyDataTableModel extends AbstractTableModel {
@@ -49,14 +50,18 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 			return 0;
 		}
 		
-		return columnData.get(0).getValue().size();
+		return columnData.get(0).getValue().size() + 1;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		List<ColumnOrSuperColumn> row = columnData.get(rowIndex).getValue();
-		ColumnOrSuperColumn column = row.get(columnIndex);
-		return new String(column.column.getValue());
+		if (columnIndex == 0) {
+			return columnData.get(rowIndex).getKey();			
+		} else {
+			List<ColumnOrSuperColumn> row = columnData.get(rowIndex).getValue();
+			ColumnOrSuperColumn column = row.get(columnIndex - 1);
+			return new String(column.column.getValue());
+		}
 	}
 	
     @Override
@@ -66,7 +71,11 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 				return "";
 			}
 			
-			return new String(columnData.get(0).getValue().get(column).column.getName(), "UTF-8");
+			if (column == 0) {
+				return Bundle.getString(Bundle.Key.Key);
+			}
+			
+			return new String(columnData.get(0).getValue().get(column - 1).column.getName(), "UTF-8");
     	} catch (UnsupportedEncodingException uee) {
     		return "";
     	}

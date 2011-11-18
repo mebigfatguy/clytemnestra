@@ -66,7 +66,8 @@ public class Bundle {
         CreateIndex("createindex"),
         DeleteIndex("deleteindex"),
         Data("data"),
-        ViewData("viewdata");
+        ViewData("viewdata"),
+        Key("key");
 
 
         private String id;
