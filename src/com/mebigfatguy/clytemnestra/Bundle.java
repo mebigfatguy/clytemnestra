@@ -29,6 +29,7 @@ public class Bundle {
         ConnectToServer("connecttoserver"),
         Server("server"),
         Port("port"),
+        UseRandomServer("userandomserver"),
         UserName("username"),
         Password("password"),
         Connect("connect"),

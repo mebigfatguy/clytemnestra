@@ -34,6 +34,7 @@ import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.KsDef;
 import org.apache.thrift.TException;
+import org.apache.thrift.transport.TTransport;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
@@ -157,6 +158,7 @@ public class ClytemnestraFrame extends JFrame {
     }
 
     class Mediator implements Context {
+    	private TTransport transport;
         private Cassandra.Client client;
         private String address;
         private List<KsDef> selectedKeySpaces;
@@ -171,6 +173,14 @@ public class ClytemnestraFrame extends JFrame {
             return address;
         }
 
+        @Override
+		public void setTransport(TTransport xport) {
+        	if (transport != null) {
+        		transport.close();
+        	}
+        	transport = xport;
+        }
+        
         @Override
         public void setClient(Client cassandraClient) {
             client = cassandraClient;

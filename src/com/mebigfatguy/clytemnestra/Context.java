@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.KsDef;
+import org.apache.thrift.transport.TTransport;
 
 
 public interface Context {
@@ -28,6 +29,8 @@ public interface Context {
     void setServerAddress(String serverAddress);
 
     String getServerAddress();
+    
+    void setTransport(TTransport transport);
 
     void setClient(Cassandra.Client client);
 

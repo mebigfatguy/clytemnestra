@@ -26,11 +26,13 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.FormHelper;
@@ -44,6 +46,7 @@ public class ConnectionDialog extends JDialog {
     private JTextField portField;
     private JTextField userNameField;
     private JPasswordField passwordField;
+    private JCheckBox randomServerCheckBox;
     private JButton okButton;
     private JButton cancelButton;
     private boolean isOK;
@@ -69,7 +72,7 @@ public class ConnectionDialog extends JDialog {
     private JPanel createFormPanel() {
         JPanel p = new JPanel();
 
-        p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 20dlu, pref, 4dlu, pref, 6dlu"));
+        p.setLayout(new FormLayout("6dlu, pref, 5dlu, 200px, 6dlu", "6dlu, pref, 4dlu, pref, 4dlu, pref, 20dlu, pref, 4dlu, pref, 6dlu"));
 
         serverField = new JTextField(20);
         serverField.setText("localhost");
@@ -78,13 +81,17 @@ public class ConnectionDialog extends JDialog {
         portField = new JTextField(20);
         portField.setDocument(new IntegerDocument());
         portField.setText("9160");
-        FormHelper.addFormRow(p, Bundle.Key.Port, portField, 4);        
+        FormHelper.addFormRow(p, Bundle.Key.Port, portField, 4);
+        
+        randomServerCheckBox = new JCheckBox(Bundle.getString(Bundle.Key.UseRandomServer));
+        CellConstraints cc = new CellConstraints();
+        p.add(randomServerCheckBox, cc.xyw(2, 6, 4));
 
         userNameField = new JTextField(20);
-        FormHelper.addFormRow(p, Bundle.Key.UserName, userNameField, 6);  
+        FormHelper.addFormRow(p, Bundle.Key.UserName, userNameField, 8);  
         
         passwordField = new JPasswordField(20);
-        FormHelper.addFormRow(p, Bundle.Key.Password, passwordField, 8);  
+        FormHelper.addFormRow(p, Bundle.Key.Password, passwordField, 10);  
 
         p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
@@ -142,6 +149,10 @@ public class ConnectionDialog extends JDialog {
 
     public int getPort() {
         return Integer.parseInt(portField.getText());
+    }
+    
+    public boolean isUseRandomServer() {
+    	return randomServerCheckBox.isSelected();
     }
 
     public String getUserName() {

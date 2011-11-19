@@ -27,7 +27,7 @@ import com.mebigfatguy.clytemnestra.Context;
 public class DisconnectAction extends AbstractAction {
 
     private static final long serialVersionUID = 4462313381373342780L;
-	private Context context;
+	private final Context context;
     
     public DisconnectAction(Context ctxt) {
         super(Bundle.getString(Bundle.Key.Disconnect));
@@ -36,6 +36,7 @@ public class DisconnectAction extends AbstractAction {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        context.setClient(null);      
+        context.setClient(null);   
+        context.setTransport(null);
     }
 }
