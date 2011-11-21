@@ -28,7 +28,7 @@ import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.controllers.Controller;
 
-public class DeleteColumnDefinitionAction extends AbstractAction {
+public class DeleteIndexAction extends AbstractAction {
 
 	private static final long serialVersionUID = 7209127082345517999L;
 	
@@ -36,7 +36,7 @@ public class DeleteColumnDefinitionAction extends AbstractAction {
 	private KsDef keySpace;
 	private final Controller<ColumnDef> controller;
 
-    public DeleteColumnDefinitionAction(Context ctxt, Controller<ColumnDef> ctrlr) {
+    public DeleteIndexAction(Context ctxt, Controller<ColumnDef> ctrlr) {
         super(Bundle.getString(Bundle.Key.DeleteIndex));
         context = ctxt;
         controller = ctrlr;

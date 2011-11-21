@@ -26,14 +26,14 @@ import org.apache.cassandra.thrift.CfDef;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 
-public class CreateColumnDefinitionAction extends AbstractAction {
+public class CreateIndexAction extends AbstractAction {
 
 	private static final long serialVersionUID = 8487638363434196047L;
 	
 	private final Context context;
     private final CfDef columnFamily;
     
-	public CreateColumnDefinitionAction(Context ctxt, CfDef cfDef) {
+	public CreateIndexAction(Context ctxt, CfDef cfDef) {
         super(Bundle.getString(Bundle.Key.CreateIndex));
         context = ctxt;
         columnFamily = cfDef;

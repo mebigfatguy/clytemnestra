@@ -34,8 +34,8 @@ import org.apache.cassandra.thrift.CfDef;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.FrameManager;
-import com.mebigfatguy.clytemnestra.actions.CreateColumnDefinitionAction;
-import com.mebigfatguy.clytemnestra.actions.DeleteColumnDefinitionAction;
+import com.mebigfatguy.clytemnestra.actions.CreateIndexAction;
+import com.mebigfatguy.clytemnestra.actions.DeleteIndexAction;
 import com.mebigfatguy.clytemnestra.actions.ViewDataAction;
 
 public class ColumnFamilyFrame extends JFrame {
@@ -79,10 +79,10 @@ public class ColumnFamilyFrame extends JFrame {
         JMenuBar mb = new JMenuBar();
 
         columnIndexMenu = new JMenu(Bundle.getString(Bundle.Key.Indexes));
-        createIndexItem = new JMenuItem(new CreateColumnDefinitionAction(context, columnFamily));
+        createIndexItem = new JMenuItem(new CreateIndexAction(context, columnFamily));
         columnIndexMenu.add(createIndexItem);
         columnIndexMenu.addSeparator();
-        deleteIndexItem = new JMenuItem(new DeleteColumnDefinitionAction(context, columnIndexPanel.getController()));
+        deleteIndexItem = new JMenuItem(new DeleteIndexAction(context, columnIndexPanel.getController()));
         columnIndexMenu.add(deleteIndexItem);
         mb.add(columnIndexMenu);
         
