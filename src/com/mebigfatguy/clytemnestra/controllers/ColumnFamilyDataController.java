@@ -22,6 +22,7 @@ import java.awt.Rectangle;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -42,6 +43,7 @@ import org.apache.cassandra.thrift.KeySlice;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 
+import com.mebigfatguy.clytemnestra.ByteBufferUtils;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.Pair;
 import com.mebigfatguy.clytemnestra.model.ColumnFamilyDataTableModel;
@@ -84,10 +86,15 @@ public class ColumnFamilyDataController implements Controller<CfDef>, ListSelect
         	
         	List<Pair<String, List<ColumnOrSuperColumn>>> data = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
         	
+        	List<ByteBuffer> keys = new ArrayList<ByteBuffer>();
         	for (KeySlice slice : keySlices) {
-        		List<ColumnOrSuperColumn> columns = client.get_slice(ByteBuffer.wrap(slice.getKey()), parent, predicate, ConsistencyLevel.ONE);
-        		String key = new String(slice.getKey(), "UTF-8");
-        		data.add(new Pair<String, List<ColumnOrSuperColumn>>(key, columns));
+        		keys.add(slice.bufferForKey());
+        	}
+        	Map<ByteBuffer, List<ColumnOrSuperColumn>> slices = client.multiget_slice(keys, parent, predicate, ConsistencyLevel.ONE);
+
+        	for (Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : slices.entrySet()) {
+        		String key = ByteBufferUtils.toString(entry.getKey());
+        		data.add(new Pair<String, List<ColumnOrSuperColumn>>(key, entry.getValue()));
         	}
         	
         	model.replaceContents(data);
