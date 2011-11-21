@@ -34,9 +34,12 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 	private final List<Pair<String, List<ColumnOrSuperColumn>>> columnData = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
 	private final List<String> columnNames = new ArrayList<String>();
 	
-    public void replaceContents(List<Pair<String, List<ColumnOrSuperColumn>>> newColumnData) {
+	public void clear() {
     	columnData.clear();
     	columnNames.clear();
+	}
+    
+    public void append(List<Pair<String, List<ColumnOrSuperColumn>>> newColumnData) {
     	columnData.addAll(newColumnData);
     	columnNames.add(Bundle.getString(Bundle.Key.Key));
     	
@@ -52,6 +55,7 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
     	
         fireTableStructureChanged();
     }
+    
 	@Override
 	public int getRowCount() {
 		return columnData.size();

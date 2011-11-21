@@ -19,6 +19,7 @@ package com.mebigfatguy.clytemnestra.controllers;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.ColumnOrSuperColumn;
@@ -42,6 +44,9 @@ import org.apache.cassandra.thrift.KeyRange;
 import org.apache.cassandra.thrift.KeySlice;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
+import org.apache.cassandra.thrift.TimedOutException;
+import org.apache.cassandra.thrift.UnavailableException;
+import org.apache.thrift.TException;
 
 import com.mebigfatguy.clytemnestra.ByteBufferUtils;
 import com.mebigfatguy.clytemnestra.Context;
@@ -73,31 +78,10 @@ public class ColumnFamilyDataController implements Controller<CfDef>, ListSelect
 	@Override
 	public void refresh(Client client) {
         try {
-        	client.set_keyspace(columnFamily.getKeyspace());
-        	KeyRange keyRange = new KeyRange(FETCH_SIZE);
-        	keyRange.setStart_key(new byte[0]);
-        	keyRange.setEnd_key(new byte[0]);
-        	ColumnParent parent = new ColumnParent(columnFamily.getName());
+        	List<Pair<String, List<ColumnOrSuperColumn>>> data = loadRows(client, null);
         	
-            SlicePredicate predicate = new SlicePredicate();
-            predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 100));
-
-        	List<KeySlice> keySlices = client.get_range_slices(parent, predicate, keyRange, ConsistencyLevel.ONE);
-        	
-        	List<Pair<String, List<ColumnOrSuperColumn>>> data = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
-        	
-        	List<ByteBuffer> keys = new ArrayList<ByteBuffer>();
-        	for (KeySlice slice : keySlices) {
-        		keys.add(slice.bufferForKey());
-        	}
-        	Map<ByteBuffer, List<ColumnOrSuperColumn>> slices = client.multiget_slice(keys, parent, predicate, ConsistencyLevel.ONE);
-
-        	for (Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : slices.entrySet()) {
-        		String key = ByteBufferUtils.toString(entry.getKey());
-        		data.add(new Pair<String, List<ColumnOrSuperColumn>>(key, entry.getValue()));
-        	}
-        	
-        	model.replaceContents(data);
+        	model.clear();
+        	model.append(data);
         } catch (InvalidRequestException ire) {
         	JOptionPane.showMessageDialog(table, ire.getWhy());
         } catch (Exception e) {
@@ -131,12 +115,52 @@ public class ColumnFamilyDataController implements Controller<CfDef>, ListSelect
 	    	return;
 	    }
 
-	    if (last == table.getModel().getRowCount() - 1) {
+	    if (last == model.getRowCount() - 1) {
 	    	page();
 	    }
 	}
 	
-	private void page() {
+	private void page() {	
+		try {
+			String key = (String) model.getValueAt(model.getRowCount() - 1, 0);
+			List<Pair<String, List<ColumnOrSuperColumn>>> data = loadRows(context.getClient(), key);
+	    	
+	    	model.append(data);
+		} catch (InvalidRequestException ire) {
+        	JOptionPane.showMessageDialog(table, ire.getWhy());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(table, e.getMessage());
+        }
+	}
+	
+	private List<Pair<String, List<ColumnOrSuperColumn>>> loadRows(Cassandra.Client client, String afterKey) throws TException, TimedOutException, UnavailableException, InvalidRequestException, UnsupportedEncodingException {
 		
+		client.set_keyspace(columnFamily.getKeyspace());
+    	KeyRange keyRange = new KeyRange(FETCH_SIZE);
+    	keyRange.setStart_key((afterKey == null) ? new byte[0] : afterKey.getBytes());
+    	keyRange.setEnd_key(new byte[0]);
+    	ColumnParent parent = new ColumnParent(columnFamily.getName());
+    	
+        SlicePredicate predicate = new SlicePredicate();
+        predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 100));
+
+    	List<KeySlice> keySlices = client.get_range_slices(parent, predicate, keyRange, ConsistencyLevel.ONE);
+    	
+    	List<Pair<String, List<ColumnOrSuperColumn>>> data = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
+    	
+    	List<ByteBuffer> keys = new ArrayList<ByteBuffer>();
+    	for (KeySlice slice : keySlices) {
+    		keys.add(slice.bufferForKey());
+    	}
+    	Map<ByteBuffer, List<ColumnOrSuperColumn>> slices = client.multiget_slice(keys, parent, predicate, ConsistencyLevel.ONE);
+
+    	for (Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : slices.entrySet()) {
+    		String key = ByteBufferUtils.toString(entry.getKey());
+    		if (!key.equals(afterKey)) {
+    			data.add(new Pair<String, List<ColumnOrSuperColumn>>(key, entry.getValue()));
+    		}
+    	}
+    	
+    	return data;
 	}
 }
