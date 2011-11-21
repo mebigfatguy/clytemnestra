@@ -55,10 +55,11 @@ public class ColumnFamilyDataPanel extends JPanel {
 
         ColumnFamilyDataTableModel model = new ColumnFamilyDataTableModel();
         columnFamilyDataTable = new JTable(model);
-        add(new JScrollPane(columnFamilyDataTable), BorderLayout.CENTER);
+        JScrollPane pane = new JScrollPane(columnFamilyDataTable);
+        add(pane, BorderLayout.CENTER);
 
         setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
         
-        controller = new ColumnFamilyDataController(columnFamily, context, columnFamilyDataTable, model);
+        controller = new ColumnFamilyDataController(columnFamily, context, columnFamilyDataTable, pane, model);
 	}
 }

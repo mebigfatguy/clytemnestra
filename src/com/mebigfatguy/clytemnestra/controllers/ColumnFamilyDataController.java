@@ -17,12 +17,17 @@
  */
 package com.mebigfatguy.clytemnestra.controllers;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -41,22 +46,26 @@ import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.Pair;
 import com.mebigfatguy.clytemnestra.model.ColumnFamilyDataTableModel;
 
-public class ColumnFamilyDataController implements Controller<CfDef>, ListSelectionListener {
+public class ColumnFamilyDataController implements Controller<CfDef>, ListSelectionListener, ChangeListener {
 
 	private static final int FETCH_SIZE = 100;
 	
 	private final CfDef columnFamily;
     private final Context context;
     private final JTable table;
+    private final JScrollPane scrollPane;
     private final ColumnFamilyDataTableModel model;
     
-    public ColumnFamilyDataController(CfDef cf, Context ctxt, JTable cfTable, ColumnFamilyDataTableModel cfModel) {
+    public ColumnFamilyDataController(CfDef cf, Context ctxt, JTable cfTable, JScrollPane scroller, ColumnFamilyDataTableModel cfModel) {
     	columnFamily = cf;
     	context = ctxt;
         table = cfTable;
+        scrollPane = scroller;
         model = cfModel;
 
         table.getSelectionModel().addListSelectionListener(this);
+        
+        scroller.getViewport().addChangeListener(this);
     }
     
 	@Override
@@ -96,11 +105,31 @@ public class ColumnFamilyDataController implements Controller<CfDef>, ListSelect
 
 	@Override
 	public void clear() {
-
 	}
 	
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
+	}
 
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		Rectangle viewRect = scrollPane.getViewport().getViewRect();
+	    int first = table.rowAtPoint(new Point(0, viewRect.y));
+	    if (first == -1) {
+	        return;
+	    }
+	    
+	    int last = table.rowAtPoint(new Point(0, viewRect.y + viewRect.height - 1));
+	    if (last == 0) {
+	    	return;
+	    }
+
+	    if (last == table.getModel().getRowCount() - 1) {
+	    	page();
+	    }
+	}
+	
+	private void page() {
+		
 	}
 }
