@@ -137,12 +137,12 @@ public class ColumnFamilyDataController implements Controller<CfDef>, ListSelect
 		
 		client.set_keyspace(columnFamily.getKeyspace());
     	KeyRange keyRange = new KeyRange(FETCH_SIZE);
-    	keyRange.setStart_key((afterKey == null) ? new byte[0] : afterKey.getBytes());
-    	keyRange.setEnd_key(new byte[0]);
+    	keyRange.setStart_key((afterKey == null) ? ByteBufferUtils.ZERO_BYTES : afterKey.getBytes());
+    	keyRange.setEnd_key(ByteBufferUtils.ZERO_BYTES);
     	ColumnParent parent = new ColumnParent(columnFamily.getName());
     	
         SlicePredicate predicate = new SlicePredicate();
-        predicate.setSlice_range(new SliceRange(ByteBuffer.wrap(new byte[0]), ByteBuffer.wrap(new byte[0]), false, 100));
+        predicate.setSlice_range(new SliceRange(ByteBufferUtils.ZERO_BYTE_BUFFER, ByteBufferUtils.ZERO_BYTE_BUFFER, false, Integer.MAX_VALUE));
 
     	List<KeySlice> keySlices = client.get_range_slices(parent, predicate, keyRange, ConsistencyLevel.ONE);
     	

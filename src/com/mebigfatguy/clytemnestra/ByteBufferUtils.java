@@ -22,6 +22,9 @@ import java.nio.ByteBuffer;
 
 public class ByteBufferUtils {
 
+	public static byte[] ZERO_BYTES = new byte[0];
+	public static ByteBuffer ZERO_BYTE_BUFFER = ByteBuffer.wrap(ZERO_BYTES);
+	
 	private ByteBufferUtils() {
 	}
 	
