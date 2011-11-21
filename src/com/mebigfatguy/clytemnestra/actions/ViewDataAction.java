@@ -20,6 +20,7 @@ package com.mebigfatguy.clytemnestra.actions;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFrame;
 
 import org.apache.cassandra.thrift.CfDef;
 
@@ -42,10 +43,15 @@ public class ViewDataAction extends AbstractAction {
     
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ColumnFamilyDataFrame f = new ColumnFamilyDataFrame(context, columnFamily);
-		f.setLocationRelativeTo(null);
-		
-		FrameManager.setColumnFamilyFrame(columnFamily, f);
-		f.setVisible(true);	
+		JFrame f = FrameManager.getColumnFamilyDataFrame(columnFamily);
+    	if (f != null) {
+    		f.toFront();
+    	} else {
+			f = new ColumnFamilyDataFrame(context, columnFamily);
+			f.setLocationRelativeTo(null);
+			
+			FrameManager.setColumnFamilyDataFrame(columnFamily, f);
+			f.setVisible(true);	
+    	}
 	}
 }

@@ -19,6 +19,8 @@ package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.MessageFormat;
 
 import javax.swing.JFrame;
@@ -27,6 +29,7 @@ import org.apache.cassandra.thrift.CfDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FrameManager;
 
 public class ColumnFamilyDataFrame extends JFrame {
 	
@@ -64,5 +67,12 @@ public class ColumnFamilyDataFrame extends JFrame {
 	}
 
 	private void initListeners() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent we) {
+				FrameManager.removeColumnFamilyDataFrame(columnFamily);
+				dispose();
+			}
+		});
 	}
 }

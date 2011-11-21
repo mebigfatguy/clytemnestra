@@ -29,7 +29,7 @@ import org.apache.cassandra.thrift.KsDef;
 
 public class FrameManager {
 
-	private enum Key { KS, CF };
+	private enum Key { KS, CF, DATA };
 	
 	private static Map<String, JFrame> frames = new HashMap<String, JFrame>();
 	
@@ -49,15 +49,27 @@ public class FrameManager {
 	}
 	
 	public static void setColumnFamilyFrame(CfDef columnFamily, JFrame frame) {
-		frames.put(buildKey(columnFamily), frame);
+		frames.put(buildKey(columnFamily, false), frame);
 	}
 	
 	public static JFrame getColumnFamilyFrame(CfDef columnFamily) {
-		return frames.get(buildKey(columnFamily));
+		return frames.get(buildKey(columnFamily, false));
 	}
 	
 	public static void removeColumnFamilyFrame(CfDef columnFamily) {
-		frames.remove(buildKey(columnFamily));
+		frames.remove(buildKey(columnFamily, false));
+	}
+	
+	public static void setColumnFamilyDataFrame(CfDef columnFamily, JFrame frame) {
+		frames.put(buildKey(columnFamily, true), frame);		
+	}
+	
+	public static JFrame getColumnFamilyDataFrame(CfDef columnFamily) {
+		return frames.get(buildKey(columnFamily, true));
+	}
+	
+	public static void removeColumnFamilyDataFrame(CfDef columnFamily) {
+		frames.remove(buildKey(columnFamily, true));
 	}
 	
 	public static List<JFrame> findKeySpaceDependentFrames(KsDef keySpace) {
@@ -76,7 +88,7 @@ public class FrameManager {
 	public static List<JFrame> findColumnFamilyDependentFrames(CfDef cfDef) {
 		List<JFrame> columnFamilyFrames = new ArrayList<JFrame>();
 		
-		String cfPrefix = buildKey(cfDef);
+		String cfPrefix = buildKey(cfDef, false);
 		for (Map.Entry<String, JFrame> entry : frames.entrySet()) {
 			if (entry.getKey().startsWith(cfPrefix)) {
 				columnFamilyFrames.add(entry.getValue());
@@ -90,7 +102,13 @@ public class FrameManager {
 		return Key.KS.name() + ":" + keySpace.getName();
 	}
 	
-	private static String buildKey(CfDef columnFamily) {
-		return Key.KS.name() + ":" + columnFamily.getKeyspace() + "::" + Key.CF.name() + ":" + columnFamily.getName();
+	private static String buildKey(CfDef columnFamily, boolean isData) {
+		String key = Key.KS.name() + ":" + columnFamily.getKeyspace() + "::" + Key.CF.name() + ":" + columnFamily.getName();
+		
+		if (isData) {
+			key += ":" + Key.DATA.name();
+		}
+		
+		return key;
 	}
 }
