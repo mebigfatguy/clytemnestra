@@ -51,6 +51,7 @@ public class Pair<K extends Comparable<K>, V> implements Serializable, Comparabl
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Pair) {
+			@SuppressWarnings("unchecked")
 			Pair<K, V> that = (Pair<K, V>) o;
 			
 			if (!getKey().equals(that.getKey())) {

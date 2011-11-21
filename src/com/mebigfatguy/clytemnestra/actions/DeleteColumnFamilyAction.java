@@ -27,7 +27,6 @@ import javax.swing.JOptionPane;
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.InvalidRequestException;
-import org.apache.cassandra.thrift.KsDef;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
@@ -38,8 +37,7 @@ public class DeleteColumnFamilyAction extends AbstractAction {
 
     private static final long serialVersionUID = -7330872430191016007L;
 	private final Context context;
-	private KsDef keySpace;
-	private Controller<CfDef> controller;
+	private final Controller<CfDef> controller;
 
     public DeleteColumnFamilyAction(Context ctxt, Controller<CfDef> ctrlr) {
         super(Bundle.getString(Bundle.Key.DeleteColumnFamily));

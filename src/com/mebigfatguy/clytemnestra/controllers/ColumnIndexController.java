@@ -35,13 +35,11 @@ import com.mebigfatguy.clytemnestra.model.ColumnIndexTableModel;
 public class ColumnIndexController implements Controller<ColumnDef>, ListSelectionListener {
 
 	private final CfDef columnFamily;
-	private final Context context;
 	private final JTable table;
 	private final ColumnIndexTableModel model;
 	
 	public ColumnIndexController(CfDef cf, Context ctxt, JTable cdTable, ColumnIndexTableModel cdModel) {
 		columnFamily = cf;
-    	context = ctxt;
         table = cdTable;
         model = cdModel;
 
