@@ -33,10 +33,27 @@ public class StrategicOptionsTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 5169032436825165909L;
 
 	private enum Columns {
-		Key, Value
+		Key(Bundle.Key.Option, String.class), 
+		Value(Bundle.Key.Value, String.class);
+		
+		private final Bundle.Key key;
+		private final Class<?> cls;
+		
+		private Columns(Bundle.Key bundleKey, Class<?> columnClass) {
+			key = bundleKey;
+			cls = columnClass;
+		}	
+		
+		public String getTitle() {
+			return Bundle.getString(key);
+		}
+		
+		public Class<?> getColumnClass() {
+			return cls;
+		}
 	};
 
-	private List<Pair<String, String>> options = new ArrayList<Pair<String, String>>();
+	private final List<Pair<String, String>> options = new ArrayList<Pair<String, String>>();
 
 	public StrategicOptionsTableModel(String selectedStrategy) {
 		ReplicationStrategy strategy = ReplicationStrategy.valueOf(ReplicationStrategy.class, selectedStrategy);
@@ -95,21 +112,12 @@ public class StrategicOptionsTableModel extends AbstractTableModel {
 	
     @Override
     public String getColumnName(int column) {
-        switch (Columns.values()[column]) {
-            case Key:
-                return Bundle.getString(Bundle.Key.Option);
-
-            case Value:
-            	return Bundle.getString(Bundle.Key.Value);
-            	
-            default:
-                return "";
-        }
+        return Columns.values()[column].getTitle();
     }
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) {
-    	return String.class;
+    public Class<?> getColumnClass(int column) {
+    	return Columns.values()[column].getColumnClass();
     }
 
 

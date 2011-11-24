@@ -32,7 +32,28 @@ public class KeySpacesTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = -1250326173521242924L;
 
-    private enum Columns { Name, DurableWrites, StrategyClass, StrategyOptions};
+    private enum Columns { 
+    	Name(Bundle.Key.KeySpace, String.class), 
+    	DurableWrites(Bundle.Key.DurableWrites, Boolean.class), 
+    	StrategyClass(Bundle.Key.StrategyClass, String.class), 
+    	StrategyOptions(Bundle.Key.StrategicOptions, String.class);
+    
+		private final Bundle.Key key;
+		private final Class<?> cls;
+		
+		private Columns(Bundle.Key bundleKey, Class<?> columnClass) {
+			key = bundleKey;
+			cls = columnClass;
+		}	
+		
+		public String getTitle() {
+			return Bundle.getString(key);
+		}
+		
+		public Class<?> getColumnClass() {
+			return cls;
+		}
+	};
 
     private final List<KsDef> keySpaces = new ArrayList<KsDef>();
 
@@ -85,41 +106,11 @@ public class KeySpacesTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        switch (Columns.values()[column]) {
-            case Name:
-                return Bundle.getString(Bundle.Key.KeySpace);
-
-            case DurableWrites:
-            	return Bundle.getString(Bundle.Key.DurableWrites);
-            	
-            case StrategyClass:
-                return Bundle.getString(Bundle.Key.StrategyClass);
-
-            case StrategyOptions:
-            	return Bundle.getString(Bundle.Key.StrategicOptions);
-            	
-            default:
-                return "";
-        }
+        return Columns.values()[column].getTitle();
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        switch (Columns.values()[columnIndex]) {
-            case Name:
-                return String.class;
-
-            case DurableWrites:
-            	return Boolean.class;
-            	
-            case StrategyClass:
-                return String.class;
-
-            case StrategyOptions:
-                return String.class;
-                
-            default:
-                return String.class;
-        }
+        return Columns.values()[columnIndex].getColumnClass();
     }
 }

@@ -31,7 +31,29 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 7363520423000602880L;
 
-	private enum Columns { Name, Type, CompactionStrategy, ComparatorType, Comment };
+	private enum Columns { 
+		Name(Bundle.Key.ColumnFamily, String.class), 
+		Type(Bundle.Key.ColumnType, String.class), 
+		CompactionStrategy(Bundle.Key.CompactionStrategy, String.class), 
+		ComparatorType(Bundle.Key.ComparatorType, String.class), 
+		Comment(Bundle.Key.Comment, String.class);
+		
+		private final Bundle.Key key;
+		private final Class<?> cls;
+		
+		private Columns(Bundle.Key bundleKey, Class<?> columnClass) {
+			key = bundleKey;
+			cls = columnClass;
+		}
+		
+		public String getTitle() {
+			return Bundle.getString(key);
+		}
+		
+		public Class<?> getColumnClass() {
+			return cls;
+		}
+	};
     
 	private final List<CfDef> columnFamilies = new ArrayList<CfDef>();
     
@@ -81,47 +103,11 @@ public class ColumnFamiliesTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        switch (Columns.values()[column]) {
-            case Name:
-                return Bundle.getString(Bundle.Key.ColumnFamily);
-            	
-            case Type:
-            	return Bundle.getString(Bundle.Key.ColumnType);
-            	
-            case CompactionStrategy:
-            	return Bundle.getString(Bundle.Key.CompactionStrategy);
-            	
-            case ComparatorType:
-            	return Bundle.getString(Bundle.Key.ComparatorType);
-            	
-            case Comment:
-            	return Bundle.getString(Bundle.Key.Comment);
-            	
-            default:
-                return "";
-        }
+        return Columns.values()[column].getTitle();
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        switch (Columns.values()[columnIndex]) {
-            case Name:
-                return String.class;
-                
-            case Type:
-            	return String.class;
-            	
-            case CompactionStrategy:
-            	return String.class;
-            
-            case ComparatorType:
-            	return String.class;
-            	
-            case Comment:
-            	return String.class;
-            	
-            default:
-                return String.class;
-        }
+        return Columns.values()[columnIndex].getColumnClass();
     }
 }

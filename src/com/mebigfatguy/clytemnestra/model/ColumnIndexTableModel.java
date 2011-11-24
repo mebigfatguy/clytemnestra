@@ -33,7 +33,28 @@ public class ColumnIndexTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = -7958071543733609681L;
 
-	private enum Columns { Name, Validation, IndexName, IndexType };
+	private enum Columns { 
+		Name(Bundle.Key.ColumnName, String.class), 
+		Validation(Bundle.Key.ValidationClass, String.class), 
+		IndexName(Bundle.Key.IndexName, String.class), 
+		IndexType(Bundle.Key.IndexType, String.class);
+		
+		private final Bundle.Key key;
+		private final Class<?> cls;
+		
+		private Columns(Bundle.Key bundleKey, Class<?> columnClass) {
+			key = bundleKey;
+			cls = columnClass;
+		}	
+		
+		public String getTitle() {
+			return Bundle.getString(key);
+		}
+		
+		public Class<?> getColumnClass() {
+			return cls;
+		}
+	};
     
 	private final List<ColumnDef> columnIndexes = new ArrayList<ColumnDef>();
 	
@@ -79,41 +100,11 @@ public class ColumnIndexTableModel extends AbstractTableModel {
 	
     @Override
     public String getColumnName(int column) {
-        switch (Columns.values()[column]) {
-            case Name:
-                return Bundle.getString(Bundle.Key.ColumnName);
-            	
-            case Validation:
-            	return Bundle.getString(Bundle.Key.ValidationClass);
-            	
-            case IndexName:
-            	return Bundle.getString(Bundle.Key.IndexName);
-            	
-            case IndexType:
-            	return Bundle.getString(Bundle.Key.IndexType);
-            	
-            default:
-                return "";
-        }
+        return Columns.values()[column].getTitle();
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        switch (Columns.values()[columnIndex]) {
-            case Name:
-                return String.class;
-            	
-            case Validation:
-            	return String.class;
-            	
-            case IndexName:
-            	return String.class;
-            	
-            case IndexType:
-            	return String.class;
-            	
-            default:
-                return String.class;
-        }
+        return Columns.values()[columnIndex].getColumnClass();
     }
 }
