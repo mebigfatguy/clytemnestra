@@ -2,11 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/cassandra-thrift-1.0.0.jar" sourcepath="/Cassandra"/>
-	<classpathentry kind="lib" path="lib/libthrift-0.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="lib/forms-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/cassandra-thrift-1.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/libthrift-0.7.0.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
