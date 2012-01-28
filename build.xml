@@ -165,7 +165,7 @@
             <manifest>
                 <attribute name="clytemnestra-version" value="${clytemnestra.version}"/>
             	<attribute name="Main-Class" value="com.mebigfatguy.clytemnestra.Clytemnestra"/>
-            	<attribute name="Class-Path" value="clytemnestra-${clytemnestra.version}.jar:cassandra-thrift-${cassandra-thrift.version}.jar:forms-${jgoodies-forms.version}.jar:libthrif-${libthrift.version}.jar:log4j-${log4j.version}.jar:slf4j-api-${slf4j-api.version}.jar:slf4j-log4j12-${slf4j-log4j12.version}.jar"/>
+            	<attribute name="Class-Path" value="clytemnestra-${clytemnestra.version}.jar:cassandra-thrift-${cassandra-thrift.version}.jar:forms-${jgoodies-forms.version}.jar:libthrift-${libthrift.version}.jar:log4j-${log4j.version}.jar:slf4j-api-${slf4j-api.version}.jar:slf4j-log4j12-${slf4j-log4j12.version}.jar"/>
                 <attribute name="Bundle-ManifestVersion" value="2"/>
                 <attribute name="Bundle-Name" value="Clytemnestra plugin"/>
                 <attribute name="Bundle-SymbolicName" value="clytemnestra; singleton:=true"/>
