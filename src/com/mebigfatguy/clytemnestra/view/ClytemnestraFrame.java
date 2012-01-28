@@ -40,11 +40,17 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.FormHelper;
+import com.mebigfatguy.clytemnestra.actions.CloseStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.ConnectAction;
 import com.mebigfatguy.clytemnestra.actions.CreateKeySpaceAction;
 import com.mebigfatguy.clytemnestra.actions.DeleteKeySpaceAction;
 import com.mebigfatguy.clytemnestra.actions.DisconnectAction;
+import com.mebigfatguy.clytemnestra.actions.NewStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.OpenKeySpaceAction;
+import com.mebigfatguy.clytemnestra.actions.OpenStressTestAction;
+import com.mebigfatguy.clytemnestra.actions.RunStressTestAction;
+import com.mebigfatguy.clytemnestra.actions.SaveAsStressTestAction;
+import com.mebigfatguy.clytemnestra.actions.SaveStressTestAction;
 import com.mebigfatguy.clytemnestra.controllers.Controller;
 
 public class ClytemnestraFrame extends JFrame {
@@ -58,6 +64,13 @@ public class ClytemnestraFrame extends JFrame {
     private JMenuItem openKeySpaceItem;
     private JMenuItem createKeySpaceItem;
     private JMenuItem deleteKeySpaceItem;
+    private JMenu stressMenu;
+    private JMenuItem newStressTestItem;
+    private JMenuItem openStressTestItem;
+    private JMenuItem closeStressTestItem;
+    private JMenuItem saveStressTestItem;
+    private JMenuItem saveAsStressTestItem;
+    private JMenuItem runStressTestItem;
     private final Mediator mediator = new Mediator();
     private JTextField clusterNameField;
     private JTextField partitionerField;
@@ -107,6 +120,28 @@ public class ClytemnestraFrame extends JFrame {
         keySpacesMenu.add(deleteKeySpaceItem);
         keySpacesMenu.setEnabled(false);
         mb.add(keySpacesMenu);
+        
+        stressMenu = new JMenu(Bundle.getString(Bundle.Key.StressTest));
+        newStressTestItem = new JMenuItem(new NewStressTestAction(mediator));
+        stressMenu.add(newStressTestItem);
+        openStressTestItem = new JMenuItem(new OpenStressTestAction(mediator));
+        stressMenu.add(openStressTestItem);
+        closeStressTestItem = new JMenuItem(new CloseStressTestAction(mediator));
+        closeStressTestItem.setEnabled(false);
+        stressMenu.add(closeStressTestItem);
+        saveStressTestItem = new JMenuItem(new SaveStressTestAction(mediator));
+        stressMenu.addSeparator();
+        saveStressTestItem.setEnabled(false);
+        stressMenu.add(saveStressTestItem);
+        saveAsStressTestItem = new JMenuItem(new SaveAsStressTestAction(mediator));
+        saveAsStressTestItem.setEnabled(false);
+        stressMenu.add(saveAsStressTestItem);
+        runStressTestItem = new JMenuItem(new RunStressTestAction(mediator));
+        runStressTestItem.setEnabled(false);
+        stressMenu.addSeparator();
+        stressMenu.add(runStressTestItem);
+        stressMenu.setEnabled(false);
+        mb.add(stressMenu);
 
         setJMenuBar(mb);
     }
@@ -189,6 +224,7 @@ public class ClytemnestraFrame extends JFrame {
             Controller<KsDef> ksController = keySpacesPanel.getController();
             ksController.refresh(client);
             keySpacesMenu.setEnabled(client!=null);
+            stressMenu.setEnabled(client!=null);
             
             populateDetails(client);
         }

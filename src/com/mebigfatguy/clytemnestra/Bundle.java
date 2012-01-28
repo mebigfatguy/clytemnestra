@@ -68,7 +68,14 @@ public class Bundle {
         DeleteIndex("deleteindex"),
         Data("data"),
         ViewData("viewdata"),
-        Key("key");
+        Key("key"),
+        StressTest("stresstest"),
+        NewStressTest("newstresstest"),
+        OpenStressTest("openstresstest"),
+        CloseStressTest("closestresstest"),
+        SaveStressTest("savestresstest"),
+        SaveAsStressTest("saveasstresstest"),
+        RunStressTest("runstresstest");
 
 
         private String id;
