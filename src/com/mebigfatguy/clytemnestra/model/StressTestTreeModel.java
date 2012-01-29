@@ -17,9 +17,6 @@
  */
 package com.mebigfatguy.clytemnestra.model;
 
-import java.io.OutputStream;
-import java.net.URL;
-
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -31,14 +28,8 @@ public class StressTestTreeModel implements TreeModel {
 	private static final Object ROOT = new Object();
 	private StressTestData stressData;
 	
-	public StressTestTreeModel() {
-		stressData = new StressTestData();
-	}
-	
-	public StressTestTreeModel(URL u) {
-	}
-	
-	public void toStream(OutputStream os) {
+	public StressTestTreeModel(StressTestData data) {
+		stressData = data;
 	}
 	
 	@Override

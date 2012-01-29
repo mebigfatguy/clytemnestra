@@ -17,23 +17,45 @@
  */
 package com.mebigfatguy.clytemnestra;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StressTestData {
 
 	private List<KeySpaceData> keySpaceData;
 	
+	public StressTestData() {
+		keySpaceData = new ArrayList<KeySpaceData>();
+		keySpaceData.add(new KeySpaceData());
+	}
+
 	public static class KeySpaceData {
 		private List<ColumnFamilyData> columnFamilyData;
+		
+		public KeySpaceData() {
+			columnFamilyData = new ArrayList<ColumnFamilyData>();
+			columnFamilyData.add(new ColumnFamilyData());
+		}
 	}
 	
 	public static class ColumnFamilyData {
 		private ColumnType key;
 		private List<ColumnInfo> columnInfo;
+		
+		public ColumnFamilyData() {
+			key = ColumnType.STRING;
+			columnInfo = new ArrayList<ColumnInfo>();
+			for (int i = 0; i < 30; i++) {
+				columnInfo.add(new ColumnInfo());
+			}
+		}
 	}
 	
 	public static class ColumnInfo {
 		private String columnName;
 		private ColumnType columnType;
+		
+		public ColumnInfo() {
+		}
 	}
 }

@@ -18,5 +18,9 @@
 package com.mebigfatguy.clytemnestra;
 
 public enum ColumnType {
-	
+	STRING,
+	INTEGER,
+	DOUBLE,
+	UUID,
+	TIMESTAMP;
 }

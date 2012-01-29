@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="lib/forms-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/cassandra-thrift-1.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/libthrift-0.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.4.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
