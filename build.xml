@@ -39,7 +39,7 @@
 	<property name="log4j.version" value="1.2.16"/>
 	<property name="jgoodies-forms.version" value="1.2.1"/>
 	<property name="commons-lang3.version" value="3.1"/>
-	<property name="jackson-mapper.version" value="1.9.4"/>
+	<property name="jackson.version" value="1.9.4"/>
 		
     <property name="cassandra-thrift-url" value="http://repo1.maven.org/maven2/org/apache/cassandra/cassandra-thrift/${cassandra-thrift.version}/cassandra-thrift-${cassandra-thrift.version}.jar"/> 
     <property name="libthrift-url" value="http://repo1.maven.org/maven2/org/apache/thrift/libthrift/${libthrift.version}/libthrift-${libthrift.version}.jar"/> 
@@ -48,7 +48,8 @@
     <property name="log4j-url" value="http://repo1.maven.org/maven2/log4j/log4j/${log4j.version}/log4j-${log4j.version}.jar"/>
     <property name="forms-url" value="http://repo1.maven.org/maven2/com/jgoodies/forms/${jgoodies-forms.version}/forms-${jgoodies-forms.version}.jar"/>
 	<property name="commons-lang3-url" value="http://repo1.maven.org/maven2/org/apache/commons/commons-lang3/${commons-lang3.version}/commons-lang3-${commons-lang3.version}.jar"/>
-	<property name="jackson-mapper-url" value="http://repo1.maven.org/maven2/org/codehaus/jackson/jackson-mapper-asl/${jackson-mapper.version}/jackson-mapper-asl-${jackson-mapper.version}.jar"/>
+    <property name="jackson-core-url" value="http://repo1.maven.org/maven2/org/codehaus/jackson/jackson-core-asl/${jackson.version}/jackson-core-asl-${jackson.version}.jar"/>
+    <property name="jackson-mapper-url" value="http://repo1.maven.org/maven2/org/codehaus/jackson/jackson-mapper-asl/${jackson.version}/jackson-mapper-asl-${jackson.version}.jar"/>
 
     <target name="clean" description="removes all generated collateral">
         <delete dir="${classes.dir}"/>
@@ -65,7 +66,8 @@
         <pathelement location="${lib.dir}/log4j-${log4j.version}.jar"/>     
         <pathelement location="${lib.dir}/forms-${jgoodies-forms.version}.jar"/>     
         <pathelement location="${lib.dir}/commons-lang3-${commons-lang3.version}.jar"/>     
-        <pathelement location="${lib.dir}/jackson-mapper-asl-${jackson-mapper.version}.jar"/>     
+        <pathelement location="${lib.dir}/jackson-core-asl-${jackson.version}.jar"/>     
+        <pathelement location="${lib.dir}/jackson-mapper-asl-${jackson.version}.jar"/>     
     </path>
     
     <target name="-init" description="prepares repository for a build">
@@ -102,8 +104,12 @@
         <available file="${basedir}/lib/commons-lang3-${commons-lang3.version}.jar" property="commons-lang3-exists"/>
     </target>
 	        
-    <target name="jackson-mapper-check">
-        <available file="${basedir}/lib/jackson-mapper-asl-${jackson-mapper.version}.jar" property="jackson-mapper-exists"/>
+    <target name="jackson-core-check">
+        <available file="${basedir}/lib/jackson-core-asl-${jackson.version}.jar" property="jackson-core-exists"/>
+    </target>
+
+	<target name="jackson-mapper-check">
+        <available file="${basedir}/lib/jackson-mapper-asl-${jackson.version}.jar" property="jackson-mapper-exists"/>
     </target>
 
 	<target name="install-cassandra-thrift" depends="cassandra-thrift-check" unless="cassandra-thrift-exists" description="installs cassandra-thrift.jar into lib">
@@ -133,12 +139,16 @@
     <target name="install-commons-lang3" depends="commons-lang3-check" unless="commons-lang3-exists" description="installs commons-lang3.jar into lib">
         <get src="${commons-lang3-url}" dest="${basedir}/lib/commons-lang3-${commons-lang3.version}.jar" verbose="true" ignoreerrors="true"/>
     </target>
-
+		
+    <target name="install-jackson-core" depends="jackson-core-check" unless="jackson-core-exists" description="installs jackson-core-asl.jar into lib">
+        <get src="${jackson-core-url}" dest="${basedir}/lib/jackson-core-asl-${jackson.version}.jar" verbose="true" ignoreerrors="true"/>
+    </target>
+		
     <target name="install-jackson-mapper" depends="jackson-mapper-check" unless="jackson-mapper-exists" description="installs jackson-mapper-asl.jar into lib">
-        <get src="${jackson-mapper-url}" dest="${basedir}/lib/jackson-mapper-asl-${jackson-mapper.version}.jar" verbose="true" ignoreerrors="true"/>
+        <get src="${jackson-mapper-url}" dest="${basedir}/lib/jackson-mapper-asl-${jackson.version}.jar" verbose="true" ignoreerrors="true"/>
     </target>
 
-	<target name="pull" depends="install-cassandra-thrift, install-libthrift, install-slf4j-api, install-slf4j-log4j12, install-log4j, install-forms, install-commons-lang3, install-jackson-mapper" description="pull 3rdparty jars to the lib directory"/>
+	<target name="pull" depends="install-cassandra-thrift, install-libthrift, install-slf4j-api, install-slf4j-log4j12, install-log4j, install-forms, install-commons-lang3,  install-jackson-core, install-jackson-mapper" description="pull 3rdparty jars to the lib directory"/>
     
     <target name="compile" depends="-init, pull" description="compiles java files">
         <javac  srcdir="${src.dir}"
@@ -187,7 +197,7 @@
             <manifest>
                 <attribute name="clytemnestra-version" value="${clytemnestra.version}"/>
             	<attribute name="Main-Class" value="com.mebigfatguy.clytemnestra.Clytemnestra"/>
-            	<attribute name="Class-Path" value="cassandra-thrift-${cassandra-thrift.version}.jar:forms-${jgoodies-forms.version}.jar:libthrift-${libthrift.version}.jar:log4j-${log4j.version}.jar:slf4j-api-${slf4j-api.version}.jar:slf4j-log4j12-${slf4j-log4j12.version}.jar:commons-lang3-${commons-lang.version}.jar:jackson-mapper-asl-${jackson-mapper.version}.jar"/>
+            	<attribute name="Class-Path" value="cassandra-thrift-${cassandra-thrift.version}.jar:forms-${jgoodies-forms.version}.jar:libthrift-${libthrift.version}.jar:log4j-${log4j.version}.jar:slf4j-api-${slf4j-api.version}.jar:slf4j-log4j12-${slf4j-log4j12.version}.jar:commons-lang3-${commons-lang.version}.jar:jackson-core-asl-${jackson.version}.jar:jackson-mapper-asl-${jackson.version}.jar"/>
                 <attribute name="Bundle-ManifestVersion" value="2"/>
                 <attribute name="Bundle-Name" value="Clytemnestra plugin"/>
                 <attribute name="Bundle-SymbolicName" value="clytemnestra; singleton:=true"/>

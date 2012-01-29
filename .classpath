@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/libthrift-0.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-asl-1.9.4.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

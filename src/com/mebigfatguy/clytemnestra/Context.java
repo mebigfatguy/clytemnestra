@@ -41,4 +41,8 @@ public interface Context {
     List<KsDef> getSelectedKeySpaces();
     
     void refreshKeySpaces();
+    
+    void setStressTestData(StressTestData data);
+    
+    StressTestData getStressTestData();
 }

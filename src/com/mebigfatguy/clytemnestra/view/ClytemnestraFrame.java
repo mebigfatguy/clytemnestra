@@ -40,6 +40,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.FormHelper;
+import com.mebigfatguy.clytemnestra.StressTestData;
 import com.mebigfatguy.clytemnestra.actions.CloseStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.ConnectAction;
 import com.mebigfatguy.clytemnestra.actions.CreateKeySpaceAction;
@@ -197,6 +198,7 @@ public class ClytemnestraFrame extends JFrame {
         private Cassandra.Client client;
         private String address;
         private List<KsDef> selectedKeySpaces;
+        private StressTestData stressData;
 
         @Override
         public void setServerAddress(String serverAddress) {
@@ -250,6 +252,14 @@ public class ClytemnestraFrame extends JFrame {
         @Override
 		public void refreshKeySpaces() {
         	keySpacesPanel.refresh();
+        }
+        
+        public void setStressTestData(StressTestData data) {
+        	stressData = data;
+        }
+        
+        public StressTestData getStressTestData() {
+        	return stressData;
         }
     }
 }

@@ -17,16 +17,36 @@
  */
 package com.mebigfatguy.clytemnestra;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
 public class StressTestData {
 
+	private File dataFile;
 	private List<KeySpaceData> keySpaceData;
 	
 	public StressTestData() {
 		keySpaceData = new ArrayList<KeySpaceData>();
 		keySpaceData.add(new KeySpaceData());
+	}
+	
+	public StressTestData(File f) throws JsonMappingException, JsonParseException, IOException {
+		dataFile = f;
+		ObjectMapper mapper = new ObjectMapper();
+		keySpaceData = mapper.readValue(dataFile, new TypeReference<List<KeySpaceData>>() { });
+	}
+	
+	public void writeToFile() throws JsonMappingException, JsonGenerationException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.writeValue(dataFile,  keySpaceData);
 	}
 
 	public static class KeySpaceData {
