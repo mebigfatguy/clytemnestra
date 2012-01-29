@@ -76,8 +76,13 @@ public class Bundle {
         SaveStressTest("savestresstest"),
         SaveAsStressTest("saveasstresstest"),
         RunStressTest("runstresstest"),
-        StressFileDescription("stressfileDescription"),
-        CreateStressTest("createstresstest");
+        StressFileDescription("stressfiledescription"),
+        CreateStressTest("createstresstest"),
+        MaxColumnFamiliesPerKeySpace("maxcfperks"),
+        MaxColumnsPerColumnFamily("maxcolumnspercf"),
+        CreatePercentage("createpercentage"),
+        UpdatePercentage("updatepercentage"),
+        ReadPercentage("readpercentage");
 
 
         private String id;
