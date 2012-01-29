@@ -21,18 +21,18 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.FormHelper;
@@ -41,6 +41,8 @@ import com.mebigfatguy.clytemnestra.model.IntegerDocument;
 
 public class CreateStressTestDialog extends JDialog {
 
+	private static final long serialVersionUID = -8985695438119482484L;
+	
 	private JTextField keySpacesField;
 	private JTextField maxColumnFamiliesPerKeySpaceField;
 	private JTextField maxColumnsPerColumnFamilyField;
@@ -145,9 +147,34 @@ public class CreateStressTestDialog extends JDialog {
                 isOK = false;
             }
         });
+        
+        FocusListener fl = new PercentageFocusListener();
+        createPercentageField.addFocusListener(fl);
+        updatePercentageField.addFocusListener(fl);
+        readPercentageField.addFocusListener(fl);
 	}
 
 	public boolean isOK() {
-		return false;
+		return isOK;
+	}
+	
+	class PercentageFocusListener extends FocusAdapter {
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			JTextField f = (JTextField)e.getSource();
+			int create = Integer.parseInt(createPercentageField.getText());
+			int update = Integer.parseInt(updatePercentageField.getText());
+			int read = Integer.parseInt(readPercentageField.getText());
+			
+			int total = create + update + read;
+			if (total != 100) {
+				if ((f == createPercentageField) || (f == updatePercentageField)) {
+					readPercentageField.setText(String.valueOf(100 - (create + update)));
+				} else {
+					createPercentageField.setText(String.valueOf(100 - (update + read)));
+				}
+			}
+		}
 	}
 }
