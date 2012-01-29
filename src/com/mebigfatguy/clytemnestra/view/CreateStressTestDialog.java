@@ -15,33 +15,21 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.mebigfatguy.clytemnestra.actions;
+package com.mebigfatguy.clytemnestra.view;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
+import javax.swing.JDialog;
 
 import com.mebigfatguy.clytemnestra.Bundle;
-import com.mebigfatguy.clytemnestra.Context;
-import com.mebigfatguy.clytemnestra.view.CreateStressTestDialog;
 
-public class NewStressTestAction extends AbstractAction {
+public class CreateStressTestDialog extends JDialog {
 
-	private Context context;
+	private boolean ok = false;
 	
-	public NewStressTestAction(Context ctxt) {
-		super(Bundle.getString(Bundle.Key.NewStressTest));
-        context = ctxt;
+	public CreateStressTestDialog() {
+		setTitle(Bundle.getString(Bundle.Key.CreateStressTest));
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		CreateStressTestDialog cstd = new CreateStressTestDialog();
-		cstd.setLocationRelativeTo(null);
-		cstd.setModal(true);
-		cstd.setVisible(true);
-		if (cstd.isOK()) {
-			
-		}
+	public boolean isOK() {
+		return false;
 	}
 }

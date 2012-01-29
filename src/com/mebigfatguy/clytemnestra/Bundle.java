@@ -75,7 +75,9 @@ public class Bundle {
         CloseStressTest("closestresstest"),
         SaveStressTest("savestresstest"),
         SaveAsStressTest("saveasstresstest"),
-        RunStressTest("runstresstest");
+        RunStressTest("runstresstest"),
+        StressFileDescription("stressfileDescription"),
+        CreateStressTest("createstresstest");
 
 
         private String id;

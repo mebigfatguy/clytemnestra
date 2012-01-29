@@ -18,8 +18,11 @@
 package com.mebigfatguy.clytemnestra.actions;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
@@ -27,6 +30,7 @@ import com.mebigfatguy.clytemnestra.Context;
 public class OpenStressTestAction extends AbstractAction {
 	
 	private Context context;
+	private File stressDir;
 	
 	public OpenStressTestAction(Context ctxt) {
 		super(Bundle.getString(Bundle.Key.OpenStressTest));
@@ -35,8 +39,26 @@ public class OpenStressTestAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		JFileChooser chooser = new JFileChooser(stressDir);
+		chooser.setFileFilter(new StressFileFilter());
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int option = chooser.showOpenDialog(null);
+		if (option == JFileChooser.APPROVE_OPTION) {
+			File f = chooser.getSelectedFile();
+			stressDir = f.getParentFile();
+		}
 	}
+	
+	class StressFileFilter extends FileFilter {
 
+		@Override
+		public boolean accept(File f) {
+			return f.isDirectory() || f.getName().endsWith(".csf");
+		}
+
+		@Override
+		public String getDescription() {
+			return Bundle.getString(Bundle.Key.StressFileDescription);
+		}
+	}
 }
