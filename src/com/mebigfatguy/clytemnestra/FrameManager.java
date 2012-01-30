@@ -29,7 +29,7 @@ import org.apache.cassandra.thrift.KsDef;
 
 public class FrameManager {
 
-	private enum Key { KS, CF, DATA };
+	private enum Key { KS, CF, DATA, STRESS };
 	
 	private static Map<String, JFrame> frames = new HashMap<String, JFrame>();
 	
@@ -70,6 +70,18 @@ public class FrameManager {
 	
 	public static void removeColumnFamilyDataFrame(CfDef columnFamily) {
 		frames.remove(buildKey(columnFamily, true));
+	}
+	
+	public static void setStressTestFrame(JFrame frame) {
+		frames.put(Key.STRESS.name(), frame);
+	}
+	
+	public JFrame getStressTestFrame() {
+		return frames.get(Key.STRESS.name());
+	}
+	
+	public static void removeStressTestFrame() {
+		frames.remove(Key.STRESS.name());
 	}
 	
 	public static List<JFrame> findKeySpaceDependentFrames(KsDef keySpace) {

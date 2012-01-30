@@ -34,6 +34,7 @@ public class Bundle {
         Password("password"),
         Connect("connect"),
         Disconnect("disconnect"),
+        Quit("quit"),
         CreateKeySpace("createkeyspace"),
         OpenKeySpace("openkeyspace"),
         DeleteKeySpace("deletekeyspace"),

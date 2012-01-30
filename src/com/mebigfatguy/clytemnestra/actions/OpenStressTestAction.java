@@ -26,8 +26,10 @@ import javax.swing.JOptionPane;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FrameManager;
 import com.mebigfatguy.clytemnestra.StressFileFilter;
 import com.mebigfatguy.clytemnestra.StressTestData;
+import com.mebigfatguy.clytemnestra.view.RunStressTestFrame;
 
 public class OpenStressTestAction extends AbstractAction {
 
@@ -48,9 +50,13 @@ public class OpenStressTestAction extends AbstractAction {
 			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			int option = chooser.showOpenDialog(null);
 			if (option == JFileChooser.APPROVE_OPTION) {
-				File f = chooser.getSelectedFile();
-				stressDir = f.getParentFile();
-				context.setStressTestData(new StressTestData(f));
+				File file = chooser.getSelectedFile();
+				stressDir = file.getParentFile();
+				context.setStressTestData(new StressTestData(file));
+				RunStressTestFrame f = new RunStressTestFrame(context);
+				f.setLocationRelativeTo(null);
+				FrameManager.setStressTestFrame(f);
+				f.setVisible(true);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

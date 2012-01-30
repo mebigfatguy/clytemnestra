@@ -23,8 +23,10 @@ import javax.swing.AbstractAction;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FrameManager;
 import com.mebigfatguy.clytemnestra.StressTestData;
 import com.mebigfatguy.clytemnestra.view.CreateStressTestDialog;
+import com.mebigfatguy.clytemnestra.view.RunStressTestFrame;
 
 public class NewStressTestAction extends AbstractAction {
 
@@ -44,6 +46,10 @@ public class NewStressTestAction extends AbstractAction {
 		cstd.setVisible(true);
 		if (cstd.isOK()) {
 			context.setStressTestData(new StressTestData());
+			RunStressTestFrame f = new RunStressTestFrame(context);
+			f.setLocationRelativeTo(null);
+			FrameManager.setStressTestFrame(f);
+			f.setVisible(true);
 		}
 	}
 }
