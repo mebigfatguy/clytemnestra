@@ -17,6 +17,7 @@
  */
 package com.mebigfatguy.clytemnestra.model;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,8 +83,9 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 				return new String(column.column.getValue());	
 			}
 			
+			Charset utfCS = Charset.forName("UTF-8");
 			for (ColumnOrSuperColumn col : row) {
-				if (name.equals(col.column.getName())) {
+				if (name.equals(new String(col.column.getName(), utfCS))) {
 					return new String(col.column.getValue());
 				}
 			}

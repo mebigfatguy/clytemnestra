@@ -162,13 +162,13 @@ public class CreateStressTestDialog extends JDialog {
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			JTextField f = (JTextField)e.getSource();
 			int create = Integer.parseInt(createPercentageField.getText());
 			int update = Integer.parseInt(updatePercentageField.getText());
 			int read = Integer.parseInt(readPercentageField.getText());
 			
 			int total = create + update + read;
 			if (total != 100) {
+				JTextField f = (JTextField)e.getSource();
 				if ((f == createPercentageField) || (f == updatePercentageField)) {
 					readPercentageField.setText(String.valueOf(100 - (create + update)));
 				} else {
