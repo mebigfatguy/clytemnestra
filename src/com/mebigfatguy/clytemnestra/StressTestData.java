@@ -26,6 +26,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.TypeReference;
 
 public class StressTestData {
@@ -52,34 +53,37 @@ public class StressTestData {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(dataFile,  keySpaceData);
 	}
+}
 
-	public static class KeySpaceData {
-		private List<ColumnFamilyData> columnFamilyData;
-		
-		public KeySpaceData() {
-			columnFamilyData = new ArrayList<ColumnFamilyData>();
-			columnFamilyData.add(new ColumnFamilyData());
+@JsonSerialize
+class KeySpaceData {
+	private List<ColumnFamilyData> columnFamilyData;
+	
+	public KeySpaceData() {
+		columnFamilyData = new ArrayList<ColumnFamilyData>();
+		columnFamilyData.add(new ColumnFamilyData());
+	}
+}
+
+@JsonSerialize
+class ColumnFamilyData {
+	private ColumnType key;
+	private List<ColumnInfo> columnInfo;
+	
+	public ColumnFamilyData() {
+		key = ColumnType.STRING;
+		columnInfo = new ArrayList<ColumnInfo>();
+		for (int i = 0; i < 30; i++) {
+			columnInfo.add(new ColumnInfo());
 		}
 	}
+}
+
+@JsonSerialize
+class ColumnInfo {
+	private String columnName;
+	private ColumnType columnType;
 	
-	public static class ColumnFamilyData {
-		private ColumnType key;
-		private List<ColumnInfo> columnInfo;
-		
-		public ColumnFamilyData() {
-			key = ColumnType.STRING;
-			columnInfo = new ArrayList<ColumnInfo>();
-			for (int i = 0; i < 30; i++) {
-				columnInfo.add(new ColumnInfo());
-			}
-		}
-	}
-	
-	public static class ColumnInfo {
-		private String columnName;
-		private ColumnType columnType;
-		
-		public ColumnInfo() {
-		}
+	public ColumnInfo() {
 	}
 }
