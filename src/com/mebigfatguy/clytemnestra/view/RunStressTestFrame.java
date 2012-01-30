@@ -37,6 +37,7 @@ import com.mebigfatguy.clytemnestra.actions.OpenStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.RunStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.SaveAsStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.SaveStressTestAction;
+import com.mebigfatguy.clytemnestra.model.StressTestTreeModel;
 
 public class RunStressTestFrame extends JFrame {
 
@@ -50,6 +51,7 @@ public class RunStressTestFrame extends JFrame {
     private JMenuItem saveAsStressTestItem;
     private JMenuItem runStressTestItem;
     private JTree testConfiguration;
+    private StressTestTreeModel testModel;
 	
 	public RunStressTestFrame(Context ctxt) {
 		setTitle(Bundle.getString(Bundle.Key.RunStressTest));
@@ -73,7 +75,9 @@ public class RunStressTestFrame extends JFrame {
 		JPanel p = new JPanel();
 		p.setLayout(new BorderLayout(4, 4));
 		
-		testConfiguration = new JTree();
+		testModel = new StressTestTreeModel(context.getStressTestData());
+		testConfiguration = new JTree(testModel);
+		testConfiguration.setRootVisible(false);
 		p.add(testConfiguration, BorderLayout.CENTER);
 		
 		p.setBorder(BorderFactory.createTitledBorder(Bundle.getString(Bundle.Key.TestConfiguration)));

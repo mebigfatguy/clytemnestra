@@ -20,8 +20,10 @@ package com.mebigfatguy.clytemnestra;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -31,12 +33,22 @@ import org.codehaus.jackson.type.TypeReference;
 
 public class StressTestData {
 
+	public static final int MAX_KEYSPACE_NAME_LENGTH = 30;
 	private File dataFile;
 	private List<KeySpaceData> keySpaceData;
 	
 	public StressTestData() {
 		keySpaceData = new ArrayList<KeySpaceData>();
-		keySpaceData.add(new KeySpaceData());
+	}
+	
+	public StressTestData(int numKeySpaces) {
+		this();
+		
+		for (int i = 0; i < numKeySpaces; i++) {
+			KeySpaceData ksData = new KeySpaceData();
+			ksData.name = RandomStringUtils.randomAlphanumeric(StressTestData.MAX_KEYSPACE_NAME_LENGTH);
+			keySpaceData.add(ksData);
+		}
 	}
 	
 	public StressTestData(File f) throws JsonMappingException, JsonParseException, IOException {
@@ -53,22 +65,31 @@ public class StressTestData {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(dataFile,  keySpaceData);
 	}
+	
+	public List<KeySpaceData> getKeySpaceData() {
+		return Collections.unmodifiableList(keySpaceData);
+	}
 }
 
 @JsonSerialize
 class KeySpaceData {
-	private List<ColumnFamilyData> columnFamilyData;
+	String name;
+	List<ColumnFamilyData> columnFamilyData;
 	
 	public KeySpaceData() {
 		columnFamilyData = new ArrayList<ColumnFamilyData>();
 		columnFamilyData.add(new ColumnFamilyData());
 	}
+	
+	public String toString() {
+		return name;
+	}
 }
 
 @JsonSerialize
 class ColumnFamilyData {
-	private ColumnType key;
-	private List<ColumnInfo> columnInfo;
+	ColumnType key;
+	List<ColumnInfo> columnInfo;
 	
 	public ColumnFamilyData() {
 		key = ColumnType.STRING;
@@ -81,8 +102,8 @@ class ColumnFamilyData {
 
 @JsonSerialize
 class ColumnInfo {
-	private String columnName;
-	private ColumnType columnType;
+	String columnName;
+	ColumnType columnType;
 	
 	public ColumnInfo() {
 	}

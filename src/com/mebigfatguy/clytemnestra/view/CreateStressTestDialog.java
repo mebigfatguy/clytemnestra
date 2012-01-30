@@ -60,6 +60,10 @@ public class CreateStressTestDialog extends JDialog {
         pack();
         isOK = false;
 	}
+	
+	public int getNumKeySpaces() {
+		return Integer.parseInt(keySpacesField.getText());
+	}
 
 	private void initComponents() {
         Container cp = getContentPane();

@@ -45,7 +45,7 @@ public class NewStressTestAction extends AbstractAction {
 		cstd.setModal(true);
 		cstd.setVisible(true);
 		if (cstd.isOK()) {
-			context.setStressTestData(new StressTestData());
+			context.setStressTestData(new StressTestData(cstd.getNumKeySpaces()));
 			RunStressTestFrame f = new RunStressTestFrame(context);
 			f.setLocationRelativeTo(null);
 			FrameManager.setStressTestFrame(f);

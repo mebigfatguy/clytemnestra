@@ -39,11 +39,19 @@ public class StressTestTreeModel implements TreeModel {
 
 	@Override
 	public Object getChild(Object parent, int index) {
+		if (parent == ROOT) {
+			return stressData.getKeySpaceData().get(index);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public int getChildCount(Object parent) {
+		if (parent == ROOT) {
+			return stressData.getKeySpaceData().size();
+		}
+		
 		return 0;
 	}
 
