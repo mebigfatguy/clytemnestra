@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.StressFileFilter;
 import com.mebigfatguy.clytemnestra.StressTestData;
 
 public class SaveAsStressTestAction extends AbstractAction {
@@ -44,9 +45,14 @@ public class SaveAsStressTestAction extends AbstractAction {
 	public void actionPerformed(ActionEvent ae) {
 		try {
 			JFileChooser chooser = new JFileChooser(stressDir);
+			chooser.setFileFilter(new StressFileFilter());
+			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			int option = chooser.showSaveDialog(null);
 			if (option == JFileChooser.APPROVE_OPTION) {
 				File f = chooser.getSelectedFile();
+				if (!f.getName().endsWith(".csf")) {
+					f = new File(f.getParent(), f.getName() + ".csf");
+				}
 				StressTestData data = context.getStressTestData();
 				data.setFile(f);
 				data.writeToFile();

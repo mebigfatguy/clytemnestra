@@ -23,10 +23,12 @@ import javax.swing.AbstractAction;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.StressTestData;
 import com.mebigfatguy.clytemnestra.view.CreateStressTestDialog;
 
 public class NewStressTestAction extends AbstractAction {
 
+	private static final long serialVersionUID = -1437702043067066266L;
 	private Context context;
 	
 	public NewStressTestAction(Context ctxt) {
@@ -41,7 +43,7 @@ public class NewStressTestAction extends AbstractAction {
 		cstd.setModal(true);
 		cstd.setVisible(true);
 		if (cstd.isOK()) {
-			
+			context.setStressTestData(new StressTestData());
 		}
 	}
 }

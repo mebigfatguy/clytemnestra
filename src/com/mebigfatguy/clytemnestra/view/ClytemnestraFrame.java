@@ -256,6 +256,12 @@ public class ClytemnestraFrame extends JFrame {
         
         public void setStressTestData(StressTestData data) {
         	stressData = data;
+        	newStressTestItem.setEnabled(stressData == null);
+        	openStressTestItem.setEnabled(stressData == null);
+        	closeStressTestItem.setEnabled(stressData != null);
+        	saveStressTestItem.setEnabled(stressData != null);
+        	saveAsStressTestItem.setEnabled(stressData != null);
+        	runStressTestItem.setEnabled(stressData != null);
         }
         
         public StressTestData getStressTestData() {
