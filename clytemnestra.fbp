@@ -1,10 +1,13 @@
 <Project projectName="clytemnestra">
-  <Jar>././classes</Jar>
-  <AuxClasspathEntry>./lib/cassandra-thrift-1.0.0.jar</AuxClasspathEntry>
+  <Jar>./././classes</Jar>
+  <AuxClasspathEntry>././lib/log4j-1.2.16.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>././lib/slf4j-api-1.6.1.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>././lib/slf4j-log4j12-1.6.1.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>././lib/forms-1.2.1.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/cassandra-thrift-1.0.7.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/commons-lang3-3.1.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/jackson-core-asl-1.9.4.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/jackson-mapper-asl-1.9.4.jar</AuxClasspathEntry>
   <AuxClasspathEntry>./lib/libthrift-0.6.1.jar</AuxClasspathEntry>
-  <AuxClasspathEntry>./lib/log4j-1.2.16.jar</AuxClasspathEntry>
-  <AuxClasspathEntry>./lib/slf4j-api-1.6.1.jar</AuxClasspathEntry>
-  <AuxClasspathEntry>./lib/slf4j-log4j12-1.6.1.jar</AuxClasspathEntry>
-  <AuxClasspathEntry>./lib/forms-1.2.1.jar</AuxClasspathEntry>
-  <SrcDir>././src</SrcDir>
+  <SrcDir>./././src</SrcDir>
 </Project>
