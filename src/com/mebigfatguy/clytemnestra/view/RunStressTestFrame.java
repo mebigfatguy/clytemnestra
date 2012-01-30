@@ -40,6 +40,7 @@ import com.mebigfatguy.clytemnestra.actions.SaveStressTestAction;
 
 public class RunStressTestFrame extends JFrame {
 
+	private static final long serialVersionUID = -5267023846973078444L;
 	private Context context;
     private JMenu stressMenu;
     private JMenuItem newStressTestItem;

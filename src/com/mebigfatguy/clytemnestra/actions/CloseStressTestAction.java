@@ -26,6 +26,7 @@ import com.mebigfatguy.clytemnestra.Context;
 
 public class CloseStressTestAction extends AbstractAction {
 
+	private static final long serialVersionUID = 4200760048983538239L;
 	private Context context;
 	
 	public CloseStressTestAction(Context ctxt) {
