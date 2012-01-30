@@ -18,15 +18,22 @@
 package com.mebigfatguy.clytemnestra.actions;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.StressTestData;
 
 public class SaveAsStressTestAction extends AbstractAction {
+
+	private static final long serialVersionUID = -5234843551903057895L;
 	
 	private Context context;
+	private File stressDir;
 	
 	public SaveAsStressTestAction(Context ctxt) {
 		super(Bundle.getString(Bundle.Key.SaveAsStressTest));
@@ -34,6 +41,18 @@ public class SaveAsStressTestAction extends AbstractAction {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent ae) {
+		try {
+			JFileChooser chooser = new JFileChooser(stressDir);
+			int option = chooser.showSaveDialog(null);
+			if (option == JFileChooser.APPROVE_OPTION) {
+				File f = chooser.getSelectedFile();
+				StressTestData data = context.getStressTestData();
+				data.setFile(f);
+				data.writeToFile();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,  e.getMessage());
+		}
 	}
 }

@@ -44,6 +44,10 @@ public class StressTestData {
 		keySpaceData = mapper.readValue(dataFile, new TypeReference<List<KeySpaceData>>() { });
 	}
 	
+	public void setFile(File f) {
+		dataFile = f;
+	}
+	
 	public void writeToFile() throws JsonMappingException, JsonGenerationException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(dataFile,  keySpaceData);
