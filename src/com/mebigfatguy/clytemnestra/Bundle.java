@@ -83,7 +83,8 @@ public class Bundle {
         MaxColumnsPerColumnFamily("maxcolumnspercf"),
         CreatePercentage("createpercentage"),
         UpdatePercentage("updatepercentage"),
-        ReadPercentage("readpercentage");
+        ReadPercentage("readpercentage"),
+        TestConfiguration("testconfiguration");
 
 
         private String id;

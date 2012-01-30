@@ -17,10 +17,17 @@
  */
 package com.mebigfatguy.clytemnestra.view;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTree;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
@@ -41,6 +48,7 @@ public class RunStressTestFrame extends JFrame {
     private JMenuItem saveStressTestItem;
     private JMenuItem saveAsStressTestItem;
     private JMenuItem runStressTestItem;
+    private JTree testConfiguration;
 	
 	public RunStressTestFrame(Context ctxt) {
 		setTitle(Bundle.getString(Bundle.Key.RunStressTest));
@@ -52,6 +60,28 @@ public class RunStressTestFrame extends JFrame {
 	}
 
 	private void initComponents() {
+		Container cp = getContentPane();
+		cp.setLayout(new BorderLayout(4, 4));
+		JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		cp.add(sp, BorderLayout.CENTER);	
+		sp.add(createConfigurationPanel());
+		sp.add(createRunPanel());
+	}
+	
+	private JPanel createConfigurationPanel() {
+		JPanel p = new JPanel();
+		p.setLayout(new BorderLayout(4, 4));
+		
+		testConfiguration = new JTree();
+		p.add(testConfiguration, BorderLayout.CENTER);
+		
+		p.setBorder(BorderFactory.createTitledBorder(Bundle.getString(Bundle.Key.TestConfiguration)));
+		return p;
+	}
+	
+	private JPanel createRunPanel() {
+		JPanel p = new JPanel();
+		return p;
 	}
 	
 	private void initMenus() {
