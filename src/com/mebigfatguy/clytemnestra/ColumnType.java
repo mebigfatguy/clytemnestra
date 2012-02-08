@@ -17,10 +17,22 @@
  */
 package com.mebigfatguy.clytemnestra;
 
+import com.mebigfatguy.clytemnestra.cassandra.ComparatorType;
+
 public enum ColumnType {
-	STRING,
-	INTEGER,
-	DOUBLE,
-	UUID,
-	TIMESTAMP;
+	STRING(ComparatorType.UTF8Type),
+	INTEGER(ComparatorType.BytesType),
+	DOUBLE(ComparatorType.BytesType),
+	UUID(ComparatorType.LexicalUUIDType),
+	TIMESTAMP(ComparatorType.TimeUUIDType);
+	
+	private ComparatorType comparatorType;
+	
+	private ColumnType(ComparatorType compType) {
+	    comparatorType = compType;
+	}
+	
+	public ComparatorType getComparatorType() {
+	    return comparatorType;
+	}
 }
