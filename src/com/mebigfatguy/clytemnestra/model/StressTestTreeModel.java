@@ -23,6 +23,7 @@ import javax.swing.tree.TreePath;
 
 import com.mebigfatguy.clytemnestra.StressTestData;
 import com.mebigfatguy.clytemnestra.StressTestData.ColumnFamilyData;
+import com.mebigfatguy.clytemnestra.StressTestData.ColumnInfo;
 import com.mebigfatguy.clytemnestra.StressTestData.KeySpaceData;
 
 public class StressTestTreeModel implements TreeModel {
@@ -76,6 +77,14 @@ public class StressTestTreeModel implements TreeModel {
 
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
+	    Object node = path.getLastPathComponent();
+	    if (node instanceof KeySpaceData) {
+	        ((KeySpaceData) node).setName((String) newValue);
+	    } else if (node instanceof ColumnFamilyData) {
+	        ((ColumnFamilyData) node).setName((String) newValue);
+	    } else if (node instanceof ColumnInfo) {
+	        ((ColumnInfo) node).setName((String) newValue);
+	    }
 	}
 
 	@Override

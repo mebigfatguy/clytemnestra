@@ -18,6 +18,7 @@
 package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 
@@ -30,9 +31,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeCellEditor;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.StressTestData.ColumnFamilyData;
+import com.mebigfatguy.clytemnestra.StressTestData.ColumnInfo;
+import com.mebigfatguy.clytemnestra.StressTestData.KeySpaceData;
 import com.mebigfatguy.clytemnestra.actions.CloseStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.NewStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.OpenStressTestAction;
@@ -81,6 +87,7 @@ public class RunStressTestFrame extends JFrame {
 		testConfiguration = new JTree(testModel);
 		testConfiguration.setRootVisible(false);
 		testConfiguration.setShowsRootHandles(true);
+		testConfiguration.setEditable(true);
 		JScrollPane sp = new JScrollPane(testConfiguration);
 		sp.setPreferredSize(new Dimension(500, 200));
 		p.add(sp, BorderLayout.CENTER);
@@ -117,5 +124,27 @@ public class RunStressTestFrame extends JFrame {
 	}
 	
 	private void initListeners() {
+	    testConfiguration.setCellEditor(new StressCellEditor());
+	}
+	
+	class StressCellEditor extends DefaultTreeCellEditor {
+	    
+	    public StressCellEditor() {
+	        super(testConfiguration, (DefaultTreeCellRenderer) testConfiguration.getCellRenderer());
+	    }
+
+        @Override
+        public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row) {
+
+            if (value instanceof KeySpaceData) {
+                value = ((KeySpaceData) value).getName();
+            } else if (value instanceof ColumnFamilyData) {
+                value = ((ColumnFamilyData) value).getName();
+            } else if (value instanceof ColumnInfo) {
+                value = ((ColumnInfo) value).getName();
+            }
+            
+            return super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
+        }
 	}
 }

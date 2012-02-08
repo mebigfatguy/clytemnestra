@@ -95,7 +95,15 @@ public class StressTestData {
 			}
 		}
 		
-		public List<ColumnFamilyData> getColumnFamilyData() {
+		public String getName() {
+            return name;
+        }
+
+        public void setName(String ksName) {
+            name = ksName;
+        }
+
+        public List<ColumnFamilyData> getColumnFamilyData() {
 			return Collections.unmodifiableList(columnFamilyData);
 		}
 		
@@ -118,7 +126,15 @@ public class StressTestData {
 			}
 		}
 		
-	    public List<ColumnInfo> getColumnInfoData() {
+	    public String getName() {
+            return name;
+        }
+
+        public void setName(String cfName) {
+            name = cfName;
+        }
+
+        public List<ColumnInfo> getColumnInfoData() {
 	        return Collections.unmodifiableList(columnInfo);
 	    }
 		
@@ -137,8 +153,24 @@ public class StressTestData {
 		    ColumnType[] availableTypes = ColumnType.values();
 		    columnType = availableTypes[ran.nextInt(availableTypes.length)];
 		}
-		
-	    public String toString() {
+
+	    public String getName() {
+            return columnName;
+        }
+
+        public void setName(String colName) {
+            columnName = colName;
+        }
+
+        public ColumnType getType() {
+            return columnType;
+        }
+
+        public void setType(ColumnType colType) {
+            columnType = colType;
+        }
+
+        public String toString() {
 	        return Bundle.getString(Bundle.Key.ColumnName) + " - " + columnName + " " + Bundle.getString(Bundle.Key.ColumnType) + " - " + columnType;
 	    }
 	}
