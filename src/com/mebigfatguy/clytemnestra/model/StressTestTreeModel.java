@@ -22,6 +22,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import com.mebigfatguy.clytemnestra.StressTestData;
+import com.mebigfatguy.clytemnestra.StressTestData.ColumnFamilyData;
 import com.mebigfatguy.clytemnestra.StressTestData.KeySpaceData;
 
 public class StressTestTreeModel implements TreeModel {
@@ -64,7 +65,7 @@ public class StressTestTreeModel implements TreeModel {
 
 	@Override
 	public boolean isLeaf(Object node) {
-		return false;
+		return (node != ROOT) && (!(node instanceof KeySpaceData)) && (!(node instanceof ColumnFamilyData));
 	}
 
 	@Override
@@ -73,7 +74,14 @@ public class StressTestTreeModel implements TreeModel {
 
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		return 0;
+		if (parent == ROOT) {
+		    return stressData.getKeySpaceData().indexOf(child);
+		} else if (parent instanceof KeySpaceData) {
+		    KeySpaceData ksParent = (KeySpaceData) parent;
+		    return ksParent.getColumnFamilyData().indexOf(child);
+		}
+		
+		return -1;
 	}
 
 	@Override

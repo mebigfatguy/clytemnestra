@@ -117,7 +117,7 @@ public class StressTestData {
 		}
 		
 		public String toString() {
-			return name;
+			return Bundle.getString(Bundle.Key.ColumnFamily) + " - " + name;
 		}
 	}
 

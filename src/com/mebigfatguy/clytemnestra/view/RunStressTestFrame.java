@@ -78,6 +78,7 @@ public class RunStressTestFrame extends JFrame {
 		testModel = new StressTestTreeModel(context.getStressTestData());
 		testConfiguration = new JTree(testModel);
 		testConfiguration.setRootVisible(false);
+		testConfiguration.setShowsRootHandles(true);
 		p.add(testConfiguration, BorderLayout.CENTER);
 		
 		p.setBorder(BorderFactory.createTitledBorder(Bundle.getString(Bundle.Key.TestConfiguration)));
