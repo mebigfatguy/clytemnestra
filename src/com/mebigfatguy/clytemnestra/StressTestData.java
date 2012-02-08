@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.JsonGenerationException;
@@ -34,6 +35,8 @@ import org.codehaus.jackson.type.TypeReference;
 public class StressTestData {
 
 	public static final int MAX_KEYSPACE_NAME_LENGTH = 30;
+	public static final int MAX_COLUMNFAMILY_NAME_LENGTH = 30;
+	private Random ran = new Random();
 	private File dataFile;
 	private List<KeySpaceData> keySpaceData;
 	
@@ -41,11 +44,11 @@ public class StressTestData {
 		keySpaceData = new ArrayList<KeySpaceData>();
 	}
 	
-	public StressTestData(int numKeySpaces) {
+	public StressTestData(int numKeySpaces, int maxColumnFamiliesPerKeySpace) {
 		this();
 		
 		for (int i = 0; i < numKeySpaces; i++) {
-			KeySpaceData ksData = new KeySpaceData();
+			KeySpaceData ksData = new KeySpaceData(maxColumnFamiliesPerKeySpace);
 			ksData.name = RandomStringUtils.randomAlphanumeric(StressTestData.MAX_KEYSPACE_NAME_LENGTH);
 			keySpaceData.add(ksData);
 		}
@@ -69,42 +72,61 @@ public class StressTestData {
 	public List<KeySpaceData> getKeySpaceData() {
 		return Collections.unmodifiableList(keySpaceData);
 	}
-}
-
-@JsonSerialize
-class KeySpaceData {
-	String name;
-	List<ColumnFamilyData> columnFamilyData;
 	
-	public KeySpaceData() {
-		columnFamilyData = new ArrayList<ColumnFamilyData>();
-		columnFamilyData.add(new ColumnFamilyData());
-	}
-	
-	public String toString() {
-		return name;
-	}
-}
-
-@JsonSerialize
-class ColumnFamilyData {
-	ColumnType key;
-	List<ColumnInfo> columnInfo;
-	
-	public ColumnFamilyData() {
-		key = ColumnType.STRING;
-		columnInfo = new ArrayList<ColumnInfo>();
-		for (int i = 0; i < 30; i++) {
-			columnInfo.add(new ColumnInfo());
+	@JsonSerialize
+	public class KeySpaceData {
+		String name;
+		List<ColumnFamilyData> columnFamilyData;
+		
+		public KeySpaceData() {
+			columnFamilyData = new ArrayList<ColumnFamilyData>();
+		}
+		
+		public KeySpaceData(int maxColumnFamiliesPerKeySpace) {
+			this();
+			
+			int numColumnFamilies = ran.nextInt(maxColumnFamiliesPerKeySpace - 1) + 1;
+			for (int i = 0; i < numColumnFamilies; ++i) {
+				ColumnFamilyData cfData = new ColumnFamilyData();
+				cfData.name = RandomStringUtils.randomAlphanumeric(StressTestData.MAX_COLUMNFAMILY_NAME_LENGTH);
+				columnFamilyData.add(cfData);
+			}
+		}
+		
+		public List<ColumnFamilyData> getColumnFamilyData() {
+			return Collections.unmodifiableList(columnFamilyData);
+		}
+		
+		public String toString() {
+			return Bundle.getString(Bundle.Key.KeySpace) + " - " + name;
 		}
 	}
-}
 
-@JsonSerialize
-class ColumnInfo {
-	String columnName;
-	ColumnType columnType;
-	
-	public ColumnInfo() {
+	@JsonSerialize
+	public class ColumnFamilyData {
+		String name;
+		ColumnType key;
+		List<ColumnInfo> columnInfo;
+		
+		public ColumnFamilyData() {
+			key = ColumnType.STRING;
+			columnInfo = new ArrayList<ColumnInfo>();
+			for (int i = 0; i < 30; i++) {
+				columnInfo.add(new ColumnInfo());
+			}
+		}
+		
+		public String toString() {
+			return name;
+		}
+	}
+
+	@JsonSerialize
+	public class ColumnInfo {
+		String columnName;
+		ColumnType columnType;
+		
+		public ColumnInfo() {
+		}
 	}
 }

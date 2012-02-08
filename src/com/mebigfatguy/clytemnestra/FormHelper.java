@@ -38,4 +38,9 @@ public class FormHelper {
         
         label.setLabelFor(component);
 	}
+	
+	public static void addFormItem(JPanel p, JComponent component, int formX, int formY) {
+	    CellConstraints cc = new CellConstraints();
+        p.add(component, cc.xy(formX, formY));
+	}
 }

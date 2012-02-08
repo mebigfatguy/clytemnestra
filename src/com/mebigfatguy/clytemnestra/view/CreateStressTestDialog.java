@@ -29,6 +29,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -46,6 +47,8 @@ public class CreateStressTestDialog extends JDialog {
 	private JTextField keySpacesField;
 	private JTextField maxColumnFamiliesPerKeySpaceField;
 	private JTextField maxColumnsPerColumnFamilyField;
+	private JCheckBox useSuperColumnsCheckBox;
+	private JCheckBox useCompositeColumnsCheckBox;
 	private JTextField createPercentageField;
 	private JTextField updatePercentageField;
 	private JTextField readPercentageField;
@@ -64,6 +67,11 @@ public class CreateStressTestDialog extends JDialog {
 	public int getNumKeySpaces() {
 		return Integer.parseInt(keySpacesField.getText());
 	}
+	
+
+	public int getMaxColumnFamiliesPerKeySpace() {
+		return Integer.parseInt(maxColumnFamiliesPerKeySpaceField.getText());
+	}
 
 	private void initComponents() {
         Container cp = getContentPane();
@@ -78,7 +86,7 @@ public class CreateStressTestDialog extends JDialog {
     private JPanel createFormPanel() {
         JPanel p = new JPanel();
 
-        p.setLayout(new FormLayout("6dlu, pref, 5dlu, 80, 6dlu", "6dlu, pref, 4dlu, pref, 4dlu, pref, 10dlu, pref, 4dlu, pref, 4dlu, pref, 6dlu"));
+        p.setLayout(new FormLayout("6dlu, pref, 5dlu, 80, 6dlu", "6dlu, pref, 4dlu, pref, 4dlu, pref, 6dlu, pref, 2dlu, pref, 6dlu, pref, 4dlu, pref, 4dlu, pref, 6dlu"));
 
         keySpacesField = new JTextField(6);
         keySpacesField.setText("2");
@@ -93,21 +101,29 @@ public class CreateStressTestDialog extends JDialog {
         maxColumnsPerColumnFamilyField.setDocument(new IntegerDocument());
         maxColumnsPerColumnFamilyField.setText("30");
         FormHelper.addFormRow(p, Bundle.Key.MaxColumnsPerColumnFamily, maxColumnsPerColumnFamilyField, 6);
+        
+        useSuperColumnsCheckBox = new JCheckBox(Bundle.getString(Bundle.Key.UseSuperColumns));
+        useSuperColumnsCheckBox.setSelected(true);
+        FormHelper.addFormItem(p, useSuperColumnsCheckBox, 2, 8);
+        
+        useCompositeColumnsCheckBox = new JCheckBox(Bundle.getString(Bundle.Key.UseCompositeColumns));
+        useCompositeColumnsCheckBox.setSelected(true);
+        FormHelper.addFormItem(p, useCompositeColumnsCheckBox, 2, 10);
 
     	createPercentageField = new JTextField(6);
     	createPercentageField.setDocument(new IntegerDocument());
     	createPercentageField.setText("60");
-        FormHelper.addFormRow(p, Bundle.Key.CreatePercentage, createPercentageField, 8);
+        FormHelper.addFormRow(p, Bundle.Key.CreatePercentage, createPercentageField, 12);
         
     	updatePercentageField = new JTextField(6);
     	updatePercentageField.setDocument(new IntegerDocument());
     	updatePercentageField.setText("20");
-        FormHelper.addFormRow(p, Bundle.Key.UpdatePercentage, updatePercentageField, 10);
+        FormHelper.addFormRow(p, Bundle.Key.UpdatePercentage, updatePercentageField, 14);
 
         readPercentageField = new JTextField(6);
         readPercentageField.setDocument(new IntegerDocument());
         readPercentageField.setText("20");
-        FormHelper.addFormRow(p, Bundle.Key.ReadPercentage, readPercentageField, 12);
+        FormHelper.addFormRow(p, Bundle.Key.ReadPercentage, readPercentageField, 16);
 
         p.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 

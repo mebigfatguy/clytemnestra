@@ -81,6 +81,8 @@ public class Bundle {
         CreateStressTest("createstresstest"),
         MaxColumnFamiliesPerKeySpace("maxcfperks"),
         MaxColumnsPerColumnFamily("maxcolumnspercf"),
+        UseSuperColumns("usesupercolumns"),
+        UseCompositeColumns("usecompositecolumns"),
         CreatePercentage("createpercentage"),
         UpdatePercentage("updatepercentage"),
         ReadPercentage("readpercentage"),
