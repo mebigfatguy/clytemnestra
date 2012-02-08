@@ -36,6 +36,8 @@ public class StressTestData {
 
 	public static final int MAX_KEYSPACE_NAME_LENGTH = 30;
 	public static final int MAX_COLUMNFAMILY_NAME_LENGTH = 30;
+	public static final int MAX_COLUMN_NAME_LENGTH = 20;
+	
 	private Random ran = new Random();
 	private File dataFile;
 	private List<KeySpaceData> keySpaceData;
@@ -131,6 +133,9 @@ public class StressTestData {
 		ColumnType columnType;
 		
 		public ColumnInfo() {
+		    columnName = RandomStringUtils.randomAlphanumeric(StressTestData.MAX_COLUMN_NAME_LENGTH);
+		    ColumnType[] availableTypes = ColumnType.values();
+		    columnType = availableTypes[ran.nextInt(availableTypes.length)];
 		}
 		
 	    public String toString() {
