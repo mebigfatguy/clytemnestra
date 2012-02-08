@@ -19,6 +19,7 @@ package com.mebigfatguy.clytemnestra.view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -26,6 +27,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 
@@ -79,7 +81,9 @@ public class RunStressTestFrame extends JFrame {
 		testConfiguration = new JTree(testModel);
 		testConfiguration.setRootVisible(false);
 		testConfiguration.setShowsRootHandles(true);
-		p.add(testConfiguration, BorderLayout.CENTER);
+		JScrollPane sp = new JScrollPane(testConfiguration);
+		sp.setPreferredSize(new Dimension(500, 200));
+		p.add(sp, BorderLayout.CENTER);
 		
 		p.setBorder(BorderFactory.createTitledBorder(Bundle.getString(Bundle.Key.TestConfiguration)));
 		return p;

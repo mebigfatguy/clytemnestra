@@ -46,6 +46,9 @@ public class StressTestTreeModel implements TreeModel {
 		} else if (parent instanceof KeySpaceData) {
 			KeySpaceData ksParent = (KeySpaceData) parent;
 			return ksParent.getColumnFamilyData().get(index);
+		} else if (parent instanceof ColumnFamilyData) {
+		    ColumnFamilyData cfData = (ColumnFamilyData) parent;
+		    return cfData.getColumnInfoData().get(index);
 		}
 		
 		return null;
@@ -58,6 +61,9 @@ public class StressTestTreeModel implements TreeModel {
 		} else if (parent instanceof KeySpaceData) {
 			KeySpaceData ksParent = (KeySpaceData) parent;
 			return ksParent.getColumnFamilyData().size();
+		} else if (parent instanceof ColumnFamilyData) {
+	        ColumnFamilyData cfData =  (ColumnFamilyData) parent;
+	        return cfData.getColumnInfoData().size();
 		}
 		
 		return 0;
@@ -79,6 +85,9 @@ public class StressTestTreeModel implements TreeModel {
 		} else if (parent instanceof KeySpaceData) {
 		    KeySpaceData ksParent = (KeySpaceData) parent;
 		    return ksParent.getColumnFamilyData().indexOf(child);
+		} else if (parent instanceof ColumnFamilyData) {
+		    ColumnFamilyData cfData = (ColumnFamilyData) parent;
+		    return cfData.getColumnInfoData().indexOf(child);
 		}
 		
 		return -1;

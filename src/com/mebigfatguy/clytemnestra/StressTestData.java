@@ -116,6 +116,10 @@ public class StressTestData {
 			}
 		}
 		
+	    public List<ColumnInfo> getColumnInfoData() {
+	        return Collections.unmodifiableList(columnInfo);
+	    }
+		
 		public String toString() {
 			return Bundle.getString(Bundle.Key.ColumnFamily) + " - " + name;
 		}
@@ -128,5 +132,9 @@ public class StressTestData {
 		
 		public ColumnInfo() {
 		}
+		
+	    public String toString() {
+	        return Bundle.getString(Bundle.Key.ColumnName) + " - " + columnName + " " + Bundle.getString(Bundle.Key.ColumnType) + " - " + columnType;
+	    }
 	}
 }
