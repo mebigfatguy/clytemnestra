@@ -48,7 +48,6 @@ import com.mebigfatguy.clytemnestra.StressTestData.KeySpaceData;
 import com.mebigfatguy.clytemnestra.actions.CloseStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.NewStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.OpenStressTestAction;
-import com.mebigfatguy.clytemnestra.actions.RunStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.SaveAsStressTestAction;
 import com.mebigfatguy.clytemnestra.actions.SaveStressTestAction;
 import com.mebigfatguy.clytemnestra.model.StressTestTreeModel;
@@ -63,7 +62,6 @@ public class RunStressTestFrame extends JFrame {
     private JMenuItem closeStressTestItem;
     private JMenuItem saveStressTestItem;
     private JMenuItem saveAsStressTestItem;
-    private JMenuItem runStressTestItem;
     private JTree testConfiguration;
     private JProgressBar insertBar;
     private JProgressBar updateBar;
@@ -133,12 +131,12 @@ public class RunStressTestFrame extends JFrame {
         ctrlPanel.setLayout(new BoxLayout(ctrlPanel, BoxLayout.X_AXIS));
         ctrlPanel.add(Box.createHorizontalGlue());
         
-        runButton = new JButton(Bundle.getString(Bundle.Key.Run));
+        runButton = new JButton(Bundle.getString(Bundle.Key.RunStressTest));
         ctrlPanel.add(runButton);
        
         ctrlPanel.add(Box.createHorizontalStrut(10));
         
-        stopButton = new JButton(Bundle.getString(Bundle.Key.Stop));
+        stopButton = new JButton(Bundle.getString(Bundle.Key.StopStressTest));
         stopButton.setEnabled(false);
         ctrlPanel.add(stopButton);
         
@@ -166,9 +164,6 @@ public class RunStressTestFrame extends JFrame {
         stressMenu.add(saveStressTestItem);
         saveAsStressTestItem = new JMenuItem(new SaveAsStressTestAction(context));
         stressMenu.add(saveAsStressTestItem);
-        runStressTestItem = new JMenuItem(new RunStressTestAction(context));
-        stressMenu.addSeparator();
-        stressMenu.add(runStressTestItem);
         mb.add(stressMenu);
         
         setJMenuBar(mb);

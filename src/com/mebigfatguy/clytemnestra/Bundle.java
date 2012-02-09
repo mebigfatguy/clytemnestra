@@ -76,7 +76,6 @@ public class Bundle {
         CloseStressTest("closestresstest"),
         SaveStressTest("savestresstest"),
         SaveAsStressTest("saveasstresstest"),
-        RunStressTest("runstresstest"),
         StressFileDescription("stressfiledescription"),
         CreateStressTest("createstresstest"),
         MaxColumnFamiliesPerKeySpace("maxcfperks"),
@@ -91,8 +90,8 @@ public class Bundle {
         Inserts("inserts"),
         Updates("updates"),
         Reads("reads"),
-        Run("run"),
-        Stop("stop");
+        RunStressTest("runstresstest"),
+        StopStressTest("stopstresstest");
 
 
         private String id;
