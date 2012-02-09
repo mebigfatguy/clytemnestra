@@ -23,19 +23,25 @@ import java.awt.Container;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
 import com.mebigfatguy.clytemnestra.Context;
+import com.mebigfatguy.clytemnestra.FormHelper;
 import com.mebigfatguy.clytemnestra.StressTestData.ColumnFamilyData;
 import com.mebigfatguy.clytemnestra.StressTestData.ColumnInfo;
 import com.mebigfatguy.clytemnestra.StressTestData.KeySpaceData;
@@ -59,7 +65,13 @@ public class RunStressTestFrame extends JFrame {
     private JMenuItem saveAsStressTestItem;
     private JMenuItem runStressTestItem;
     private JTree testConfiguration;
+    private JProgressBar insertBar;
+    private JProgressBar updateBar;
+    private JProgressBar readBar;
     private StressTestTreeModel testModel;
+    private JButton runButton;
+    private JButton stopButton;
+    
 	
 	public RunStressTestFrame(Context ctxt) {
 		setTitle(Bundle.getString(Bundle.Key.RunStressTest));
@@ -97,7 +109,46 @@ public class RunStressTestFrame extends JFrame {
 	}
 	
 	private JPanel createRunPanel() {
-		JPanel p = new JPanel();
+	    JPanel p = new JPanel();
+	    p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+	    
+		JPanel progressPanel = new JPanel();
+		
+		progressPanel.setLayout(new FormLayout("6dlu, pref, 5dlu, pref:grow, 6dlu", "6dlu, pref, 4dlu, pref, 4dlu, pref, 6dlu"));
+
+        insertBar = new JProgressBar(0, 100);
+        FormHelper.addFormRow(progressPanel, Bundle.Key.Inserts, insertBar, 2);
+        
+        updateBar = new JProgressBar(0, 100);
+        FormHelper.addFormRow(progressPanel, Bundle.Key.Updates, updateBar, 4);
+        
+        readBar = new JProgressBar(0, 100);
+        FormHelper.addFormRow(progressPanel, Bundle.Key.Reads, readBar, 6);
+        
+        progressPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createTitledBorder(Bundle.getString(Bundle.Key.Status))));
+        
+        p.add(progressPanel);
+        
+        JPanel ctrlPanel = new JPanel();
+        ctrlPanel.setLayout(new BoxLayout(ctrlPanel, BoxLayout.X_AXIS));
+        ctrlPanel.add(Box.createHorizontalGlue());
+        
+        runButton = new JButton(Bundle.getString(Bundle.Key.Run));
+        ctrlPanel.add(runButton);
+       
+        ctrlPanel.add(Box.createHorizontalStrut(10));
+        
+        stopButton = new JButton(Bundle.getString(Bundle.Key.Stop));
+        stopButton.setEnabled(false);
+        ctrlPanel.add(stopButton);
+        
+        ctrlPanel.add(Box.createHorizontalStrut(10));
+        
+        ctrlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        p.add(ctrlPanel);
+        
+        
 		return p;
 	}
 	

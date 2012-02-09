@@ -86,7 +86,13 @@ public class Bundle {
         CreatePercentage("createpercentage"),
         UpdatePercentage("updatepercentage"),
         ReadPercentage("readpercentage"),
-        TestConfiguration("testconfiguration");
+        TestConfiguration("testconfiguration"),
+        Status("status"),
+        Inserts("inserts"),
+        Updates("updates"),
+        Reads("reads"),
+        Run("run"),
+        Stop("stop");
 
 
         private String id;
