@@ -55,6 +55,7 @@ public class ColumnFamilyDataPanel extends JPanel {
 
         ColumnFamilyDataTableModel model = new ColumnFamilyDataTableModel();
         columnFamilyDataTable = new JTable(model);
+        columnFamilyDataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane pane = new JScrollPane(columnFamilyDataTable);
         add(pane, BorderLayout.CENTER);
 
