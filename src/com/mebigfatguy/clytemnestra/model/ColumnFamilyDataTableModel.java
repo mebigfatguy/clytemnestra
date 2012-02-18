@@ -34,7 +34,6 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 	
 	private final List<Pair<String, List<ColumnOrSuperColumn>>> columnData = new ArrayList<Pair<String, List<ColumnOrSuperColumn>>>();
 	private final List<String> columnNames = new ArrayList<String>();
-	private int columnCount = -1;
 	
 	public void clear() {
     	columnData.clear();
@@ -54,8 +53,7 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
     			}
     		}
     	}
-    	
-    	columnCount = -1;
+
         fireTableStructureChanged();
     }
     
@@ -70,16 +68,7 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 			return 0;
 		}
 		
-		if (columnCount < 0) {
-		    for (Pair<String, List<ColumnOrSuperColumn>> row : columnData) {
-		        int rowColumns = row.getValue().size();
-		        if (rowColumns > columnCount) {
-		            columnCount = rowColumns;
-		        }
-		    }
-		}
-		
-		return columnCount + 1;
+		return columnNames.size();
 	}
 
 	@Override
@@ -87,27 +76,16 @@ public class ColumnFamilyDataTableModel extends AbstractTableModel {
 		if (columnIndex == 0) {
 			return columnData.get(rowIndex).getKey();			
 		} else {
-		    --columnIndex;
+		    String colName = columnNames.get(columnIndex);
 			List<ColumnOrSuperColumn> row = columnData.get(rowIndex).getValue();
-			if (columnIndex >= row.size()) {
-			    return "";
-			}
 			
-			ColumnOrSuperColumn column = row.get(columnIndex);
-			String name = new String(column.column.getName());
-			if (name.equals(columnNames.get(columnIndex+1))) {
-				return new String(column.column.getValue());	
-			}
-			
-			Charset utfCS = Charset.forName("UTF-8");
 			for (ColumnOrSuperColumn col : row) {
-				if (name.equals(new String(col.column.getName(), utfCS))) {
-					return new String(col.column.getValue());
-				}
+			    if (new String(col.getColumn().getName()).equals(colName)) {
+			        return new String(col.column.getValue());
+			    }
 			}
+			return "";
 		}
-		
-		return "";
 	}
 	
     @Override
