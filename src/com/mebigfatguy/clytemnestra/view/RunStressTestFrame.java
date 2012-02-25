@@ -220,8 +220,9 @@ public class RunStressTestFrame extends JFrame {
                 value = ((ColumnFamilyData) value).getName();
                 remove(typeEditor);
             } else if (value instanceof ColumnInfo) {
+                add(typeEditor, BorderLayout.EAST);  
+                typeEditor.setSelectedItem(((ColumnInfo) value).getType());
                 value = ((ColumnInfo) value).getName();
-                add(typeEditor, BorderLayout.EAST);        
                 nameEditor.setText((String) value);
             }
             
