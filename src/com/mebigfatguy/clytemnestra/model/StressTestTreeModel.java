@@ -21,6 +21,8 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
+import com.mebigfatguy.clytemnestra.ColumnType;
+import com.mebigfatguy.clytemnestra.Pair;
 import com.mebigfatguy.clytemnestra.StressTestData;
 import com.mebigfatguy.clytemnestra.StressTestData.ColumnFamilyData;
 import com.mebigfatguy.clytemnestra.StressTestData.ColumnInfo;
@@ -78,12 +80,14 @@ public class StressTestTreeModel implements TreeModel {
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
 	    Object node = path.getLastPathComponent();
+	    Pair<String, ColumnType> value = (Pair<String, ColumnType>) newValue;
 	    if (node instanceof KeySpaceData) {
-	        ((KeySpaceData) node).setName((String) newValue);
+	        ((KeySpaceData) node).setName(value.getKey());
 	    } else if (node instanceof ColumnFamilyData) {
-	        ((ColumnFamilyData) node).setName((String) newValue);
+	        ((ColumnFamilyData) node).setName(value.getKey());
 	    } else if (node instanceof ColumnInfo) {
-	        ((ColumnInfo) node).setName((String) newValue);
+	        ((ColumnInfo) node).setName(value.getKey());
+	        ((ColumnInfo) node).setType(value.getValue());
 	    }
 	}
 

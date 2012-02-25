@@ -21,12 +21,18 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -34,14 +40,19 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeCellEditor;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellEditor;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.mebigfatguy.clytemnestra.Bundle;
+import com.mebigfatguy.clytemnestra.ColumnType;
 import com.mebigfatguy.clytemnestra.Context;
 import com.mebigfatguy.clytemnestra.FormHelper;
+import com.mebigfatguy.clytemnestra.Pair;
 import com.mebigfatguy.clytemnestra.StressTestData.ColumnFamilyData;
 import com.mebigfatguy.clytemnestra.StressTestData.ColumnInfo;
 import com.mebigfatguy.clytemnestra.StressTestData.KeySpaceData;
@@ -94,7 +105,14 @@ public class RunStressTestFrame extends JFrame {
 		p.setLayout(new BorderLayout(4, 4));
 		
 		testModel = new StressTestTreeModel(context.getStressTestData());
-		testConfiguration = new JTree(testModel);
+		testConfiguration = new JTree(testModel) {
+		    private static final long serialVersionUID = -253301670769222292L;
+
+            @Override
+		    public boolean getInvokesStopCellEditing() {
+		        return true;
+		    }
+		};
 		testConfiguration.setRootVisible(false);
 		testConfiguration.setShowsRootHandles(true);
 		testConfiguration.setEditable(true);
@@ -173,10 +191,23 @@ public class RunStressTestFrame extends JFrame {
 	    testConfiguration.setCellEditor(new StressCellEditor());
 	}
 	
-	class StressCellEditor extends DefaultTreeCellEditor {
+	class StressCellEditor extends JPanel implements TreeCellEditor {
+	    
+	    private static final long serialVersionUID = -2339767146639372346L;
+        DefaultTreeCellRenderer renderer;
+	    JTextField nameEditor;
+	    JComboBox typeEditor;
+	    Set<CellEditorListener> listeners = new HashSet<CellEditorListener>();
 	    
 	    public StressCellEditor() {
-	        super(testConfiguration, (DefaultTreeCellRenderer) testConfiguration.getCellRenderer());
+	        renderer = (DefaultTreeCellRenderer) testConfiguration.getCellRenderer();
+	        
+	        setLayout(new BorderLayout(4, 4));
+	        nameEditor = new JTextField(25);
+	        typeEditor = new JComboBox(ColumnType.values());
+	        add(new JLabel(renderer.getLeafIcon()), BorderLayout.WEST);
+	        add(nameEditor, BorderLayout.CENTER);
+	        add(typeEditor, BorderLayout.EAST);
 	    }
 
         @Override
@@ -184,13 +215,60 @@ public class RunStressTestFrame extends JFrame {
 
             if (value instanceof KeySpaceData) {
                 value = ((KeySpaceData) value).getName();
+                remove(typeEditor);
             } else if (value instanceof ColumnFamilyData) {
                 value = ((ColumnFamilyData) value).getName();
+                remove(typeEditor);
             } else if (value instanceof ColumnInfo) {
                 value = ((ColumnInfo) value).getName();
+                add(typeEditor, BorderLayout.EAST);        
+                nameEditor.setText((String) value);
             }
             
-            return super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
+            return this;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return new Pair<String, ColumnType>(nameEditor.getText(), (ColumnType) typeEditor.getSelectedItem());
+        }
+
+        @Override
+        public boolean isCellEditable(EventObject anEvent) {
+            return ((anEvent instanceof MouseEvent) && (((MouseEvent) anEvent).getClickCount() == 2));
+        }
+
+        @Override
+        public boolean shouldSelectCell(EventObject anEvent) {
+            return true;
+        }
+
+        @Override
+        public boolean stopCellEditing() {
+            fireEditingStopped();
+            return true;
+        }
+
+        @Override
+        public void cancelCellEditing() {
+            fireEditingStopped();
+        }
+
+        @Override
+        public void addCellEditorListener(CellEditorListener l) { 
+            listeners.add(l);
+        }
+
+        @Override
+        public void removeCellEditorListener(CellEditorListener l) {  
+            listeners.remove(l);
+        }
+        
+        private void fireEditingStopped() {
+            ChangeEvent ce = new ChangeEvent(this);
+            for (CellEditorListener l : listeners) {
+                l.editingStopped(ce);
+            }
         }
 	}
 }
