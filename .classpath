@@ -6,10 +6,10 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="lib/forms-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/cassandra-thrift-1.0.7.jar"/>
-	<classpathentry kind="lib" path="lib/libthrift-0.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-core-asl-1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/cassandra-thrift-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/libthrift-0.7.0.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
