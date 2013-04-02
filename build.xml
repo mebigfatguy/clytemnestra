@@ -32,10 +32,10 @@
  
 	<property name="clytemnestra.version" value="0.0.1"/>
 
-    <property name="cassandra-thrift.version" value="1.1.2"/>
-	<property name="libthrift.version" value="0.7.0"/>
-    <property name="slf4j-api.version" value="1.6.6"/>
-    <property name="slf4j-log4j12.version" value="1.6.6"/>
+    <property name="cassandra-thrift.version" value="1.2.3"/>
+	<property name="libthrift.version" value="0.9.0"/>
+    <property name="slf4j-api.version" value="1.7.2"/>
+    <property name="slf4j-log4j12.version" value="1.7.2"/>
 	<property name="log4j.version" value="1.2.17"/>
 	<property name="jgoodies-forms.version" value="1.2.1"/>
 	<property name="commons-lang3.version" value="3.1"/>
