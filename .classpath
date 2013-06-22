@@ -7,9 +7,9 @@
 	<classpathentry kind="lib" path="lib/jackson-core-asl-1.9.8.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.8.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="lib/cassandra-thrift-1.2.3.jar"/>
 	<classpathentry kind="lib" path="lib/libthrift-0.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/cassandra-thrift-1.2.5.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
