@@ -22,7 +22,7 @@ import com.mebigfatguy.clytemnestra.Pair;
 public enum ReplicationStrategy {
 	SimpleStrategy(new Pair[] { new Pair<String, String>("replication_factor", "1") }),
 	LocalStrategy(new Pair[] {}),
-	NetworkTopologyStrategy(new Pair[] { new Pair<String, String>("replication_factor", "1") });
+	NetworkTopologyStrategy(new Pair[] {});
 	
 	private Pair<String, String>[] requiredOptions;
 	

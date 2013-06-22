@@ -78,6 +78,8 @@ public class Pair<K extends Comparable<K>, V> implements Serializable, Comparabl
 		}
 	}
 	
-	
+	public String toString() {
+	    return "Pair[" + getKey() + "=" + getValue() + "]";
+	}
 	
 }
