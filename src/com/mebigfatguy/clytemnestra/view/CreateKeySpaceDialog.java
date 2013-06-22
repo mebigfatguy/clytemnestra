@@ -176,7 +176,7 @@ public class CreateKeySpaceDialog extends JDialog {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    ((StrategicOptionsTableModel) optionsTable.getModel()).resetOptions((String) e.getItem());
+                    ((StrategicOptionsTableModel) optionsTable.getModel()).resetOptions((String) e.getItem());   
                 }
             }
         });
