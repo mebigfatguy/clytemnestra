@@ -56,13 +56,19 @@ public class StrategicOptionsTableModel extends AbstractTableModel {
 	private final List<Pair<String, String>> options = new ArrayList<Pair<String, String>>();
 
 	public StrategicOptionsTableModel(String selectedStrategy) {
-		ReplicationStrategy strategy = ReplicationStrategy.valueOf(ReplicationStrategy.class, selectedStrategy);
-		if (strategy != null) {
-			Pair<String, String>[] strategyOptions = strategy.getRequiredOptions();
-			for (Pair<String, String> option : strategyOptions) {
-				options.add(option);
-			}
-		}
+	    resetOptions(selectedStrategy);
+	}
+	
+	public final void resetOptions(String selectedStrategy) {
+	    ReplicationStrategy strategy = ReplicationStrategy.valueOf(ReplicationStrategy.class, selectedStrategy);
+        if (strategy != null) {
+            options.clear();
+            Pair<String, String>[] strategyOptions = strategy.getRequiredOptions();
+            for (Pair<String, String> option : strategyOptions) {
+                options.add(option);
+            }
+            fireTableDataChanged();
+        }
 	}
 	
 	public Map<String, String> getStrategicOptions() {
